@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis Contratos | World Real State Dominicana</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="imagenes/iconologo.png">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>WORLD REAL STATE</h2>
+      <p>PLATAFORMA DIGITAL</p>
+    </div>
+    <ul class="menu">
+      <li><a href="dashboardusuario.html">
+        <i class="fas fa-home"></i>
+        <span>Inicio</span>
+      </a></li>
+      <li><a href="miscontratos.html" class="active">
+        <i class="fas fa-file-contract"></i>
+        <span>Mis Contratos</span>
+      </a></li>
+      <li><a href="datoscontrato.html">
+        <i class="fas fa-info-circle"></i>
+        <span>Datos de Contrato</span>
+      </a></li>
+      <li><a href="pagos.html">
+        <i class="fas fa-money-bill-wave"></i>
+        <span>Pagos</span>
+      </a></li>
+      <li><a href="cuenta.html">
+        <i class="fas fa-user-cog"></i>
+        <span>Cuenta</span>
+      </a></li>
+    </ul>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-actions">
+        <div class="notification-icon" onclick="toggleNotifications()">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge">3</span>
+          <div id="notification-dropdown" class="notification-dropdown hidden">
+            <p>No tienes nuevas notificaciones.</p>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-user">
+        <div class="user-avatar">U</div>
+      </div>
+    </div>
+
+        <div class="contract-container">
+      <div class="contract-header">
+        <h1>Mis Contratos</h1>
+        <div class="contract-list-title">Listado de contratos asociados</div>
+      </div>
+      
+      <table class="contract-table">
+        <thead>
+          <tr>
+            <th>Contratos Asociados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="contract-number">8594885</span>
+              <button class="delete-btn">
+                <i class="fas fa-trash-alt"></i> Eliminar
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="contract-number">8594886</span>
+              <button class="delete-btn">
+                <i class="fas fa-trash-alt"></i> Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <button class="add-contract">
+        <i class="fas fa-plus"></i> Asociar Contrato
+      </button>
+    </div>
+
+    <div class="footer">
+      <div class="footer-links">
+        <a href="#">Términos de uso</a>
+        <a href="#">Ayuda</a>
+      </div>
+      <div>World Real State Dominicana 2025. Todos los derechos reservados.</div>
+    </div>
+  </div>
+</body>
+</html>

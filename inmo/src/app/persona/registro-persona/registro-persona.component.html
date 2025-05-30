@@ -1,0 +1,186 @@
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-img-title">
+        <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
+      </div>
+    </div>
+    <div class="sidebar-title">MENU</div>
+    <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+      <li
+        *ngFor="let item of menuItems"
+        [class.active]="item.name === 'Persona'"
+        (click)="selectMenuItem(item)"
+      >
+        <a [routerLink]="item.link">
+          <i class="icon">{{ item.icon }}</i> {{ item.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <header class="header">
+      <div class="top-bar-actions">
+        <button class="user-btn"><span class="icon">🔔</span></button>
+        <button class="user-btn"><span class="icon">👤</span></button>
+      </div>
+    </header>
+
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form-title">Registro de Persona</div>
+
+      <div class="form-section-title">Datos Personales</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="nombre_persona">Nombre</label>
+          <input
+            id="nombre_persona"
+            formControlName="nombre_persona"
+            type="text"
+            placeholder="Nombre"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="apellido_persona">Apellido</label>
+          <input
+            id="apellido_persona"
+            formControlName="apellido_persona"
+            type="text"
+            placeholder="Apellido"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="rol_persona">Rol</label>
+          <input
+            id="rol_persona"
+            formControlName="rol_persona"
+            type="text"
+            placeholder="Rol"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="edad">Edad</label>
+          <input
+            id="edad"
+            formControlName="edad"
+            type="number"
+            placeholder="Edad"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="sexo_persona">Sexo</label>
+          <select id="sexo_persona" formControlName="sexo_persona" class="input">
+            <option value="" disabled selected>Sexo</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="estado_civil_persona">Estado civil</label>
+          <select
+            id="estado_civil_persona"
+            formControlName="estado_civil_persona"
+            class="input"
+          >
+            <option value="" disabled selected>Estado civil</option>
+            <option value="Soltero">Soltero</option>
+            <option value="Casado">Casado</option>
+            <option value="Unión libre">Unión libre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pais_origen">País de origen</label>
+          <input
+            id="pais_origen"
+            formControlName="pais_origen"
+            type="text"
+            placeholder="País de origen"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="estado_persona">Estado</label>
+          <select id="estado_persona" formControlName="estado_persona" class="input">
+            <option value="" disabled selected>Estado</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+            <option value="Eliminado">Eliminado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-title">Contacto</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="telefono">Teléfono</label>
+          <input
+            id="telefono"
+            formControlName="telefono"
+            type="text"
+            placeholder="Teléfono"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="correo_persona">Correo electrónico</label>
+          <input
+            id="correo_persona"
+            formControlName="correo_persona"
+            type="email"
+            placeholder="Correo electrónico"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="cedula_pasaporte">Cédula o Pasaporte</label>
+          <input
+            id="cedula_pasaporte"
+            formControlName="cedula_pasaporte"
+            type="text"
+            placeholder="Cédula o Pasaporte"
+            class="input"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="domicilio">Domicilio</label>
+        <textarea
+          id="domicilio"
+          formControlName="domicilio"
+          placeholder="Domicilio"
+          class="input w-full"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="comentario">Comentario</label>
+        <textarea
+          id="comentario"
+          formControlName="comentario"
+          placeholder="Comentario"
+          class="input w-full"
+        ></textarea>
+      </div>
+
+      <div class="form-section-title">Seguridad</div>
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <input
+          id="contrasena"
+          formControlName="contrasena"
+          type="password"
+          placeholder="Contraseña"
+          class="input w-full"
+        />
+      </div>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+        Guardar Persona
+      </button>
+    </form>
+  </div>
+</div>

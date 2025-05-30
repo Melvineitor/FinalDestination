@@ -1,0 +1,140 @@
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-img-title">
+        <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
+      </div>
+    </div>
+    <div class="sidebar-title">MENU</div>
+    <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+      <li
+        *ngFor="let item of menuItems"
+        [class.active]="item.name === 'Pago'"
+        (click)="selectMenuItem(item)"
+      >
+        <a [routerLink]="item.link">
+          <i class="icon">{{ item.icon }}</i> {{ item.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <header class="header">
+      <div class="top-bar-actions">
+        <button class="user-btn"><span class="icon">🔔</span></button>
+        <button class="user-btn"><span class="icon">👤</span></button>
+      </div>
+    </header>
+
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form-title">Registro de Pago</div>
+      <div class="form-section-title">Datos del Pago</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fecha_pago">Fecha de Pago</label>
+          <input
+            id="fecha_pago"
+            formControlName="fecha_pago"
+            type="date"
+            placeholder="Fecha de pago"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="metodo_pago">Método de Pago</label>
+          <input
+            id="metodo_pago"
+            formControlName="metodo_pago"
+            type="text"
+            placeholder="Método de pago"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="motivo_pago">Motivo del Pago</label>
+          <input
+            id="motivo_pago"
+            formControlName="motivo_pago"
+            type="text"
+            placeholder="Motivo del pago"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="desc_pago">Descripción del Pago</label>
+          <input
+            id="desc_pago"
+            formControlName="desc_pago"
+            type="text"
+            placeholder="Descripción del pago"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="tipo_contrato">ID de Contrato</label>
+          <input
+            id="tipo_contrato"
+            formControlName="tipo_contrato"
+            type="number"
+            placeholder="Tipo de contrato"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="descripcion_penalidad">ID Penalidad</label>
+          <input
+            id="descripcion_penalidad"
+            formControlName="descripcion_penalidad"
+            type="number"
+            placeholder="Descripción penalidad"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="compania_tarjeta">ID Tarjeta</label>
+          <input
+            id="compania_tarjeta"
+            formControlName="compania_tarjeta"
+            type="number"
+            placeholder="Compañía de la tarjeta"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="monto_pagado">Monto Pagado</label>
+          <input
+            id="monto_pagado"
+            formControlName="monto_pagado"
+            type="number"
+            placeholder="Monto pagado"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="estado_pago">Estado del Pago</label>
+          <input
+            id="estado_pago"
+            formControlName="estado_pago"
+            type="text"
+            placeholder="Estado del pago"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="nombre_agente">ID del Agente</label>
+          <input
+            id="nombre_agente"
+            formControlName="nombre_agente"
+            type="number"
+            placeholder="Nombre del agente"
+            class="input"
+          />
+        </div>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+        Guardar Pago
+      </button>
+    </form>
+  </div>
+</div>

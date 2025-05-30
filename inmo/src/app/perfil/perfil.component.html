@@ -1,0 +1,146 @@
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-img-title">
+        <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
+      </div>
+    </div>
+    <div class="sidebar-title">MENU</div>
+    <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+      <li
+        *ngFor="let item of menuItems"
+        [class.active]="item.name === 'Perfil'"
+        (click)="selectMenuItem(item)"
+      >
+        <a [href]="item.link"
+          ><i class="icon">{{ item.icon }}</i> {{ item.name }}</a
+        >
+      </li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <header class="header">
+      <div class="top-bar-actions">
+        <button class="user-btn"><span class="icon">🔔</span></button>
+        <button class="user-btn"><span class="icon">👤</span></button>
+      </div>
+    </header>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <div class="perfil-container" *ngIf="admin">
+      <section class="perfil-header">
+        <div class="perfil-info">
+          <img [src]="getFotoPerfil()" alt="Foto de perfil" class="perfil-foto" />
+          <div>
+            <h2>{{ admin.nombre_admin }} {{ admin.apellido_admin }}</h2>
+            <p class="cargo">{{ admin.cargo_admin }}</p>
+            <p class="ubicacion">{{ admin.ciudad_admin }}, {{ admin.pais_admin }}</p>
+          </div>
+        </div>
+        <div class="redes-sociales">
+          <button><i class="fab fa-facebook-f"></i></button>
+          <button><i class="fab fa-x-twitter"></i></button>
+          <button><i class="fab fa-linkedin-in"></i></button>
+          <button><i class="fab fa-instagram"></i></button>
+        </div>
+      </section>
+
+      <section class="perfil-card">
+        <div class="card-header">
+          <h3>Información</h3>
+          <button class="editar-btn" (click)="isEditing = true" *ngIf="!isEditing">Editar</button>
+          <button class="editar-btn" (click)="guardarCambios()" *ngIf="isEditing">Guardar</button>
+          <button class="editar-btn" (click)="cancelarEdicion()" *ngIf="isEditing">Cancelar</button>
+        </div>
+        <div class="card-content">
+          <div class="campo">
+            <label>Nombre</label>
+            <ng-container *ngIf="!isEditing; else editNombre">
+              <p>{{ admin.nombre_admin }}</p>
+            </ng-container>
+            <ng-template #editNombre>
+              <input [(ngModel)]="admin.nombre_admin" />
+            </ng-template>
+          </div>
+          <div class="campo">
+            <label>Apellido</label>
+            <ng-container *ngIf="!isEditing; else editApellido">
+              <p>{{ admin.apellido_admin }}</p>
+            </ng-container>
+            <ng-template #editApellido>
+              <input [(ngModel)]="admin.apellido_admin" />
+            </ng-template>
+          </div>
+          <div class="campo">
+            <label>Correo Electrónico</label>
+            <ng-container *ngIf="!isEditing; else editCorreo">
+              <p>{{ admin.correo_admin }}</p>
+            </ng-container>
+            <ng-template #editCorreo>
+              <input [(ngModel)]="admin.correo_admin" />
+            </ng-template>
+          </div>
+          <div class="campo">
+            <label>Teléfono</label>
+            <ng-container *ngIf="!isEditing; else editTelefono">
+              <p>{{ admin.telefono_admin }}</p>
+            </ng-container>
+            <ng-template #editTelefono>
+              <input [(ngModel)]="admin.telefono_admin" />
+            </ng-template>
+          </div>
+          <div class="campo">
+            <label>Cargo</label>
+            <ng-container *ngIf="!isEditing; else editCargo">
+              <p>{{ admin.cargo_admin }}</p>
+            </ng-container>
+            <ng-template #editCargo>
+              <input [(ngModel)]="admin.cargo_admin" />
+            </ng-template>
+          </div>
+        </div>
+      </section>
+
+      <section class="perfil-card">
+        <div class="card-header">
+          <h3>Dirección</h3>
+        </div>
+        <div class="card-content">
+          <div class="campo">
+            <label>País</label>
+            <ng-container *ngIf="!isEditing; else editPais">
+              <p>{{ admin.pais_admin }}</p>
+            </ng-container>
+            <ng-template #editPais>
+              <input [(ngModel)]="admin.pais_admin" />
+            </ng-template>
+          </div>
+          <div class="campo">
+            <label>Ciudad</label>
+            <ng-container *ngIf="!isEditing; else editCiudad">
+              <p>{{ admin.ciudad_admin }}</p>
+            </ng-container>
+            <ng-template #editCiudad>
+              <input [(ngModel)]="admin.ciudad_admin" />
+            </ng-template>
+          </div>
+          <div class="campo">
+            <label>Código Postal</label>
+            <ng-container *ngIf="!isEditing; else editCodigo">
+              <p>{{ admin.codigo_postal }}</p>
+            </ng-container>
+            <ng-template #editCodigo>
+              <input [(ngModel)]="admin.codigo_postal" />
+            </ng-template>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

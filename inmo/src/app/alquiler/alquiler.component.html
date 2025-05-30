@@ -1,0 +1,162 @@
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-img-title">
+        <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
+      </div>
+    </div>
+    <div class="sidebar-title">MENU</div>
+    <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+      <li
+        *ngFor="let item of menuItems"
+        [class.active]="item.name === 'Alquiler'"
+        (click)="selectMenuItem(item)"
+      >
+        <a [href]="item.link"
+          ><i class="icon">{{ item.icon }}</i> {{ item.name }}</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <header class="header">
+      <div class="top-bar-actions">
+        <button class="user-btn"><span class="icon">🔔</span></button>
+        <button class="user-btn"><span class="icon">👤</span></button>
+      </div>
+    </header>
+    <h1 class="persona-title">Alquiler</h1>
+    <div class="persona-container">
+      <div class="persona-outer-box">
+        <div class="persona-inner-box">
+          <div class="action-bar">
+            <button class="btn btn-primary" [routerLink]="'/registroAlquiler'">
+              + Agregar Alquiler
+            </button>
+            <div class="persona-filters">
+              <div class="persona-search-box">
+                <ng-container>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-search-icon lucide-search"
+                  >
+                    <path d="m21 21-4.34-4.34" />
+                    <circle cx="11" cy="11" r="8" />
+                  </svg>
+                </ng-container>
+                <input
+                  type="text"
+                  class="persona-search"
+                  placeholder="Buscar persona..."
+                />
+              </div>
+              <div class="persona-combo-box">
+                <select class="persona-combobox">
+                  <option value="">Filtrar Por</option>
+                  <option value="">Todos</option>
+                  <option value="activo">Activos</option>
+                  <option value="inactivo">Inactivos</option>
+                </select>
+              </div>
+              <button
+                class="btn btn-outline-secondary export-btn"
+                (click)="exportar()"
+              >
+                <span class="export-icon">
+                  <ng-container>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-download-icon lucide-download"
+                    >
+                      <path d="M12 15V3" />
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <path d="m7 10 5 5 5-5" />
+                    </svg>
+                  </ng-container>
+                </span>
+                Exportar
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Fecha Alquiler</th>
+                  <th>Fecha Fin</th>
+                  <th>Pago</th>
+                  <th>Plazo de Pago</th>
+                  <th>Empleado</th>
+                  <th>Inquilino</th>
+                  <th>Fiador</th>
+                  <th>Notario</th>
+                  <th>Contrato</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let alquiler of alquileres">
+                  <td>{{ alquiler.fecha_alquiler }}</td>
+                  <td>{{ alquiler.fecha_fin_alquiler }}</td>
+                  <td>{{ alquiler.pago_alquiler }}</td>
+                  <td>{{ alquiler.plazo_pago }}</td>
+                  <td>{{ alquiler.nombre_empleado }}</td>
+                  <td>{{ alquiler.nombre_cliente || "-" }}</td>
+                  <td>{{ alquiler.nombre_fiador || "-"}}</td>
+                  <td>{{ alquiler.nombre_notario || "-"}}</td>
+                  <td>{{ alquiler.id_contrato}}</td>
+                  <td>{{ alquiler.estado_alquiler || "Indefinido"}}</td>
+                </tr>
+                <tr *ngIf="alquileres.length === 0">
+                  <td colspan="8" class="text-center">
+                    No hay alquileres registradas
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination-info">
+            Mostrando {{ (currentPage - 1) * pageSize + 1 }} a
+            {{ currentPage * pageSize }} de {{ totalItems }}
+          </div>
+          <div class="pagination-controls">
+            <button
+              class="btn btn-sm btn-outline-primary"
+              (click)="prevPage()"
+              [disabled]="currentPage === 1"
+            >
+              Previo
+            </button>
+            <button class="btn btn-sm btn-outline-primary">
+              {{ currentPage }}
+            </button>
+            <button
+              class="btn btn-sm btn-outline-primary"
+              (click)="nextPage()"
+              [disabled]="alquileres.length < pageSize"
+            >
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

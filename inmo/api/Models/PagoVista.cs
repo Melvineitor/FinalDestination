@@ -1,0 +1,20 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace inmobilariaApi.Models
+{
+    public class PagoVista
+    {
+        [Key]
+        public int id_pago { get; set; }
+        public DateOnly fecha_pago {get; set;}
+        public string  metodo_pago {get; set;} = "";
+        public string motivo_pago {get; set;} = "";
+        public string desc_pago {get; set;} = "";
+        public string tipo_contrato {get; set;} = "";
+        public string? descripcion_penalidad {get; set;} = "";
+        public string? compania_tarjeta {get; set;} = "";
+        public double monto_pagado {get; set;}
+        public string estado_pago {get; set;} = "";
+        public string? nombre_agente { get; set; } = "";
+    }
+}

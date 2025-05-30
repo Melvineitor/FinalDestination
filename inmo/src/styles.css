@@ -1,0 +1,409 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap');
+
+:root {
+  --primary-color: rgb(70, 95, 255);
+  --primary-light: rgb(221, 222, 227);
+  --primary-dark: #465fff;
+  --background: #f8f9fa;
+  --text: #212529;
+  --text-light: #6c757d;
+  --white: #ffffff;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 48px; /* Deja espacio para el header fijo */
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 290px;
+  background-color: var(--white);
+  box-shadow: var(--shadow);
+  padding: 0 0 20px 0;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.5px;
+  margin-top: 0;
+  border-right: 2px solid #e5e7eb; /* borde más notorio al lado derecho */
+  height: 100vh;
+  position: fixed;
+  top: 0;      /* <-- Llega hasta arriba */
+  left: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  padding: 0 20px 20px;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.1);  Eliminado el borde inferior */
+}
+
+.logo h2 {
+  color: red;
+}
+
+.logo-img-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  width: 360px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.menu {
+  list-style: none;
+  padding: 20px 0;
+}
+
+.menu li {
+  margin-bottom: 0px; /* Reducido el espacio entre opciones */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.menu li a:hover {
+  background-color: #f8f9fa;
+  color: var(--primary-dark);
+}
+
+.menu li.active a {
+  background-color: #f8f9fa;
+  color: black;
+}
+
+.menu .icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Minimalist & small menu toggle button */
+.menu-toggle {
+  background: transparent;
+  color: #222;
+  border: 1px solid #ccc;   /* thin, grey border */
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+  background: #f1f1f1;
+  border-color: #888; /* slightly darker on hover */
+  outline: none;
+}
+
+.menu-toggle .icon {
+  font-size: 22px;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Top Bar Styles */
+.top-bar {
+  width: 100%;
+  height: 48px;
+  background: var(--white);
+  /* Quita el box-shadow para que no flote */
+  box-shadow: none;
+  border-bottom: 1px solid #e5e7eb; /* línea sutil para separar */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  position: sticky;
+  top: 0;
+  z-index: 2; /* solo si necesitas que quede sobre el contenido al hacer scroll */
+  margin-left: 200px; /* asegúrate de que no tenga margen */
+}
+
+.header {
+  width: 100%;
+  height: 48px;
+  background: var(--white);
+  border-bottom: 2px solid #e5e7eb; /* borde más notorio en la parte baja */
+  border-left: 2px solid #e5e7eb; /* borde más notorio a la izquierda */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  position: fixed; /* Fija el header arriba */
+  top: 0;
+  left: 290px; /* Ajusta según el ancho de tu sidebar */
+  z-index: 10;
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-btn {
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-btn:hover {
+  background: #f1f1f1;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  padding: 32px 20px 20px 20px;
+  margin-left: 290px; /* igual al ancho del sidebar */
+  min-width: 0;
+  display: flex;
+  flex-direction: column; /* <-- Esto es clave */
+  width: 100%; /* Asegura que use todo el espacio disponible */
+  max-width: none; /* Elimina restricciones */
+  margin-top: -48px;
+}
+
+.main-content h1 {
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+}
+
+.cards {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap; /* Para que no se desborden en pantallas pequeñas */
+}
+
+.cards-charts-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+  /* max-width: 1000px; eliminado para hacerlo fluido */
+}
+
+.cards-row {
+  display: flex;
+  gap: 10px;
+  flex: 1 1 0;
+  flex-wrap: wrap;
+}
+
+.card {
+  min-width: 200px;
+  max-width: 370px;
+  flex: 1 1 0;
+  flex-shrink: 1;
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 18px 84px 30px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: left;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.05rem;
+  justify-content: left;
+  border: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.card-info h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  color:rgb(116, 115, 115)
+}
+
+.card-info h2 {
+  font-size: 30px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.card-percentage {
+  font-size: 20px;
+  color: #28a745;
+  font-weight: 500;
+  margin-left: px;
+  white-space: nowrap;
+}
+
+.card-info p {
+  font-size: 12px;
+  color: #28a745;
+}
+
+.card-icon svg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f6f6f6;
+  border-radius: 8px;
+  width: 20px;
+  height: 20px;
+  margin-right: 18px;
+  box-shadow: 0 2px 200px rgba(0,0,0,0.04);
+  /* No afecta el layout de la tarjeta */
+}
+
+.card-icon svg,
+.card-icon span {
+  font-size: 26px;
+  color: rgb(79, 71, 71);
+  display: block;
+  padding: 11px;
+}
+
+.card-icon span {
+  font-size: 15px;
+  color: #28a745;
+  font-weight: 500;
+  margin-left: 50px;
+  white-space: nowrap;
+}
+
+.charts {
+  display: fixed;
+  justify-content: flex-end; /* o flex-start si quieres alineados a la izquierda */
+  align-items: flex-start;
+  gap: 32px;
+  max-width: 1000px; /* Puedes ajustar este valor */
+  flex-wrap: wrap;
+}
+
+.chart-container-pie {
+  width: 300px;
+  max-width: 1000px;
+  min-width: 400px;
+  flex: none;
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  height: 300px;
+  border: 1px solid #e5e7eb;
+}
+
+.chart-container-ventas{
+  flex: 1;
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  max-width: 590px;
+  width: 200%;
+  height: 200px;
+  scroll-margin-left: 200px;
+  margin-top: -120px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Nueva clase para el título del menú lateral */
+.sidebar-title {
+  font-size: 0.70rem;
+  font-weight: 500;
+  color: #888;
+  margin: 10px 0 -20px 20px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* COMPONENTE DE PERSONA */
+.persona-container {
+  padding: 20px;
+}
+
+.action-bar {
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.pagination-info {
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.btn {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+  
+  .cards, .charts {
+    flex-direction: column;
+  }
+}
+/* Minimalist system font stack */
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  color: #333; /* Dark gray for better readability */
+  background: #f9f8f8; /* light grey background */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}

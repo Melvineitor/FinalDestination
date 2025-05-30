@@ -1,0 +1,130 @@
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-img-title">
+        <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
+      </div>
+    </div>
+    <div class="sidebar-title">MENU</div>
+    <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+      <li
+        *ngFor="let item of menuItems"
+        [class.active]="item.name === 'Propiedad'"
+        (click)="selectMenuItem(item)"
+      >
+        <a [routerLink]="item.link">
+          <i class="icon">{{ item.icon }}</i> {{ item.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <header class="header">
+      <div class="top-bar-actions">
+        <button class="user-btn"><span class="icon">🔔</span></button>
+        <button class="user-btn"><span class="icon">👤</span></button>
+      </div>
+    </header>
+
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form-title">Registro de Propiedad</div>
+      <div class="form-section-title">Datos de la Propiedad</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="titulo">Título</label>
+          <input
+            id="titulo"
+            formControlName="titulo"
+            type="text"
+            placeholder="Título"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="m_ancho">Ancho (m)</label>
+          <input
+            id="m_ancho"
+            formControlName="m_ancho"
+            type="number"
+            placeholder="Ancho en metros"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="m_largo">Largo (m)</label>
+          <input
+            id="m_largo"
+            formControlName="m_largo"
+            type="number"
+            placeholder="Largo en metros"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="metros_cuadrados">Metros cuadrados</label>
+          <input
+            id="metros_cuadrados"
+            formControlName="metros_cuadrados"
+            type="number"
+            placeholder="Metros cuadrados"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="precio_venta">Precio de venta</label>
+          <input
+            id="precio_venta"
+            formControlName="precio_venta"
+            type="number"
+            placeholder="Precio de venta"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="precio_alquiler">Precio de alquiler</label>
+          <input
+            id="precio_alquiler"
+            formControlName="precio_alquiler"
+            type="number"
+            placeholder="Precio de alquiler"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="direccion_propiedad">Dirección</label>
+          <input
+            id="direccion_propiedad"
+            formControlName="direccion_propiedad"
+            type="text"
+            placeholder="Dirección"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="estado_propiedad">Estado</label>
+          <input
+            id="estado_propiedad"
+            formControlName="estado_propiedad"
+            type="text"
+            placeholder="Estado de la propiedad"
+            class="input"
+          />
+        </div>
+      </div>
+      <div class="form-section-title">Descripción</div>
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"
+          formControlName="descripcion"
+          placeholder="Descripción de la propiedad"
+          class="input"
+        ></textarea>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+        Guardar Propiedad
+      </button>
+    </form>
+  </div>
+</div>

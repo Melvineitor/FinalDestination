@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio | World Real State Dominicana</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="imagenes/iconologo.png">
+  <link rel="stylesheet" href="estilo.css">
+
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>WORLD REAL STATE</h2>
+      <p>PLATAFORMA DIGITAL</p>
+    </div>
+        <ul class="menu">
+            <li><a href="dashboardusuario.html" class="active">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a></li>
+            
+            <li><a href="miscontratos.html">
+                <i class="fas fa-file-contract"></i>
+                <span>Mis Contratos</span>
+            </a></li>
+            
+            <li><a href="datoscontrato.html">
+                <i class="fas fa-info-circle"></i>
+                <span>Datos de Contrato</span>
+            </a></li>
+            
+            <li><a href="pagos.html">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Pagos</span>
+            </a></li>
+            
+            <li><a href="cuenta.html">
+                <i class="fas fa-user-cog"></i>
+                <span>Cuenta</span>
+            </a></li>
+        </ul>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-actions">
+<div class="notification-icon" onclick="toggleNotifications()">
+  <i class="fas fa-bell"></i>
+  <span class="notification-badge">3</span>
+
+  <!-- Lista desplegable oculta inicialmente -->
+  <div id="notification-dropdown" class="notification-dropdown hidden">
+    <p>No tienes nuevas notificaciones.</p>
+    <!-- o <ul><li>Notificación 1</li>...</ul> -->
+  </div>
+</div>
+      </div>
+      <div class="topbar-user">
+        <div class="user-avatar">U</div>
+        <div class="user-name">Bienvenido, Usuario</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="welcome">Bienvenidos a la Oficina Virtual</div>
+      <div class="logo">World Real State Dominicana</div>
+      <div class="logo-tagline">real estate</div>
+      <p class="welcome-sub">Acceda a todos los servicios inmobiliarios de manera rápida y segura desde nuestra plataforma digital.</p>
+      
+    <div class="quick-actions">
+      <a href="pagos.html" class="action-btn primary-btn">Ver mis pagos</a>
+      <a href="mailto:agente@email.com" class="action-btn secondary-btn">Contactar agente</a>
+    </div>
+    </div>
+    <div class="footer">
+      <div class="footer-links">
+        <a href="#">Términos de uso</a>
+        <a href="#">Ayuda</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Contacto</a>
+      </div>
+      <div class="footer-copyright">
+        &copy; 2025 World Real State Dominicana. Todos los derechos reservados.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

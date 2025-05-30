@@ -1,0 +1,168 @@
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-img-title">
+        <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
+      </div>
+    </div>
+    <div class="sidebar-title">MENU</div>
+    <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+      <li
+        *ngFor="let item of menuItems"
+        [class.active]="item.name === 'Pago'"
+        (click)="selectMenuItem(item)"
+      >
+        <a [routerLink]="item.link">
+          <i class="icon">{{ item.icon }}</i> {{ item.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <header class="header">
+      <div class="top-bar-actions">
+        <button class="user-btn"><span class="icon">🔔</span></button>
+        <button class="user-btn"><span class="icon">👤</span></button>
+      </div>
+    </header>
+
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form-title">Registro de Alquiler</div>
+      <div class="form-section-title">Datos del Alquiler</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fecha_alquiler">Fecha de Inicio</label>
+          <input
+            id="fecha_alquiler"
+            formControlName="fecha_alquiler"
+            type="date"
+            placeholder="Fecha de inicio del alquiler"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="fecha_fin_alquiler">Fecha de Fin</label>
+          <input
+            id="fecha_fin_alquiler"
+            formControlName="fecha_fin_alquiler"
+            type="date"
+            placeholder="Fecha de fin del alquiler"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="pago_alquiler">Pago del Alquiler</label>
+          <input
+            id="pago_alquiler"
+            formControlName="pago_alquiler"
+            type="number"
+            placeholder="Pago del alquiler"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="plazo_pago">Plazo de Pago</label>
+          <input
+            id="plazo_pago"
+            formControlName="plazo_pago"
+            type="text"
+            placeholder="Plazo de pago"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="propiedad">Propiedad</label>
+          <select
+            id="propiedad"
+            formControlName="propiedad_alquiler"
+            class="form-control"
+          >
+            <option value="">Seleccione una propiedad</option>
+            <option
+              *ngFor="let propiedad of propiedades"
+              [value]="propiedad.id_propiedad"
+            >
+              {{ propiedad.direccion }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="empleado">Empleado</label>
+          <select
+            id="empleado"
+            formControlName="empleado_alquiler"
+            class="form-control"
+          >
+            <option value="">Seleccione un empleado</option>
+            <option *ngFor="let e of empleados" [value]="e.id_empleado">
+              {{ e.NombreCompleto }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="cliente">Cliente</label>
+          <select
+            id="cliente"
+            formControlName="cliente_alquiler"
+            class="form-control"
+          >
+            <option value="">Seleccione un cliente</option>
+            <option *ngFor="let c of clientes" [value]="c.id_cliente">
+              {{ c.NombreCompleto }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fiador">Fiador</label>
+          <select
+            id="fiador"
+            formControlName="fiador_alquiler"
+            class="form-control"
+          >
+            <option value="">Seleccione un fiador</option>
+            <option *ngFor="let f of fiadores" [value]="f.id_fiador">
+              {{ f.NombreCompleto }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="notario">Notario</label>
+          <select
+            id="notario"
+            formControlName="notario_alquiler"
+            class="form-control"
+          >
+            <option value="">Seleccione un notario</option>
+            <option *ngFor="let n of notarios" [value]="n.id_notario">
+              {{ n.NombreCompleto }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="contrato_alquiler">Contrato</label>
+          <input
+            id="contrato_alquiler"
+            formControlName="contrato_alquiler"
+            type="text"
+            placeholder="Contrato"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="estado_alquiler">Estado</label>
+          <input
+            id="estado_alquiler"
+            formControlName="estado_alquiler"
+            type="text"
+            placeholder="Estado del alquiler"
+            class="input"
+          />
+        </div>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+        Guardar Alquiler
+      </button>
+    </form>
+  </div>
+</div>

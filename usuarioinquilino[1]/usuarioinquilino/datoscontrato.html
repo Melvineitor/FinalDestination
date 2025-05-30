@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Datos contrato | World Real State Dominicana</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="imagenes/iconologo.png">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>WORLD REAL STATE</h2>
+      <p>PLATAFORMA DIGITAL</p>
+    </div>
+    <ul class="menu">
+      <li><a href="dashboardusuario.html">
+        <i class="fas fa-home"></i>
+        <span>Inicio</span>
+      </a></li>
+      <li><a href="miscontratos.html">
+        <i class="fas fa-file-contract"></i>
+        <span>Mis Contratos</span>
+      </a></li>
+      <li><a href="datoscontrato.html" class="active">
+        <i class="fas fa-info-circle"></i>
+        <span>Datos de Contrato</span>
+      </a></li>
+      <li><a href="pagos.html">
+        <i class="fas fa-money-bill-wave"></i>
+        <span>Pagos</span>
+      </a></li>
+      <li><a href="cuenta.html">
+        <i class="fas fa-user-cog"></i>
+        <span>Cuenta</span>
+      </a></li>
+    </ul>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-actions">
+        <div class="notification-icon" onclick="toggleNotifications()">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge">3</span>
+          <div id="notification-dropdown" class="notification-dropdown hidden">
+            <p>No tienes nuevas notificaciones.</p>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-user">
+        <div class="user-avatar">U</div>
+      </div>
+    </div>
+
+    <div class="contract-container">
+      <div class="contract-header">
+        <h1>Datos de Contrato</h1>
+      </div>
+      <div class="contract-body">
+        <div class="contract-section">
+          <h2><i class="fas fa-file-signature"></i> Información del Contrato</h2>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-hashtag"></i> Número de Contrato:</div>
+            <div class="field-value">8594885</div>
+          </div>
+        </div>
+        <div class="contract-section">
+          <h2><i class="fas fa-user-tie"></i> Información Personal</h2>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-id-card"></i> ID Persona:</div>
+            <div class="field-value">12548</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-signature"></i> Nombre:</div>
+            <div class="field-value">ESPIMAN JOGNAEL</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-signature"></i> Apellido:</div>
+            <div class="field-value">FERNANDEZ CARRERAS</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-id-badge"></i> Cédula/Pasaporte:</div>
+            <div class="field-value">402-1234567-8</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-venus-mars"></i> Sexo:</div>
+            <div class="field-value">Masculino (M)</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-heart"></i> Estado Civil:</div>
+            <div class="field-value">Soltero</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-flag"></i> Nacionalidad:</div>
+            <div class="field-value">DOM (Dominicana)</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-check-circle"></i> Estado:</div>
+            <div class="field-value"><span class="status-badge status-active">Activo</span></div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-birthday-cake"></i> Edad:</div>
+            <div class="field-value">35 años</div>
+          </div>
+        </div>
+        <div class="contract-section">
+          <h2><i class="fas fa-address-book"></i> Información de Contacto</h2>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-home"></i> Domicilio:</div>
+            <div class="field-value">MAMA TINGO, RES ALTA VISTA, VILLA OLIMPICA</div>
+          </div>
+          <div class="contract-field">
+            <div class="field-label"><i class="fas fa-phone"></i> Teléfono:</div>
+            <div class="field-value">829-770-4534</div>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn btn-secondary">
+            <i class="fas fa-print"></i> Imprimir
+          </button>
+          <button class="btn btn-primary">
+            <i class="fas fa-file-contract"></i> Asociar Nuevo Contrato
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-links">
+        <a href="#">Términos de uso</a>
+        <a href="#">Ayuda</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Contacto</a>
+      </div>
+      <div class="footer-copyright">
+        &copy; 2025 World Real State Dominicana. Todos los derechos reservados.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
