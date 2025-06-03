@@ -1,4 +1,4 @@
-# Dockerfile for fullstack: .NET 8 + Angular
+# Dockerfile for fullstack: .NET 9 + Angular
 
 # Stage 1: Build Angular
 FROM node:20.11.1-alpine3.19 AS node-build
@@ -17,20 +17,19 @@ COPY inmo/public ./public
 RUN npm run build -- --configuration production
 
 # Stage 2: Build .NET
-FROM mcr.microsoft.com/dotnet/sdk:8.0.203-alpine3.19 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-preview AS build
 WORKDIR /app
 
 # Copy and restore project file first (better caching)
-COPY inmo/api/api.csproj ./
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore
+COPY ["inmo/api/api.csproj", "./"]
+RUN dotnet restore "./api.csproj"
 
 # Copy everything else and build
-COPY inmo/api/ ./
-RUN dotnet publish -c Release -o /app/publish --no-restore /p:UseAppHost=false
+COPY inmo/api/. ./
+RUN dotnet publish "api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Stage 3: Production
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.3-alpine3.19 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview AS final
 WORKDIR /app
 
 # Install curl for healthcheck
