@@ -19,7 +19,28 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 // CORS configuration
-builder.Services.AddCors();
+var allowedOrigins = new[]
+{
+    "https://frontend-production-c40b.up.railway.app",
+    "http://localhost:4200",
+    "http://localhost:4000",
+    "https://localhost:4200",
+    "https://localhost:4000"
+};
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder
+            .WithOrigins(allowedOrigins)
+            .AllowCredentials()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithExposedHeaders("Authorization", "Content-Disposition")
+            .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
+    });
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -28,18 +49,22 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
 
-// CORS middleware - must be first in pipeline
-app.UseCors(options => options
-    .SetIsOriginAllowed(origin => true)
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials());
+// Configure the HTTP request pipeline.
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('CORS bloqueado para:', origin);
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  credentials: true
+}));
+
+app.use(express.json());
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
