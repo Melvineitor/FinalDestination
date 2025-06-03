@@ -2,29 +2,53 @@ import { Component, OnInit } from '@angular/core';
 import { InmoService } from '../inmo.service';
 import { Venta } from '../inmobilaria.models';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-propiedad',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './venta.component.html',
   styleUrl: './venta.component.css'
 })
 export class VentaComponent implements OnInit {
-ventas: Venta[] = [];
+  ventas: Venta[] = [];
+  ventasFiltradas: Venta[] = [];
   pageSize = 10;
   currentPage = 1;
   totalItems = 0;
   searchTerm: string = '';
   selectedFilter: string = '';
-
+  tiposPropiedad: string[] = ['Apartamento', 'Casa', 'Local'];
 
   constructor(private inmoService: InmoService){}
   ngOnInit(): void {
     this.inmoService.getVentas().subscribe((data: Venta[]) => {
       this.ventas = data;
+      this.filtrarVentas();
+      this.totalItems = this.ventas.length;
       console.log(data);
     });
+  }
+
+  filtrarVentas(): void {
+    let filtradas = this.ventas;
+    if (this.selectedFilter) {
+      filtradas = filtradas.filter(v => v.tipo_inmueble === this.selectedFilter);
+    }
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      const term = this.searchTerm.trim().toLowerCase();
+      filtradas = filtradas.filter(v =>
+        (v.nombre_empleado && v.nombre_empleado.toLowerCase().includes(term)) ||
+        (v.nombre_cliente && v.nombre_cliente.toLowerCase().includes(term)) ||
+        (v.nombre_fiador && v.nombre_fiador.toLowerCase().includes(term)) ||
+        (v.nombre_notario && v.nombre_notario.toLowerCase().includes(term)) ||
+        (v.id_propiedad && v.id_propiedad.toString().toLowerCase().includes(term)) ||
+        (v.tipo_inmueble && v.tipo_inmueble.toLowerCase().includes(term))
+      );
+    }
+    this.ventasFiltradas = filtradas;
+    this.totalItems = filtradas.length;
   }
 
   prevPage(): void {

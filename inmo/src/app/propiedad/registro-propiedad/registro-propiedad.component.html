@@ -28,102 +28,237 @@
     </header>
 
     <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
-      <div class="form-title">Registro de Propiedad</div>
-      <div class="form-section-title">Datos de la Propiedad</div>
+      <div class="form-title">Registro de Inmueble</div>
+      <div class="form-section-title">Datos del Inmueble</div>
       <div class="form-grid">
         <div class="form-group">
-          <label for="titulo">Título</label>
+          <label for="propietario_inmueble">Propietario</label>
+          <select id="propietario_inmueble" formControlName="propietario_inmueble" class="input">
+            <option value="" disabled selected>Seleccione un propietario</option>
+            <option *ngFor="let p of propietarios" [value]="p.id_persona">
+              {{ p.nombre_persona }} {{ p.apellido_persona }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="tipo_inmueble">Tipo de Inmueble</label>
           <input
-            id="titulo"
-            formControlName="titulo"
+            id="tipo_inmueble"
+            formControlName="tipo_inmueble"
             type="text"
-            placeholder="Título"
+            placeholder="Tipo (Casa, Apartamento, etc.)"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="m_ancho">Ancho (m)</label>
+          <label for="cant_niveles">Cantidad de Niveles</label>
           <input
-            id="m_ancho"
-            formControlName="m_ancho"
+            id="cant_niveles"
+            formControlName="cant_niveles"
             type="number"
-            placeholder="Ancho en metros"
+            placeholder="Niveles"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="m_largo">Largo (m)</label>
+          <label for="cant_habitaciones">Habitaciones</label>
           <input
-            id="m_largo"
-            formControlName="m_largo"
+            id="cant_habitaciones"
+            formControlName="cant_habitaciones"
             type="number"
-            placeholder="Largo en metros"
+            placeholder="Habitaciones"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="metros_cuadrados">Metros cuadrados</label>
+          <label for="cant_banos">Baños</label>
           <input
-            id="metros_cuadrados"
-            formControlName="metros_cuadrados"
+            id="cant_banos"
+            formControlName="cant_banos"
             type="number"
-            placeholder="Metros cuadrados"
+            placeholder="Baños"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="precio_venta">Precio de venta</label>
+          <label for="cant_parqueos">Parqueos</label>
           <input
-            id="precio_venta"
-            formControlName="precio_venta"
+            id="cant_parqueos"
+            formControlName="cant_parqueos"
             type="number"
-            placeholder="Precio de venta"
+            placeholder="Parqueos"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="precio_alquiler">Precio de alquiler</label>
+          <label for="cuarto_servicio">Cuarto de Servicio</label>
           <input
-            id="precio_alquiler"
-            formControlName="precio_alquiler"
+            id="cuarto_servicio"
+            formControlName="cuarto_servicio"
             type="number"
-            placeholder="Precio de alquiler"
+            placeholder="Cuarto de Servicio"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="direccion_propiedad">Dirección</label>
+          <label for="modulo_local">Módulo Local</label>
           <input
-            id="direccion_propiedad"
-            formControlName="direccion_propiedad"
+            id="modulo_local"
+            formControlName="modulo_local"
             type="text"
-            placeholder="Dirección"
+            placeholder="Módulo Local"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="estado_propiedad">Estado</label>
+          <label for="plaza_local">Plaza Local</label>
           <input
-            id="estado_propiedad"
-            formControlName="estado_propiedad"
+            id="plaza_local"
+            formControlName="plaza_local"
             type="text"
-            placeholder="Estado de la propiedad"
+            placeholder="Plaza Local"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="nivel_apt">Nivel Apartamento</label>
+          <input
+            id="nivel_apt"
+            formControlName="nivel_apt"
+            type="number"
+            placeholder="Nivel Apartamento"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="uso_espacio">Uso del Espacio</label>
+          <input
+            id="uso_espacio"
+            formControlName="uso_espacio"
+            type="text"
+            placeholder="Uso del Espacio"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="objetivo">Objetivo</label>
+          <input
+            id="objetivo"
+            formControlName="objetivo"
+            type="text"
+            placeholder="Venta, Alquiler, etc."
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="metros_ancho">Metros Ancho</label>
+          <input
+            id="metros_ancho"
+            formControlName="metros_ancho"
+            type="number"
+            placeholder="Metros Ancho"
+            class="input"
+            (input)="calcularPrecio()"
+          />
+        </div>
+        <div class="form-group">
+          <label for="metros_largo">Metros Largo</label>
+          <input
+            id="metros_largo"
+            formControlName="metros_largo"
+            type="number"
+            placeholder="Metros Largo"
+            class="input"
+            (input)="calcularPrecio()"
+          />
+        </div>
+        <div class="form-group">
+          <label for="precio">Precio (USD$650/m²)</label>
+          <input
+            id="precio"
+            formControlName="precio"
+            type="number"
+            placeholder="Precio calculado"
+            class="input"
+            readonly
+          />
+        </div>
+        <div class="form-group">
+          <label for="estado_inmueble">Estado</label>
+          <input
+            id="estado_inmueble"
+            formControlName="estado_inmueble"
+            type="text"
+            placeholder="Estado del Inmueble"
             class="input"
           />
         </div>
       </div>
       <div class="form-section-title">Descripción</div>
       <div class="form-group">
-        <label for="descripcion">Descripción</label>
+        <label for="descripcion_detallada">Descripción Detallada</label>
         <textarea
-          id="descripcion"
-          formControlName="descripcion"
-          placeholder="Descripción de la propiedad"
+          id="descripcion_detallada"
+          formControlName="descripcion_detallada"
+          placeholder="Descripción del inmueble"
           class="input"
         ></textarea>
       </div>
+      <div class="form-section-title">Datos de la Dirección</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="ciudad_direccion">Ciudad</label>
+          <input
+            id="ciudad_direccion"
+            formControlName="ciudad_direccion"
+            type="text"
+            placeholder="Ciudad"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="zona">Zona</label>
+          <input
+            id="zona"
+            formControlName="zona"
+            type="text"
+            placeholder="Zona"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="calle">Calle</label>
+          <input
+            id="calle"
+            formControlName="calle"
+            type="text"
+            placeholder="Calle"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="especificaciones_direccion">Especificaciones</label>
+          <input
+            id="especificaciones_direccion"
+            formControlName="especificaciones_direccion"
+            type="text"
+            placeholder="Referencia, detalles, etc."
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="provincia">Provincia</label>
+          <input
+            id="provincia"
+            formControlName="provincia"
+            type="text"
+            placeholder="Provincia"
+            class="input"
+          />
+        </div>
+      </div>
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-        Guardar Propiedad
+        Guardar Inmueble
       </button>
     </form>
   </div>

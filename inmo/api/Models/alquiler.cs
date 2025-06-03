@@ -16,11 +16,13 @@ namespace inmobilariaApi.Models
         public double pago_alquiler { get; set; }
         public string plazo_pago { get; set; } = "";
         public int propiedad_alquiler { get; set; }
-        public string empleado_alquiler { get; set; } = "";
-        public string inquilino_alquiler { get; set; } = "";
-        public string? fiador_alquiler { get; set; } = "";
-        public string? notario_alquiler { get; set; } = "";
+        public int empleado_alquiler { get; set; }
+        public int inquilino_alquiler { get; set; }
+        public int? fiador_alquiler { get; set; }
+        public int notario_alquiler { get; set; }
         public int contrato_alquiler { get; set; }
         public string estado_alquiler { get; set; } = "";
+        public string direccion_formateada { get; set; } = ""; // "Casa", "Departamento", "Local Comercial", etc.  
+
     }
 }

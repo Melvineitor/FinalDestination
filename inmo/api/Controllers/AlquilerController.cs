@@ -16,16 +16,16 @@ namespace inmo.api.Controllers
             _context = context;
         }
 
-        [HttpGet("propiedades")]
-        public async Task<IActionResult> GetPropiedades()
+        [HttpGet("inmuebles")]
+        public async Task<IActionResult> GetInmuebles()
         {
-            var propiedades = await (from p in _context.Propiedad
+            var propiedades = await (from i in _context.Inmueble
                                      join d in _context.Direccion
-                                     on p.direccion_propiedad equals d.id_direccion
-                                     where p.estado_propiedad == "Disponible"
+                                     on i.direccion_inmueble equals d.id_direccion
+                                     where i.estado_inmueble == "Disponible" || i.estado_inmueble == "Mantenimiento"
                                      select new
                                      {
-                                         id_propiedad = p.id_propiedad,
+                                         id_inmueble = i.id_inmueble,
                                          direccion = $"{d.ciudad_direccion} - {d.zona} - {d.calle}"
                                      }).ToListAsync();
 
@@ -52,14 +52,27 @@ namespace inmo.api.Controllers
         {
             var inquilinos = await _context.Inquilino
                 .Include(i => i.Persona)
-                .Select(i => new
-                {
-                    i.id_cliente,
-                    NombreCompleto = i.Persona.nombre_persona + " " + i.Persona.apellido_persona
-                })
                 .ToListAsync();
 
-            return Ok(inquilinos);
+            var inmuebles = await _context.Inmueble.ToListAsync();
+            var direcciones = await _context.Direccion.ToListAsync();
+
+            var resultado = inquilinos.Select(i => new
+            {
+                i.id_cliente,
+                NombreCompleto = i.Persona.nombre_persona + " " + i.Persona.apellido_persona,
+                Inmuebles = inmuebles
+                    .Where(im => im.propietario_inmueble == i.id_cliente)
+                    .Select(im => new
+                    {
+                        im.id_inmueble,
+                        Direccion = direcciones.FirstOrDefault(d => d.id_direccion == im.direccion_inmueble) != null
+                            ? $"{direcciones.First(d => d.id_direccion == im.direccion_inmueble).ciudad_direccion} - {direcciones.First(d => d.id_direccion == im.direccion_inmueble).zona} - {direcciones.First(d => d.id_direccion == im.direccion_inmueble).calle}"
+                            : "Sin dirección"
+                    }).ToList()
+            }).ToList();
+
+            return Ok(resultado);
         }
 
         [HttpGet("fiadores")]

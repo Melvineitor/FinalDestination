@@ -57,14 +57,19 @@
                   type="text"
                   class="persona-search"
                   placeholder="Buscar persona..."
+                  [(ngModel)]="searchTerm"
+                  (input)="filtrarAlquileres()"
                 />
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox">
+                <select class="persona-combobox" [(ngModel)]="selectedFilter" (change)="filtrarAlquileres()">
                   <option value="">Filtrar Por</option>
                   <option value="">Todos</option>
                   <option value="activo">Activos</option>
                   <option value="inactivo">Inactivos</option>
+                  <option value="finalizado">Finalizados</option>
+                  <option value="cancelado">Cancelados</option>
+                  <option value="en espera">En espera</option>
                 </select>
               </div>
               <button
@@ -109,12 +114,13 @@
                   <th>Notario</th>
                   <th>Contrato</th>
                   <th>Estado</th>
+                  <th>Direccion</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let alquiler of alquileres">
-                  <td>{{ alquiler.fecha_alquiler }}</td>
-                  <td>{{ alquiler.fecha_fin_alquiler }}</td>
+                <tr *ngFor="let alquiler of alquileresFiltrados">
+                  <td>{{ formatFecha(alquiler.fecha_alquiler) }}</td>
+                  <td>{{ formatFecha(alquiler.fecha_fin_alquiler) }}</td>
                   <td>{{ alquiler.pago_alquiler }}</td>
                   <td>{{ alquiler.plazo_pago }}</td>
                   <td>{{ alquiler.nombre_empleado }}</td>
@@ -123,9 +129,10 @@
                   <td>{{ alquiler.nombre_notario || "-"}}</td>
                   <td>{{ alquiler.id_contrato}}</td>
                   <td>{{ alquiler.estado_alquiler || "Indefinido"}}</td>
+                  <td>{{ alquiler.especificaciones_direccion }}</td>
                 </tr>
-                <tr *ngIf="alquileres.length === 0">
-                  <td colspan="8" class="text-center">
+                <tr *ngIf="alquileresFiltrados.length === 0">
+                  <td colspan="11" class="text-center">
                     No hay alquileres registradas
                   </td>
                 </tr>

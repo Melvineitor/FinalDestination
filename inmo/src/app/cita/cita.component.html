@@ -56,15 +56,15 @@
                 <input
                   type="text"
                   class="persona-search"
-                  placeholder="Buscar persona..."
+                  placeholder="Buscar cita..."
+                  [(ngModel)]="searchTerm"
+                  (input)="filtrarCitas()"
                 />
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox">
+                <select class="persona-combobox" [(ngModel)]="selectedFilter" (change)="filtrarCitas()">
                   <option value="">Filtrar Por</option>
-                  <option value="">Todos</option>
-                  <option value="activo">Activos</option>
-                  <option value="inactivo">Inactivos</option>
+                  <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
                 </select>
               </div>
               <button
@@ -108,7 +108,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let cita of citas">
+                <tr *ngFor="let cita of citasFiltradas">
                   <td>{{ cita.fecha_cita }}</td>
                   <td>{{ cita.hora_cita }}</td>
                   <td>{{ cita.motivo_cita }}</td>
@@ -116,9 +116,9 @@
                   <td>{{ cita.nombre_cliente || "-" }}</td>
                   <td>{{ cita.estado_cita || "Indefinido"}}</td>
                 </tr>
-                <tr *ngIf="citas.length === 0">
-                  <td colspan="8" class="text-center">
-                    No hay citaes registradas
+                <tr *ngIf="citasFiltradas.length === 0">
+                  <td colspan="6" class="text-center">
+                    No hay citas registradas
                   </td>
                 </tr>
               </tbody>

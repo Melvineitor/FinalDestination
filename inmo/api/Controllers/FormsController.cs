@@ -31,17 +31,17 @@ namespace inmo.api.Controllers
         }
 
         [HttpPost("CrearPropiedad")]
-        public IActionResult CrearPropiedad([FromBody] Propiedad nuevaPropiedad)
+        public IActionResult CrearPropiedad([FromBody] Inmueble nuevoInmueble)
         {
-            if (nuevaPropiedad == null)
+            if (nuevoInmueble == null)
             {
                 return BadRequest("Datos incompletos");
             }
 
-            _context.Propiedad.Add(nuevaPropiedad);
+            _context.Inmueble.Add(nuevoInmueble);
             _context.SaveChanges();
 
-            return Ok(nuevaPropiedad); // puedes devolver solo el ID o todo el objeto
+            return Ok(nuevoInmueble); // puedes devolver solo el ID o todo el objeto
         }
 
         [HttpPost("CrearPago")]
@@ -69,6 +69,18 @@ namespace inmo.api.Controllers
             _context.SaveChanges();
 
             return Ok(nuevoAlquiler); // puedes devolver solo el ID o todo el objeto
+        }
+
+        [HttpPost("CrearDireccion")]
+        public IActionResult CrearDireccion([FromBody] Direccion nuevaDireccion)
+        {
+            if (nuevaDireccion == null)
+            {
+                return BadRequest("Datos incompletos");
+            }
+            _context.Direccion.Add(nuevaDireccion);
+            _context.SaveChanges();
+            return Ok(nuevaDireccion);
         }
     }
 }

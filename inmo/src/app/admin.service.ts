@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Admin } from './inmobilaria.models';
+import { environment } from '../environments/environment'; 
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ constructor(private http: HttpClient) { }
   
 login(nombre_usuario: string, contrasena: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>('http://localhost:5095/api/auth/login', {
+    return this.http.post<any>(`${environment.apiURL}/auth/login`, {
       nombre_usuario: nombre_usuario.trim(), contrasena: contrasena.trim()},
       { headers });
   }
@@ -31,6 +31,6 @@ setAdmin(data: any) {
   }
   updateAdmin(admin: any) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  return this.http.patch('https://localhost:5095/api/auth/update', admin, {headers}); // ajusta la URL a tu API
+  return this.http.patch(`${environment.apiURL}/auth/update`, admin, {headers}); // ajusta la URL a tu API
 }
 }

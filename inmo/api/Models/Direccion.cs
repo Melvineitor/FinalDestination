@@ -15,6 +15,7 @@ namespace inmobilariaApi.Models
         public string zona { get; set; } = "";
         public string calle { get; set; } = "";
         public string especificaciones_direccion { get; set; } = "";
+        public string provincia { get; set; } = "";
     }
 
 }

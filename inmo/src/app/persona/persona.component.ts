@@ -28,7 +28,7 @@ export class PersonaComponent implements OnInit {
     this.inmoService.getPersonas().subscribe((data: Persona[]) => {
       this.personas = data;
       this.extractRoles();
-      this.applyFilters();
+      this.filtrarPersonas();
       console.log(data);
     });
   }
@@ -38,18 +38,32 @@ export class PersonaComponent implements OnInit {
     this.roles = Array.from(uniqueRoles);
   }
 
-  applyFilters(): void {
-    let filtered = this.personas;
+  filtrarPersonas(): void {
+    let filtradas = this.personas;
     if (this.selectedFilter && this.selectedFilter !== 'Todos') {
-      filtered = filtered.filter(p => p.rol_persona === this.selectedFilter);
+      filtradas = filtradas.filter(p => p.rol_persona === this.selectedFilter);
     }
-    this.filteredPersonas = filtered;
-    this.totalItems = filtered.length;
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      const term = this.searchTerm.trim().toLowerCase();
+      filtradas = filtradas.filter(p =>
+        (p.nombre_persona && p.nombre_persona.toLowerCase().includes(term)) ||
+        (p.apellido_persona && p.apellido_persona.toLowerCase().includes(term)) ||
+        (p.cedula_pasaporte && p.cedula_pasaporte.toLowerCase().includes(term)) ||
+        (p.telefono && p.telefono.toLowerCase().includes(term)) ||
+        (p.sexo_persona && p.sexo_persona.toLowerCase().includes(term)) ||
+        (p.estado_civil && p.estado_civil.toLowerCase().includes(term)) ||
+        (p.domicilio && p.domicilio.toLowerCase().includes(term)) ||
+        (p.estado_persona && p.estado_persona.toLowerCase().includes(term)) ||
+        (p.rol_persona && p.rol_persona.toLowerCase().includes(term))
+      );
+    }
+    this.filteredPersonas = filtradas;
+    this.totalItems = filtradas.length;
   }
 
   onRoleChange(event: any): void {
     this.selectedFilter = event.target.value;
-    this.applyFilters();
+    this.filtrarPersonas();
   }
 
   prevPage(): void {

@@ -13,7 +13,7 @@ import {
 
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const admin = localStorage.getItem('admin');
     if (admin) {
       return true;

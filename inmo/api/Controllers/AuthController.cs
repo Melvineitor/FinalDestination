@@ -73,7 +73,7 @@ namespace inmobilariaApi.Controllers
             admin.cargo_admin = updatedAdmin.cargo_admin;
             admin.ciudad_admin = updatedAdmin.ciudad_admin;
             admin.codigo_postal = updatedAdmin.codigo_postal;
-            admin.correo_admin = updatedAdmin.correo_admin;
+            admin.correo_admin = admin.correo_admin;
             admin.pais_admin = updatedAdmin.pais_admin;
             admin.telefono_admin = updatedAdmin.telefono_admin;
             admin.nombre_usuario = updatedAdmin.nombre_usuario;

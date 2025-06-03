@@ -59,15 +59,27 @@
                 <input
                   type="text"
                   class="persona-search"
-                  placeholder="Buscar persona..."
+                  placeholder="Buscar pago..."
+                  [(ngModel)]="searchTerm"
+                  (input)="filtrarPagos()"
                 />
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox">
-                  <option value="">Filtrar Por</option>
+                <select class="persona-combobox" [(ngModel)]="selectedTipoContrato" (change)="filtrarPagos()">
                   <option value="">Todos</option>
-                  <option value="activo">Activos</option>
-                  <option value="inactivo">Inactivos</option>
+                  <option *ngFor="let tipo of tiposContrato" [value]="tipo">{{ tipo }}</option>
+                </select>
+              </div>
+              <div class="persona-combo-box">
+                <select class="persona-combobox" [(ngModel)]="selectedEstado" (change)="filtrarPagos()">
+                  <option value="">Estado</option>
+                  <option *ngFor="let estado of estadosPago" [value]="estado">{{ estado }}</option>
+                </select>
+              </div>
+              <div class="persona-combo-box">
+                <select class="persona-combobox" [(ngModel)]="selectedAgente" (change)="filtrarPagos()">
+                  <option value="">Agente</option>
+                  <option *ngFor="let agente of agentes" [value]="agente">{{ agente }}</option>
                 </select>
               </div>
               <button
@@ -115,7 +127,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let pago of pagos">
+                <tr *ngFor="let pago of pagosFiltrados">
                   <td>{{ pago.fecha_pago }}</td>
                   <td>{{ pago.metodo_pago }}</td>
                   <td>{{ pago.motivo_pago }}</td>
@@ -123,13 +135,13 @@
                   <td>{{ pago.tipo_contrato }}</td>
                   <td>{{ pago.descripcion_penalidad }}</td>
                   <td>{{ pago.compania_tarjeta || "Pago en Efectivo" }}</td>
-                  <td>{{pago.monto_pagado}}</td>
-                  <td>{{pago.estado_pago}}</td>
-                  <td>{{pago.nombre_agente || "Sin agente"}} </td>
+                  <td>{{ pago.monto_pagado }}</td>
+                  <td>{{ pago.estado_pago }}</td>
+                  <td>{{ pago.nombre_agente || "Sin agente" }}</td>
                 </tr>
-                <tr *ngIf="pagos.length === 0">
-                  <td colspan="8" class="text-center">
-                    No hay pagos registradas
+                <tr *ngIf="pagosFiltrados.length === 0">
+                  <td colspan="10" class="text-center">
+                    No hay pagos registrados
                   </td>
                 </tr>
               </tbody>

@@ -57,16 +57,20 @@
                   type="text"
                   class="persona-search"
                   placeholder="Buscar..."
+                  [(ngModel)]="searchTerm"
+                  (input)="filtrarVentas()"
                 />
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox">
-                  <option value="">Filtrar Por</option>
-                  <option value="">Solar</option>
-                  <option value="">Apartamento</option>
-                  <option value="">Casa</option>
-                  <option value="">Local</option>
-                  <option value="">Edificio</option>
+                <select
+                  class="persona-combobox"
+                  [(ngModel)]="selectedFilter"
+                  (change)="filtrarVentas()"
+                >
+                  <option value="">Todos</option>
+                  <option *ngFor="let tipo of tiposPropiedad" [value]="tipo">
+                    {{ tipo }}
+                  </option>
                 </select>
               </div>
               <button
@@ -102,8 +106,8 @@
               <thead>
                 <tr>
                   <th>Fecha Venta</th>
+                   <th>Tipo Inmueble</th>
                   <th>Pago Venta</th>
-                  <th>Propiedad</th>
                   <th>Empleado </th>
                   <th>Inquilino</th>
                   <th>Fiador</th>
@@ -112,17 +116,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let venta of ventas ">
+                <tr *ngFor="let venta of ventasFiltradas ">
                   <td>{{ venta.fecha_venta }}</td>
+                  <td>{{ venta.tipo_inmueble }}</td>
                   <td>{{ venta.pago_venta }}</td>
-                  <td>{{ venta.id_propiedad}}</td>
                   <td>{{ venta.nombre_empleado }}</td>
                   <td>{{ venta.nombre_cliente }}</td>
                   <td>{{ venta.nombre_fiador}}</td>
-                  <td>{{venta.nombre_notario}}</td>
+                  <td>{{venta.nombre_notario || "-"}}</td>
                   <td>{{ venta.id_contrato }}</td>
+                  
                 </tr>
-                <tr *ngIf="ventas.length === 0">
+                <tr *ngIf="ventasFiltradas.length === 0">
                   <td colspan="8" class="text-center">
                     No hay propiedades registradas
                   </td>

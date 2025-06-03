@@ -54,6 +54,7 @@ empleado_alquiler: any;
   nombre_notario: string;
   id_contrato: number;
   estado_alquiler: string;
+  especificaciones_direccion: string;
 }
 
 
@@ -77,6 +78,7 @@ export interface Venta{
   nombre_notario: string;
   id_contrato: number;
   estado_venta: string;
+  tipo_inmueble: string;
 }
 export interface Pago{
   id_pago: number;
@@ -115,5 +117,28 @@ export interface Admin {
   codigo_postal: string;
   nombre_usuario: string;
   contrasena: string;
+}
+
+export interface Inmueble {
+propietario: any;
+  id_inmueble: number;
+  propietario_inmueble: string;
+  tipo_inmueble: string;
+  cant_niveles?: number;
+  cant_habitaciones?: number;
+  cant_banos?: number;
+  cant_parqueos?: number;
+  cuarto_servicio?: number;
+  modulo_local?: string;
+  plaza_local?: string;
+  nivel_apt?: number;
+  uso_espacio?: string;
+  objetivo: string;
+  precio: number;
+  metros_ancho: string;
+  metros_largo: string;
+  direccion_inmueble: number;
+  estado_inmueble: string;
+  descripcion_detallada: string;
 }
 

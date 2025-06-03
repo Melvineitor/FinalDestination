@@ -130,16 +130,41 @@ namespace inmobilariaApi.Controllers
             }
         }
 
-
         [HttpGet("MostrarPropiedades")]
         public async Task<ActionResult> MostrarPropiedades()
         {
             var propiedades = new List<object>();
             try
             {
-                var result = await _context.Database.SqlQueryRaw<Propiedad>(
-                    "select * from propiedad"
-                ).ToListAsync();
+                var inmuebles = await _context.Inmueble.ToListAsync();
+                var personas = await _context.Persona.ToListAsync();
+                var direcciones = await _context.Direccion.ToListAsync();
+
+                var result = inmuebles.Select(i => new {
+                    i.id_inmueble,
+                    propietario = personas.FirstOrDefault(p => p.id_persona == i.propietario_inmueble) != null
+                        ? $"{personas.First(p => p.id_persona == i.propietario_inmueble).nombre_persona} {personas.First(p => p.id_persona == i.propietario_inmueble).apellido_persona}"
+                        : "Sin propietario",
+                    i.tipo_inmueble,
+                    i.cant_niveles,
+                    i.cant_habitaciones,
+                    i.cant_banos,
+                    i.cant_parqueos,
+                    i.cuarto_servicio,
+                    i.modulo_local,
+                    i.plaza_local,
+                    i.nivel_apt,
+                    i.uso_espacio,
+                    i.objetivo,
+                    i.precio,
+                    i.metros_ancho,
+                    i.metros_largo,
+                    direccion = direcciones.FirstOrDefault(d => d.id_direccion == i.direccion_inmueble) != null
+                        ? $"{direcciones.First(d => d.id_direccion == i.direccion_inmueble).ciudad_direccion} - {direcciones.First(d => d.id_direccion == i.direccion_inmueble).zona} - {direcciones.First(d => d.id_direccion == i.direccion_inmueble).calle}"
+                        : "Sin dirección",
+                    i.estado_inmueble,
+                    i.descripcion_detallada
+                }).ToList();
                 return Ok(result);
             }
             catch (Exception ex)

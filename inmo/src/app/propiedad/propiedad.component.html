@@ -57,16 +57,25 @@
                   type="text"
                   class="persona-search"
                   placeholder="Buscar..."
+                  [(ngModel)]="searchTerm"
+                  (input)="filtrarPorTipo()"
                 />
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox">
-                  <option value="">Filtrar Por</option>
-                  <option value="">Solar</option>
-                  <option value="">Apartamento</option>
-                  <option value="">Casa</option>
-                  <option value="">Local</option>
-                  <option value="">Edificio</option>
+                <select class="persona-combobox" [(ngModel)]="selectedTipo" (change)="filtrarPorTipo()">
+                  <option value="">Todos</option>
+                  <option value="Casa">Casa</option>
+                  <option value="Apartamento">Apartamento</option>
+                  <option value="Local">Local</option>
+                  <option value="Edificio">Edificio</option>
+                  <option value="Solar">Solar</option>
+                </select>
+              </div>
+              <div class="persona-combo-box">
+                <select class="persona-combobox" [(ngModel)]="selectedObjetivo" (change)="filtrarPorTipo()">
+                  <option value="">Todos</option>
+                  <option value="Venta">Venta</option>
+                  <option value="Alquiler">Alquiler</option>
                 </select>
               </div>
               <button
@@ -101,29 +110,49 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Titulo</th>
-                  <th>Ancho (Metros)</th>
-                  <th>Largo (Metros)</th>
-                  <th>Metros Cuadrados </th>
-                  <th>Precio de Venta</th>
-                  <th>Precio Alquiler</th>
-                  <th>Direccion</th>
-                  <th>Estado</th>
+                  <th *ngIf="mostrarColumna('id_inmueble')">ID</th>
+                  <th *ngIf="mostrarColumna('propietario')">Propietario</th>
+                  <th *ngIf="mostrarColumna('tipo_inmueble')">Tipo Inmueble</th>
+                  <th *ngIf="mostrarColumna('cant_niveles')">Cantidad Niveles</th>
+                  <th *ngIf="mostrarColumna('cant_habitaciones')">Cantidad de Habitaciones</th>
+                  <th *ngIf="mostrarColumna('cant_banos')">Cantidad Baños</th>
+                  <th *ngIf="mostrarColumna('cant_parqueos')">Cantidad Parqueos</th>
+                  <th *ngIf="mostrarColumna('cuarto_servicio')">Cuarto Servicio</th>
+                  <th *ngIf="mostrarColumna('modulo_local')">Modulo</th>
+                  <th *ngIf="mostrarColumna('plaza_local')">Plaza</th>
+                  <th *ngIf="mostrarColumna('nivel_apt')">Nivel Apto</th>
+                  <th *ngIf="mostrarColumna('uso_espacio')">Uso Espacio</th>
+                  <th *ngIf="mostrarColumna('objetivo')">Objetivo</th>
+                  <th *ngIf="mostrarColumna('precio')">Precio</th>
+                  <th *ngIf="mostrarColumna('metros_ancho')">Ancho</th>
+                  <th *ngIf="mostrarColumna('metros_largo')">Largo</th>
+                  <th *ngIf="mostrarColumna('direccion_inmueble')">Dirección</th>
+                  <th *ngIf="mostrarColumna('estado_inmueble')">Estado</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let propiedad of propiedades ">
-                  <td>{{ propiedad.titulo }}</td>
-                  <td>{{ propiedad.m_ancho }}</td>
-                  <td>{{ propiedad.m_largo}}</td>
-                  <td>{{ propiedad.metros_cuadrados }}</td>
-                  <td>{{ propiedad.precio_venta }}</td>
-                  <td>{{ propiedad.precio_alquiler}}</td>
-                  <td>{{propiedad.direccion_propiedad}}</td>
-                  <td>{{propiedad.estado_propiedad}}</td>
+                <tr *ngFor="let propiedad of propiedadesFiltradas">
+                  <td *ngIf="mostrarColumna('id_inmueble')">{{ propiedad.id_inmueble }}</td>
+                  <td *ngIf="mostrarColumna('propietario')">{{ propiedad.propietario || '-' }}</td>
+                  <td *ngIf="mostrarColumna('tipo_inmueble')">{{ propiedad.tipo_inmueble }}</td>
+                  <td *ngIf="mostrarColumna('cant_niveles')">{{ propiedad.cant_niveles || '-' }}</td>
+                  <td *ngIf="mostrarColumna('cant_habitaciones')">{{ propiedad.cant_habitaciones || '-' }}</td>
+                  <td *ngIf="mostrarColumna('cant_banos')">{{ propiedad.cant_banos || '-' }}</td>
+                  <td *ngIf="mostrarColumna('cant_parqueos')">{{ propiedad.cant_parqueos || '-' }}</td>
+                  <td *ngIf="mostrarColumna('cuarto_servicio')">{{ propiedad.cuarto_servicio || '-' }}</td>
+                  <td *ngIf="mostrarColumna('modulo_local')">{{ propiedad.modulo_local || '-' }}</td>
+                  <td *ngIf="mostrarColumna('plaza_local')">{{ propiedad.plaza_local || '-' }}</td>
+                  <td *ngIf="mostrarColumna('nivel_apt')">{{ propiedad.nivel_apt || '-' }}</td>
+                  <td *ngIf="mostrarColumna('uso_espacio')">{{ propiedad.uso_espacio || '-' }}</td>
+                  <td *ngIf="mostrarColumna('objetivo')">{{ propiedad.objetivo || '-' }}</td>
+                  <td *ngIf="mostrarColumna('precio')">{{ propiedad.precio || '-' }}</td>
+                  <td *ngIf="mostrarColumna('metros_ancho')">{{ propiedad.metros_ancho || '-' }}</td>
+                  <td *ngIf="mostrarColumna('metros_largo')">{{ propiedad.metros_largo || '-' }}</td>
+                  <td *ngIf="mostrarColumna('direccion_inmueble')">{{ propiedad.direccion_inmueble || '-' }}</td>
+                  <td *ngIf="mostrarColumna('estado_inmueble')">{{ propiedad.estado_inmueble || '-' }}</td>
                 </tr>
-                <tr *ngIf="propiedades.length === 0">
-                  <td colspan="8" class="text-center">
+                <tr *ngIf="propiedadesFiltradas.length === 0">
+                  <td colspan="18" class="text-center">
                     No hay propiedades registradas
                   </td>
                 </tr>

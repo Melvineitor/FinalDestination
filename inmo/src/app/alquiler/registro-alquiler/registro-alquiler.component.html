@@ -88,13 +88,13 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="empleado">Empleado</label>
+          <label for="empleado">Agente</label>
           <select
             id="empleado"
             formControlName="empleado_alquiler"
             class="form-control"
           >
-            <option value="">Seleccione un empleado</option>
+            <option value="">Seleccione un agente</option>
             <option *ngFor="let e of empleados" [value]="e.id_empleado">
               {{ e.NombreCompleto }}
             </option>

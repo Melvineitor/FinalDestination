@@ -46,7 +46,7 @@ propiedades: any[] = [];
       this.registroForm.markAllAsTouched();
       return;
     }
-
+    console.log('Datos enviados al backend:', this.registroForm.value);
     this.inmoService.crearAlquiler(this.registroForm.value).subscribe({
       next: (res) => {
         console.log('Alquiler guardado con éxito:', res);

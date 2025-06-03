@@ -23,7 +23,9 @@ namespace api.Services
         public DbSet<Pago> Pago { get; set; } = null!;
         public DbSet<Fiador_Solidario> Fiador_Solidario { get; set; }
         public DbSet<Notario> Notarios { get; set; }
+         public DbSet<Inmueble> Inmueble { get; set; } = null!;
         public DbSet<Direccion> Direccion { get; set; } = null!;
+       
 
 
 

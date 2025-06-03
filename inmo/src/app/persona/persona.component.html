@@ -57,6 +57,8 @@
                   type="text"
                   class="persona-search"
                   placeholder="Buscar persona..."
+                  [(ngModel)]="searchTerm"
+                  (input)="filtrarPersonas()"
                 />
               </div>
               <div class="persona-combo-box">
@@ -97,6 +99,7 @@
             <table class="table table-striped">
               <thead>
                 <tr>
+                   <th>ID</th>
                   <th>Nombre</th>
                   <th>Apellido</th>
                   <th>Rol</th>
@@ -111,6 +114,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let persona of filteredPersonas">
+                  <td>{{ persona.id_persona }}</td>
                   <td>{{ persona.nombre_persona }}</td>
                   <td>{{ persona.apellido_persona }}</td>
                   <td>{{ persona.rol_persona }}</td>

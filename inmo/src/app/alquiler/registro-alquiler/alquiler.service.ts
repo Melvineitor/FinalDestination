@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 export interface AlquilerCrear {
   empleado_alquiler: any;
   id_alquiler: number;
@@ -21,26 +22,26 @@ export interface AlquilerCrear {
 })
 export class AlquilerService {
 
-  private apiUrl = 'http://localhost:5095/api/alquiler'; 
+
 
   constructor(private http: HttpClient) {}
 
   getEmpleados(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/empleados`);
+    return this.http.get<any[]>(`${environment.apiURL}/alquiler/empleados`);
   }
 
   getClientes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/inquilinos`);
+    return this.http.get<any[]>(`${environment.apiURL}/alquiler/inquilinos`);
   }
 
   getFiadores(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/fiadores`);
+    return this.http.get<any[]>(`${environment.apiURL}/alquiler/fiadores`);
   }
 
   getNotarios(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/notarios`);
+    return this.http.get<any[]>(`${environment.apiURL}/alquiler/notarios`);
   }
   getPropiedades(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/propiedades`);
+    return this.http.get<any[]>(`${environment.apiURL}/alquiler/inmuebles`);
   }
 }
