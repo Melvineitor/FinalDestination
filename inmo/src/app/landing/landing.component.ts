@@ -18,24 +18,30 @@ export class LandingComponent {
   errorMessage: string | undefined;
   adminData: any[] | undefined;
 
-  constructor( private router: Router, private adminService: AdminService) {}
-  login() {
+  constructor(private router: Router, private adminService: AdminService) {}
 
+  login() {
     const credentials = {
       nombre_usuario: this.nombre_usuario,
       contrasena: this.contrasena
     };
-    this.adminService.login(this.nombre_usuario, this.contrasena).subscribe(
-      (admin) => {
-        localStorage.setItem('admin', JSON.stringify(admin));
-        this.router.navigate(['/dashboard']);  // ⬅️ redirección
-      },
-      (error) => {
-        console.error('Login fallido:', error);
-        alert('Credenciales incorrectas');
-      }
-    );
-  }
-  
 
+    this.adminService.login(this.nombre_usuario, this.contrasena).subscribe({
+      next: (response) => {
+        if (response.body) {
+          localStorage.setItem('admin', JSON.stringify(response.body));
+          this.router.navigate(['/dashboard']);
+        }
+      },
+      error: (error) => {
+        console.error('Login error:', error);
+        this.error = 'Error de inicio de sesión. Por favor, intente nuevamente.';
+        if (error.status === 0) {
+          this.error = 'Error de conexión con el servidor.';
+        } else if (error.status === 401) {
+          this.error = 'Credenciales incorrectas.';
+        }
+      }
+    });
+  }
 }

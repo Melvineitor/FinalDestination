@@ -19,21 +19,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 // CORS configuration
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder
-            .WithOrigins(
-                "https://frontend-production-c40b.up.railway.app",
-                "https://backend-production-7cbc.up.railway.app"
-            )
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()
-            .WithExposedHeaders("Content-Disposition");
-    });
-});
+builder.Services.AddCors();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -48,27 +34,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// CORS middleware
-app.Use(async (context, next) =>
-{
-    var origin = context.Request.Headers["Origin"].ToString();
-    if (origin == "https://frontend-production-c40b.up.railway.app")
-    {
-        context.Response.Headers["Access-Control-Allow-Origin"] = origin;
-        context.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
-        context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With";
-        context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
-        
-        if (context.Request.Method == "OPTIONS")
-        {
-            context.Response.StatusCode = 204;
-            return;
-        }
-    }
-    await next();
-});
-
-app.UseCors();
+// CORS middleware - must be first in pipeline
+app.UseCors(options => options
+    .SetIsOriginAllowed(origin => true)
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

@@ -12,10 +12,19 @@ export class AdminService {
 constructor(private http: HttpClient) { }
   
 login(nombre_usuario: string, contrasena: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${environment.apiURL}/auth/login`, {
-      nombre_usuario: nombre_usuario.trim(), contrasena: contrasena.trim()},
-      { headers });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    return this.http.post<any>(`${environment.apiURL}/auth/login`, 
+      { nombre_usuario: nombre_usuario.trim(), contrasena: contrasena.trim() },
+      { 
+        headers: headers,
+        withCredentials: true,
+        observe: 'response'
+      }
+    );
   }
 
 setAdmin(data: any) {
@@ -30,7 +39,19 @@ setAdmin(data: any) {
     this.adminData = null;
   }
   updateAdmin(admin: any) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  return this.http.patch(`${environment.apiURL}/auth/update`, admin, {headers}); // ajusta la URL a tu API
-}
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+
+    return this.http.patch(
+      `${environment.apiURL}/auth/update`, 
+      admin,
+      { 
+        headers: headers,
+        withCredentials: true,
+        observe: 'response'
+      }
+    );
+  }
 }
