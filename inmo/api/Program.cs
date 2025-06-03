@@ -21,15 +21,17 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // CORS configuration
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddDefaultPolicy(builder =>
     {
-        policy
-            .WithOrigins("https://frontend-production-c40b.up.railway.app")
+        builder
+            .WithOrigins(
+                "https://frontend-production-c40b.up.railway.app",
+                "https://backend-production-7cbc.up.railway.app"
+            )
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()
-            .WithExposedHeaders("Content-Disposition", "Access-Control-Allow-Origin")
-            .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
+            .WithExposedHeaders("Content-Disposition");
     });
 });
 
@@ -46,24 +48,27 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// CORS middleware must be called before any other middleware that might return a response
-app.UseCors("AllowAll");
-
+// CORS middleware
 app.Use(async (context, next) =>
 {
-    context.Response.Headers["Access-Control-Allow-Origin"] = "https://frontend-production-c40b.up.railway.app";
-    context.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
-    context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With";
-    context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
-
-    if (context.Request.Method == "OPTIONS")
+    var origin = context.Request.Headers["Origin"].ToString();
+    if (origin == "https://frontend-production-c40b.up.railway.app")
     {
-        context.Response.StatusCode = 200;
-        return;
+        context.Response.Headers["Access-Control-Allow-Origin"] = origin;
+        context.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
+        context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With";
+        context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+        
+        if (context.Request.Method == "OPTIONS")
+        {
+            context.Response.StatusCode = 204;
+            return;
+        }
     }
-
     await next();
 });
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
