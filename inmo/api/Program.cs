@@ -18,24 +18,19 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
-var allowedOrigins = builder.Configuration.GetValue<string>("allowedOrigin")?.Split(",") ?? 
-    new[] { "https://frontend-production-c40b.up.railway.app" };
-
+// CORS configuration
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder
-                .SetIsOriginAllowed(origin => 
-                {
-                    var host = new Uri(origin).Host;
-                    return host.EndsWith("railway.app", StringComparison.OrdinalIgnoreCase);
-                })
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
-        });
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .WithOrigins("https://frontend-production-c40b.up.railway.app")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithExposedHeaders("Content-Disposition", "Access-Control-Allow-Origin")
+            .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
+    });
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -51,8 +46,24 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// Important: UseCors must be called before UseAuthorization and other middleware
+// CORS middleware must be called before any other middleware that might return a response
 app.UseCors("AllowAll");
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["Access-Control-Allow-Origin"] = "https://frontend-production-c40b.up.railway.app";
+    context.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
+    context.Response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With";
+    context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.StatusCode = 200;
+        return;
+    }
+
+    await next();
+});
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
