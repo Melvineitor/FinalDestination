@@ -5,7 +5,7 @@ FROM node:20 AS node-build
 WORKDIR /app/angular
 COPY inmo/package*.json ./
 RUN npm install
-COPY inmo/ ./
+COPY inmo/. ./
 RUN npm run build -- --output-path=dist
 
 # Etapa 2: Build .NET
