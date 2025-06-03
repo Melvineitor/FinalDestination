@@ -49,22 +49,25 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 var app = builder.Build();
 
-
 // Configure the HTTP request pipeline.
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log('CORS bloqueado para:', origin);
-      callback(new Error('No permitido por CORS'));
-    }
-  },
-  credentials: true
-}));
-
-app.use(express.json());
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    // Add more permissive CORS policy for development
+    app.UseCors(builder =>
+    {
+        builder
+            .SetIsOriginAllowed(_ => true)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+}
+else
+{
+    // Use the strict CORS policy in production
+    app.UseCors();
+}
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
