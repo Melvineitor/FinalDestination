@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install dependencies first (better caching)
 COPY inmo/package*.json ./
-RUN npm ci --quiet --no-audit   
+RUN npm ci --quiet --no-audit
 
 # Copy source and build
 COPY inmo/angular.json tsconfig*.json ./
@@ -19,7 +19,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /source
 
 # Copy and restore project file first (better caching)
-COPY inmo/api/*.csproj ./
+COPY inmo/api/api.csproj ./
 RUN dotnet restore
 
 # Copy everything else and publish
