@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-
-
 using api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,21 +18,25 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
-
-var allowedOrigins = builder.Configuration.GetValue<string>("allowedOrigin")!.Split(",");   
+var allowedOrigins = builder.Configuration.GetValue<string>("allowedOrigin")?.Split(",") ?? 
+    new[] { "https://frontend-production-c40b.up.railway.app" };
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         builder =>
         {
-            builder.WithOrigins(allowedOrigins)
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
+            builder
+                .SetIsOriginAllowed(origin => 
+                {
+                    var host = new Uri(origin).Host;
+                    return host.EndsWith("railway.app", StringComparison.OrdinalIgnoreCase);
+                })
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
-
-
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -49,9 +51,10 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
+// Important: UseCors must be called before UseAuthorization and other middleware
 app.UseCors("AllowAll");
+
+app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/", () => "API is running");
