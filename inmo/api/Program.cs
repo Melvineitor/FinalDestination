@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -55,6 +56,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/", () => "API is running");
 
+app.MapHealthChecks("/health");
 
 app.Run();
 
