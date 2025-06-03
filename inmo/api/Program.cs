@@ -19,27 +19,19 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 // CORS configuration
-var allowedOrigins = new[]
-{
-    "https://frontend-production-c40b.up.railway.app",
-    "http://localhost:4200",
-    "http://localhost:4000",
-    "https://localhost:4200",
-    "https://localhost:4000"
-};
-
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
-    {
-        builder
-            .WithOrigins(allowedOrigins)
-            .AllowCredentials()
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .WithExposedHeaders("Authorization", "Content-Disposition")
-            .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
-    });
+    options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder
+                .WithOrigins(
+                    "https://frontend-production-c40b.up.railway.app",
+                    "http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        });
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -50,23 +42,12 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+// IMPORTANT: CORS must be called early in the pipeline, before Authorization and endpoints
+app.UseCors("AllowSpecificOrigins");
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    // Add more permissive CORS policy for development
-    app.UseCors(builder =>
-    {
-        builder
-            .SetIsOriginAllowed(_ => true)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
-    });
-}
-else
-{
-    // Use the strict CORS policy in production
-    app.UseCors();
 }
 
 app.UseHttpsRedirection();
