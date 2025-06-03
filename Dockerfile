@@ -10,22 +10,23 @@ RUN --mount=type=cache,target=/root/.npm \
     npm ci --quiet --no-audit
 
 # Copy source and build
-COPY inmo/angular.json tsconfig*.json ./
+COPY inmo/angular.json ./
+COPY inmo/tsconfig*.json ./
 COPY inmo/src ./src
 COPY inmo/public ./public
 RUN npm run build -- --configuration production
 
 # Stage 2: Build .NET
 FROM mcr.microsoft.com/dotnet/sdk:8.0.203-alpine3.19 AS build
-WORKDIR /source
+WORKDIR /app
 
 # Copy and restore project file first (better caching)
-COPY . ./api
+COPY inmo/api/api.csproj ./
 RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore ./api/inmo/api/api.csproj
+    dotnet restore
 
-# Build the application
-WORKDIR /source/api/inmo/api
+# Copy everything else and build
+COPY inmo/api/ ./
 RUN dotnet publish -c Release -o /app/publish --no-restore /p:UseAppHost=false
 
 # Stage 3: Production
