@@ -1,0 +1,15 @@
+**/node_modules
+**/npm-debug.log
+**/obj
+**/bin
+**/.git
+**/.vs
+**/.vscode
+**/dist
+**/.angular/cache
+**/*.pdb
+**/*.dll
+**/Dockerfile*
+**/.dockerignore
+**/.env
+**/.DS_Store 
