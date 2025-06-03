@@ -19,18 +19,24 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 // CORS configuration
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigins",
-        builder =>
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
         {
-            builder
-                .WithOrigins(
-                    "https://frontend-production-c40b.up.railway.app",
-                    "http://localhost:4200")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
+            policy.WithOrigins("https://frontend-production-c40b.up.railway.app",
+                             "http://localhost:4200")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials()
+                  .WithExposedHeaders("Authorization")
+                  .SetIsOriginAllowed(origin =>
+                  {
+                      var host = new Uri(origin).Host;
+                      return host == "frontend-production-c40b.up.railway.app" ||
+                             host == "localhost";
+                  });
         });
 });
 
@@ -43,7 +49,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 // IMPORTANT: CORS must be called early in the pipeline, before Authorization and endpoints
-app.UseCors("AllowSpecificOrigins");
+app.UseCors(MyAllowSpecificOrigins);
 
 if (app.Environment.IsDevelopment())
 {
