@@ -18,15 +18,21 @@ RUN npm run build -- --configuration production
 
 # Stage 2: Build .NET
 FROM mcr.microsoft.com/dotnet/sdk:9.0-preview AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copy and restore project file first (better caching)
-COPY ["inmo/api/api.csproj", "./"]
-RUN dotnet restore "./api.csproj"
+# Copy solution and project files
+COPY ["inmobilariaProyecto.sln", "./"]
+COPY ["inmo/api/api.csproj", "inmo/api/"]
 
-# Copy everything else and build
-COPY inmo/api/. ./
-RUN dotnet publish "api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+# Restore NuGet packages
+RUN dotnet restore "inmobilariaProyecto.sln"
+
+# Copy the rest of the source code
+COPY . .
+
+# Build and publish
+RUN dotnet build "inmobilariaProyecto.sln" -c Release --no-restore
+RUN dotnet publish "inmo/api/api.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
 
 # Stage 3: Production
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview AS final
