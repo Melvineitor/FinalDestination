@@ -26,4 +26,4 @@ ENV PORT=8080
 EXPOSE 8080
 
 # Start the application
-ENTRYPOINT ["dotnet", "api.dll"]
+ENTRYPOINT ["dotnet", "api.csproj"]
