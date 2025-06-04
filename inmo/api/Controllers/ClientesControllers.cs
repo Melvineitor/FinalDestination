@@ -133,14 +133,23 @@ namespace inmobilariaApi.Controllers
         [HttpGet("MostrarPropiedades")]
         public async Task<ActionResult> MostrarPropiedades()
         {
-            var propiedades = new List<Inmueble>();
+            var propiedades = new List<object>();
             try
             {
-                var inmuebles = await _context.Inmueble.ToListAsync();
+                // Intentar mapeo normal con SqlQueryRaw
+                var result = await _context.Database.SqlQueryRaw<Inmueble>(
+                    "SELECT id_inmueble, propietario_inmueble, tipo_inmueble, cant_niveles, cant_habitaciones, " +
+                    "cant_banos, cant_parqueos, cuarto_servicio, modulo_local, plaza_local, nivel_apt, " +
+                    "uso_espacio, objetivo, precio, metros_ancho, metros_largo, direccion_inmueble, " +
+                    "estado_inmueble, descripcion_detallada FROM inmueble"
+                ).ToListAsync();
+
+                // Obtener datos relacionados
                 var personas = await _context.Persona.ToListAsync();
                 var direcciones = await _context.Direccion.ToListAsync();
 
-                var result = inmuebles.Select(i => new {
+                // Mapear el resultado con los datos relacionados
+                var mappedResult = result.Select(i => new {
                     i.id_inmueble,
                     propietario = personas.FirstOrDefault(p => p.id_persona == i.propietario_inmueble) != null
                         ? $"{personas.First(p => p.id_persona == i.propietario_inmueble).nombre_persona} {personas.First(p => p.id_persona == i.propietario_inmueble).apellido_persona}"
@@ -165,11 +174,36 @@ namespace inmobilariaApi.Controllers
                     i.estado_inmueble,
                     i.descripcion_detallada
                 }).ToList();
-                return Ok(result);
+
+                return Ok(mappedResult);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al mapear propiedad. Se intentará devolver todos los campos con diagnóstico de errores por registro.");
+                // Consulta dinámica de todos los campos
+                using (var conn = _context.Database.GetDbConnection())
+                {
+                    await conn.OpenAsync();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT * FROM inmueble";
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            var fieldCount = reader.FieldCount;
+                            while (await reader.ReadAsync())
+                            {
+                                var registro = new Dictionary<string, object>();
+                                for (int i = 0; i < fieldCount; i++)
+                                {
+                                    var columnName = reader.GetName(i);
+                                    var value = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                                    registro[columnName] = value;
+                                }
+                                propiedades.Add(registro);
+                            }
+                        }
+                    }
+                }
                 return Ok(propiedades);
             }
         }
