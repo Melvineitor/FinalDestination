@@ -40,10 +40,13 @@ namespace api.Services
 
             try
             {
+                // Set default schema for all tables
+                modelBuilder.HasDefaultSchema("railway");
+
                 // Configuración de la tabla Admin
                 modelBuilder.Entity<Admin>(entity =>
                 {
-                    entity.ToTable("admin");
+                    entity.ToTable("admin", "railway");
                     entity.HasKey(e => e.id_admin);
                     entity.Property(e => e.nombre_usuario).IsRequired();
                     entity.Property(e => e.contrasena).IsRequired();
@@ -52,9 +55,25 @@ namespace api.Services
                 // Configuración de la tabla Inmueble
                 modelBuilder.Entity<Inmueble>(entity =>
                 {
-                    entity.ToTable("Inmueble");
+                    entity.ToTable("Inmueble", "railway");
                     entity.HasKey(e => e.id_inmueble);
                 });
+
+                // Configure other entities to use the railway schema
+                modelBuilder.Entity<Alquiler>().ToTable("alquiler", "railway");
+                modelBuilder.Entity<Apartamento>().ToTable("apartamento", "railway");
+                modelBuilder.Entity<Casa>().ToTable("casa", "railway");
+                modelBuilder.Entity<Cita>().ToTable("cita", "railway");
+                modelBuilder.Entity<Inquilino>().ToTable("inquilino", "railway");
+                modelBuilder.Entity<Local>().ToTable("local", "railway");
+                modelBuilder.Entity<Mantenimiento>().ToTable("mantenimiento", "railway");
+                modelBuilder.Entity<Persona>().ToTable("persona", "railway");
+                modelBuilder.Entity<Empleado>().ToTable("empleado", "railway");
+                modelBuilder.Entity<Propiedad>().ToTable("propiedad", "railway");
+                modelBuilder.Entity<Pago>().ToTable("pago", "railway");
+                modelBuilder.Entity<Fiador_Solidario>().ToTable("fiador_solidario", "railway");
+                modelBuilder.Entity<Notario>().ToTable("notario", "railway");
+                modelBuilder.Entity<Direccion>().ToTable("direccion", "railway");
 
                 _logger.LogInformation("Model configuration completed successfully");
             }

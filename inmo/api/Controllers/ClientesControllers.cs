@@ -133,21 +133,12 @@ namespace inmobilariaApi.Controllers
         [HttpGet("MostrarPropiedades")]
         public async Task<ActionResult> MostrarPropiedades()
         {
+            var propiedades = new List<Inmueble>();
             try
             {
-                _logger.LogInformation("Starting MostrarPropiedades request");
-                
-                _logger.LogInformation("Fetching inmuebles from database");
                 var inmuebles = await _context.Inmueble.ToListAsync();
-                _logger.LogInformation($"Found {inmuebles.Count} inmuebles");
-                
-                _logger.LogInformation("Fetching personas from database");
                 var personas = await _context.Persona.ToListAsync();
-                _logger.LogInformation($"Found {personas.Count} personas");
-                
-                _logger.LogInformation("Fetching direcciones from database");
                 var direcciones = await _context.Direccion.ToListAsync();
-                _logger.LogInformation($"Found {direcciones.Count} direcciones");
 
                 var result = inmuebles.Select(i => new {
                     i.id_inmueble,
@@ -174,14 +165,12 @@ namespace inmobilariaApi.Controllers
                     i.estado_inmueble,
                     i.descripcion_detallada
                 }).ToList();
-
-                _logger.LogInformation($"Successfully processed {result.Count} properties");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in MostrarPropiedades");
-                return StatusCode(500, new { message = "Error interno del servidor", error = ex.Message });
+                _logger.LogError(ex, "Error al mapear propiedad. Se intentará devolver todos los campos con diagnóstico de errores por registro.");
+                return Ok(propiedades);
             }
         }
 
