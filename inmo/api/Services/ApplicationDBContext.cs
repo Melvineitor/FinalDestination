@@ -33,7 +33,7 @@ namespace api.Services
         public DbSet<Notario> Notarios { get; set; } = null!;
         public DbSet<Inmueble> Inmueble { get; set; } = null!;
         public DbSet<Direccion> Direccion { get; set; } = null!;
-
+        public DbSet<Tarjeta> Tarjeta { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -74,7 +74,7 @@ namespace api.Services
                 modelBuilder.Entity<Fiador_Solidario>().ToTable("fiador_solidario", "railway");
                 modelBuilder.Entity<Notario>().ToTable("notario", "railway");
                 modelBuilder.Entity<Direccion>().ToTable("direccion", "railway");
-
+                modelBuilder.Entity<Tarjeta>().ToTable("tarjeta", "railway");
                 _logger.LogInformation("Model configuration completed successfully");
             }
             catch (Exception ex)

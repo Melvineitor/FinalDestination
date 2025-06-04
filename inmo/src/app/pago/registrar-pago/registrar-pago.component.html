@@ -84,16 +84,77 @@
             class="input"
           />
         </div>
+
+        <!-- Sección de Tarjeta -->
+        <div class="form-section-title">Datos de la Tarjeta</div>
         <div class="form-group">
-          <label for="compania_tarjeta">ID Tarjeta</label>
+          <label for="num_tarjeta">Número de Tarjeta</label>
           <input
-            id="compania_tarjeta"
-            formControlName="compania_tarjeta"
-            type="number"
-            placeholder="Compañía de la tarjeta"
+            id="num_tarjeta"
+            formControlName="num_tarjeta"
+            type="text"
+            maxlength="16"
+            placeholder="Número de tarjeta (16 dígitos)"
             class="input"
           />
         </div>
+        <div class="form-group">
+          <label for="tipo_tarjeta">Tipo de Tarjeta</label>
+          <select
+            id="tipo_tarjeta"
+            formControlName="tipo_tarjeta"
+            class="input"
+          >
+            <option value="" disabled selected>Seleccione tipo de tarjeta</option>
+            <option value="credito">Crédito</option>
+            <option value="debito">Débito</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="titular_tarjeta">Titular de la Tarjeta</label>
+          <input
+            id="titular_tarjeta"
+            formControlName="titular_tarjeta"
+            type="text"
+            placeholder="Nombre del titular"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="fecha_venc">Fecha de Vencimiento</label>
+          <input
+            id="fecha_venc"
+            formControlName="fecha_venc"
+            type="date"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input
+            id="cvv"
+            formControlName="cvv"
+            type="password"
+            maxlength="3"
+            placeholder="CVV"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="compania_tarjeta">Compañía de la Tarjeta</label>
+          <select
+            id="compania_tarjeta"
+            formControlName="compania_tarjeta"
+            class="input"
+          >
+            <option value="" disabled selected>Seleccione compañía</option>
+            <option value="Visa">Visa</option>
+            <option value="Mastercard">Mastercard</option>
+            <option value="American Express">American Express</option>
+            <option value="Discover">Discover</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label for="monto_pagado">Monto Pagado</label>
           <input
@@ -106,13 +167,17 @@
         </div>
         <div class="form-group">
           <label for="estado_pago">Estado del Pago</label>
-          <input
+          <select
             id="estado_pago"
             formControlName="estado_pago"
-            type="text"
-            placeholder="Estado del pago"
             class="input"
-          />
+          >
+            <option value="" disabled selected>Seleccione estado</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Completo">Completo</option>
+            <option value="Fallido">Fallido</option>
+            <option value="En proceso">En proceso</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="nombre_agente">ID del Agente</label>

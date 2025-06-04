@@ -68,4 +68,8 @@ export class InmoService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${environment.apiURL}/forms/CrearDireccion`, data, { headers });
   }
+
+  crearTarjeta(data: any): Observable<any> {
+    return this.http.post(`${environment.apiURL}/forms/CrearTarjeta`, data);
+  }
 }

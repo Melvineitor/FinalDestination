@@ -82,5 +82,18 @@ namespace inmo.api.Controllers
             _context.SaveChanges();
             return Ok(nuevaDireccion);
         }
+        [HttpPost("CrearTarjeta")]
+        public IActionResult CrearTarjeta([FromBody] Tarjeta nuevaTarjeta)
+        {
+            if (nuevaTarjeta == null)
+            {
+                return BadRequest("Datos incompletos");
+            }
+
+            _context.Tarjeta.Add(nuevaTarjeta);
+            _context.SaveChanges();
+
+            return Ok(nuevaTarjeta);
+        }
     }
 }
