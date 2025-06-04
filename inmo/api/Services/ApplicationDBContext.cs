@@ -49,6 +49,13 @@ namespace api.Services
                     entity.Property(e => e.contrasena).IsRequired();
                 });
 
+                // Configuración de la tabla Inmueble
+                modelBuilder.Entity<Inmueble>(entity =>
+                {
+                    entity.ToTable("Inmueble");
+                    entity.HasKey(e => e.id_inmueble);
+                });
+
                 _logger.LogInformation("Model configuration completed successfully");
             }
             catch (Exception ex)
