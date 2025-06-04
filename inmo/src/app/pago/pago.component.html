@@ -116,7 +116,6 @@
                   <th>Tarjeta de Pago</th>
                   <th>Monto Pagado</th>
                   <th>Estado</th>
-                  <th>Nombre del agente</th>
                   <th>Nombre de la persona</th>
                 </tr>
               </thead>
@@ -131,7 +130,6 @@
                   <td>{{ pago.compania_tarjeta || "Pago en Efectivo" }}</td>
                   <td>{{ pago.monto_pagado }}</td>
                   <td>{{ pago.estado_pago }}</td>
-                  <td>{{ pago.nombre_agente || "Sin agente" }}</td>
                   <td>{{ pago.persona_pago || "Sin persona" }}</td>
                 </tr>
                 <tr *ngIf="pagosFiltrados.length === 0">
