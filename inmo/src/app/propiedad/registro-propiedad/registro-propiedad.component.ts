@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { InmoService } from '../../inmo.service';
@@ -12,35 +12,45 @@ import { Persona } from '../../inmobilaria.models';
   templateUrl: './registro-propiedad.component.html',
   styleUrl: './registro-propiedad.component.css'
 })
-export class RegistroPropiedadComponent {
+export class RegistroPropiedadComponent implements OnInit {
   registroForm: FormGroup;
   propietarios: Persona[] = [];
+  selectedTipoInmueble: string = '';
+  menuItems = [
+    { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
+    { name: 'Persona', icon: '👤', active: false, link: '/persona' },
+    { name: 'Propiedad', icon: '🏢', active: true, link: '/propiedad' },
+    { name: 'Alquiler', icon: '🔑', active: false, link: '/alquiler' },
+    { name: 'Ventas', icon: '💰', active: false, link: '/venta' },
+    { name: 'Pago', icon: '💳', active: false, link: '/pago' },
+    { name: 'Cita', icon: '📅', active: false, link: '/cita' },
+    { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
+  ];
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
     this.registroForm = this.fb.group({
       propietario_inmueble: ['', Validators.required],
       tipo_inmueble: ['', Validators.required],
-      cant_niveles: [''],
-      cant_habitaciones: [''],
-      cant_banos: [''],
-      cant_parqueos: [''],
-      cuarto_servicio: [''],
-      modulo_local: [''],
-      plaza_local: [''],
-      nivel_apt: [''],
-      uso_espacio: [''],
+      cant_niveles: [null],
+      cant_habitaciones: [null],
+      cant_banos: [null],
+      cant_parqueos: [null],
+      cuarto_servicio: [null],
+      modulo_local: [null],
+      plaza_local: [null],
+      nivel_apt: [null],
+      uso_espacio: [null],
       objetivo: ['', Validators.required],
-      precio: [{ value: '', disabled: true }],
-      metros_ancho: ['', Validators.required],
-      metros_largo: ['', Validators.required],
-      metros_cuadrados: [{ value: '', disabled: true }],
+      precio: [null],
+      metros_ancho: [null, Validators.required],
+      metros_largo: [null, Validators.required],
       estado_inmueble: ['', Validators.required],
-      descripcion_detallada: ['', Validators.required],
+      descripcion_detallada: [''],
       ciudad_direccion: ['', Validators.required],
       zona: ['', Validators.required],
       calle: ['', Validators.required],
       especificaciones_direccion: [''],
-      provincia: ['', Validators.required],
+      provincia: ['', Validators.required]
     });
 
     // Calcula el precio automáticamente cuando cambian ancho o largo
@@ -52,13 +62,47 @@ export class RegistroPropiedadComponent {
     });
   }
 
+  ngOnInit() {
+    this.inmoService.getPersonas().subscribe(
+      (data: any) => {
+        this.propietarios = data;
+      },
+      (error: Error) => {
+        console.error('Error al cargar propietarios:', error);
+      }
+    );
+  }
+
+  onTipoInmuebleChange(event: any) {
+    this.selectedTipoInmueble = event.target.value;
+    this.resetCamposEspecificos();
+  }
+
+  resetCamposEspecificos() {
+    // Resetear todos los campos específicos
+    this.registroForm.patchValue({
+      cant_niveles: null,
+      cant_habitaciones: null,
+      cant_banos: null,
+      cant_parqueos: null,
+      cuarto_servicio: null,
+      modulo_local: null,
+      plaza_local: null,
+      nivel_apt: null,
+      uso_espacio: null
+    });
+  }
+
+  mostrarCampos(tipo: string): boolean {
+    return this.selectedTipoInmueble === tipo;
+  }
+
   calcularPrecio(): void {
     const ancho = parseFloat(this.registroForm.get('metros_ancho')?.value) || 0;
     const largo = parseFloat(this.registroForm.get('metros_largo')?.value) || 0;
     const precioMetro = 650;
     const metrosCuadrados = ancho * largo;
     const precio = metrosCuadrados * precioMetro;
-    this.registroForm.get('metros_cuadrados')?.setValue(metrosCuadrados, { emitEvent: false });
     this.registroForm.get('precio')?.setValue(precio, { emitEvent: false });
   }
 
@@ -104,24 +148,14 @@ export class RegistroPropiedadComponent {
     }
   }
 
-  menuItems = [
-    { name: 'Inicio', icon: '🏠', active: false, link: '/' },
-    { name: 'Persona', icon: '👤', active: true, link: '/persona' },
-    { name: 'Propiedad', icon: '🏢', active: false, link: '/propiedad' },
-    { name: 'Alquiler', icon: '🔑', active: false, link: '/alquiler' },
-    { name: 'Ventas', icon: '💰', active: false, link: '/venta' },
-    { name: 'Pago', icon: '💳', active: false, link: '/pago' },
-    { name: 'Cita', icon: '📅', active: true, link: '/cita' },
-    { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
-  ];
+  selectMenuItem(item: any): void {
+    this.menuItems.forEach(menuItem => menuItem.active = false);
+    item.active = true;
+  }
 
   isSidebarCollapsed = false;
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
-  }
-  selectMenuItem(selectedItem: any): void {
-    this.menuItems.forEach(item => item.active = false);
-    selectedItem.active = true;
   }
 }
