@@ -12,6 +12,7 @@ namespace inmobilariaApi.Models
         public int id_tarjeta { get; set; }
 
         public string num_tarjeta { get; set; } = "";
+        
         public string tipo_tarjeta { get; set; } = "";
         public DateOnly fecha_venc { get; set; }
         public string titular_tarjeta { get; set; } = "";

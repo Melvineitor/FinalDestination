@@ -1,9 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { InmoService } from '../../inmo.service';
 import { Router } from '@angular/router';
+
+interface Tarjeta {
+  id_tarjeta: number;
+  num_tarjeta: string;
+  tipo_tarjeta: string;
+  titular_tarjeta: string;
+  fecha_venc: string;
+  cvv: string;
+  compania_tarjeta: string;
+}
 
 @Component({
   selector: 'app-registrar-pago',
@@ -12,8 +22,13 @@ import { Router } from '@angular/router';
   styleUrl: './registrar-pago.component.css'
 })
 export class RegistrarPagoComponent implements OnInit {
-
   registroForm: FormGroup;
+  searchTarjetaControl = new FormControl('');
+  mostrarCamposTarjeta = false;
+  mostrarFormularioNuevaTarjeta = false;
+  tarjetasEncontradas: Tarjeta[] = [];
+  tarjetaSeleccionada: Tarjeta | null = null;
+
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
     { name: 'Persona', icon: '👤', active: false, link: '/persona' },
@@ -34,12 +49,12 @@ export class RegistrarPagoComponent implements OnInit {
       tipo_contrato: ['', Validators.required],
       descripcion_penalidad: [null],
       // Campos de tarjeta
-      num_tarjeta: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
-      tipo_tarjeta: ['', Validators.required],
-      titular_tarjeta: ['', Validators.required],
-      fecha_venc: ['', Validators.required],
-      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
-      compania_tarjeta: ['', Validators.required],
+      num_tarjeta: [''],
+      tipo_tarjeta: [''],
+      titular_tarjeta: [''],
+      fecha_venc: [''],
+      cvv: [''],
+      compania_tarjeta: [''],
       monto_pagado: ['', [Validators.required, Validators.min(0)]],
       estado_pago: ['', Validators.required],
       nombre_agente: ['', Validators.required]
@@ -47,7 +62,83 @@ export class RegistrarPagoComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Cualquier inicialización necesaria
+    // Inicialización si es necesaria
+  }
+
+  onMetodoPagoChange(event: any) {
+    const metodoPago = event.target.value;
+    this.mostrarCamposTarjeta = metodoPago === 'Tarjeta';
+    
+    if (!this.mostrarCamposTarjeta) {
+      // Si no es tarjeta, resetear los campos de tarjeta
+      this.registroForm.patchValue({
+        num_tarjeta: '',
+        tipo_tarjeta: '',
+        titular_tarjeta: '',
+        fecha_venc: '',
+        cvv: '',
+        compania_tarjeta: ''
+      });
+      this.tarjetaSeleccionada = null;
+      this.tarjetasEncontradas = [];
+      this.mostrarFormularioNuevaTarjeta = false;
+    }
+  }
+
+  buscarTarjeta() {
+    const searchTerm = this.searchTarjetaControl.value;
+    if (!searchTerm) {
+      alert('Por favor ingrese un término de búsqueda');
+      return;
+    }
+
+    this.inmoService.buscarTarjetas(searchTerm).subscribe({
+      next: (tarjetas: Tarjeta[]) => {
+        this.tarjetasEncontradas = tarjetas;
+        if (tarjetas.length === 0) {
+          alert('No se encontraron tarjetas con ese criterio');
+        }
+      },
+      error: (error) => {
+        console.error('Error al buscar tarjetas:', error);
+        alert('Error al buscar tarjetas');
+      }
+    });
+  }
+
+  seleccionarTarjeta(event: any) {
+    const tarjetaId = event.target.value;
+    const tarjeta = this.tarjetasEncontradas.find(t => t.id_tarjeta.toString() === tarjetaId);
+    
+    if (tarjeta) {
+      this.tarjetaSeleccionada = tarjeta;
+      this.mostrarFormularioNuevaTarjeta = false;
+      
+      // Actualizar el formulario con los datos de la tarjeta seleccionada
+      this.registroForm.patchValue({
+        num_tarjeta: tarjeta.num_tarjeta,
+        tipo_tarjeta: tarjeta.tipo_tarjeta,
+        titular_tarjeta: tarjeta.titular_tarjeta,
+        fecha_venc: tarjeta.fecha_venc,
+        cvv: tarjeta.cvv,
+        compania_tarjeta: tarjeta.compania_tarjeta
+      });
+    }
+  }
+
+  toggleNuevaTarjeta() {
+    this.mostrarFormularioNuevaTarjeta = !this.mostrarFormularioNuevaTarjeta;
+    if (!this.mostrarFormularioNuevaTarjeta) {
+      // Limpiar campos de tarjeta si se cancela
+      this.registroForm.patchValue({
+        num_tarjeta: '',
+        tipo_tarjeta: '',
+        titular_tarjeta: '',
+        fecha_venc: '',
+        cvv: '',
+        compania_tarjeta: ''
+      });
+    }
   }
 
   async onSubmit() {
@@ -57,19 +148,27 @@ export class RegistrarPagoComponent implements OnInit {
     }
 
     try {
-      // Primero crear la tarjeta
-      const tarjetaData = {
-        num_tarjeta: this.registroForm.get('num_tarjeta')?.value,
-        tipo_tarjeta: this.registroForm.get('tipo_tarjeta')?.value,
-        titular_tarjeta: this.registroForm.get('titular_tarjeta')?.value,
-        fecha_venc: this.registroForm.get('fecha_venc')?.value,
-        cvv: this.registroForm.get('cvv')?.value,
-        compania_tarjeta: this.registroForm.get('compania_tarjeta')?.value
-      };
+      let tarjetaId: number | null = null;
 
-      // Crear la tarjeta y obtener su ID
-      const tarjetaResponse = await this.inmoService.crearTarjeta(tarjetaData).toPromise();
-      const tarjetaId = tarjetaResponse.id_tarjeta;
+      if (this.registroForm.get('metodo_pago')?.value === 'Tarjeta') {
+        if (this.tarjetaSeleccionada) {
+          // Usar tarjeta existente
+          tarjetaId = this.tarjetaSeleccionada.id_tarjeta;
+        } else if (this.mostrarFormularioNuevaTarjeta) {
+          // Crear nueva tarjeta
+          const tarjetaData = {
+            num_tarjeta: this.registroForm.get('num_tarjeta')?.value,
+            tipo_tarjeta: this.registroForm.get('tipo_tarjeta')?.value,
+            titular_tarjeta: this.registroForm.get('titular_tarjeta')?.value,
+            fecha_venc: this.registroForm.get('fecha_venc')?.value,
+            cvv: this.registroForm.get('cvv')?.value,
+            compania_tarjeta: this.registroForm.get('compania_tarjeta')?.value
+          };
+
+          const tarjetaResponse = await this.inmoService.crearTarjeta(tarjetaData).toPromise();
+          tarjetaId = tarjetaResponse.id_tarjeta;
+        }
+      }
 
       // Preparar datos del pago
       const pagoData = {
@@ -79,7 +178,7 @@ export class RegistrarPagoComponent implements OnInit {
         desc_pago: this.registroForm.get('desc_pago')?.value,
         tipo_contrato: this.registroForm.get('tipo_contrato')?.value,
         descripcion_penalidad: this.registroForm.get('descripcion_penalidad')?.value,
-        compania_tarjeta: tarjetaId, // Usar el ID de la tarjeta creada
+        compania_tarjeta: tarjetaId, // Puede ser null si es efectivo
         monto_pagado: this.registroForm.get('monto_pagado')?.value,
         estado_pago: this.registroForm.get('estado_pago')?.value,
         nombre_agente: this.registroForm.get('nombre_agente')?.value
@@ -95,14 +194,14 @@ export class RegistrarPagoComponent implements OnInit {
     }
   }
 
+  selectMenuItem(item: any): void {
+    this.menuItems.forEach(menuItem => menuItem.active = false);
+    item.active = true;
+  }
+
   isSidebarCollapsed = false;
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
-  }
-
-  selectMenuItem(item: any): void {
-    this.menuItems.forEach(menuItem => menuItem.active = false);
-    item.active = true;
   }
 }

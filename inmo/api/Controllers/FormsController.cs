@@ -1,6 +1,7 @@
 using api.Services;
 using inmobilariaApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace inmo.api.Controllers
 {
@@ -94,6 +95,28 @@ namespace inmo.api.Controllers
             _context.SaveChanges();
 
             return Ok(nuevaTarjeta);
+        }
+
+        [HttpGet("BuscarTarjetas")]
+        public IActionResult BuscarTarjetas([FromQuery] string search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                return BadRequest("El término de búsqueda es requerido");
+            }
+
+            var tarjetas = _context.Tarjeta
+                .Where(t => 
+                    t.id_tarjeta.ToString() == search || 
+                    t.titular_tarjeta.Contains(search)
+                )
+                .Select(t => new {
+                    t.id_tarjeta,
+                    t.titular_tarjeta
+                })
+                .ToList();
+
+            return Ok(tarjetas);
         }
     }
 }

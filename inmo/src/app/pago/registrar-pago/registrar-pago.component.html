@@ -36,13 +36,16 @@
         </div>
         <div class="form-group">
           <label for="metodo_pago">Método de Pago</label>
-          <input
+          <select
             id="metodo_pago"
             formControlName="metodo_pago"
-            type="text"
-            placeholder="Método de pago"
+            (change)="onMetodoPagoChange($event)"
             class="input"
-          />
+          >
+            <option value="" disabled selected>Seleccione método de pago</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="motivo_pago">Motivo del Pago</label>
@@ -86,74 +89,126 @@
         </div>
 
         <!-- Sección de Tarjeta -->
-        <div class="form-section-title">Datos de la Tarjeta</div>
-        <div class="form-group">
-          <label for="num_tarjeta">Número de Tarjeta</label>
-          <input
-            id="num_tarjeta"
-            formControlName="num_tarjeta"
-            type="text"
-            maxlength="16"
-            placeholder="Número de tarjeta (16 dígitos)"
-            class="input"
-          />
-        </div>
-        <div class="form-group">
-          <label for="tipo_tarjeta">Tipo de Tarjeta</label>
-          <select
-            id="tipo_tarjeta"
-            formControlName="tipo_tarjeta"
-            class="input"
-          >
-            <option value="" disabled selected>Seleccione tipo de tarjeta</option>
-            <option value="credito">Crédito</option>
-            <option value="debito">Débito</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="titular_tarjeta">Titular de la Tarjeta</label>
-          <input
-            id="titular_tarjeta"
-            formControlName="titular_tarjeta"
-            type="text"
-            placeholder="Nombre del titular"
-            class="input"
-          />
-        </div>
-        <div class="form-group">
-          <label for="fecha_venc">Fecha de Vencimiento</label>
-          <input
-            id="fecha_venc"
-            formControlName="fecha_venc"
-            type="date"
-            class="input"
-          />
-        </div>
-        <div class="form-group">
-          <label for="cvv">CVV</label>
-          <input
-            id="cvv"
-            formControlName="cvv"
-            type="password"
-            maxlength="3"
-            placeholder="CVV"
-            class="input"
-          />
-        </div>
-        <div class="form-group">
-          <label for="compania_tarjeta">Compañía de la Tarjeta</label>
-          <select
-            id="compania_tarjeta"
-            formControlName="compania_tarjeta"
-            class="input"
-          >
-            <option value="" disabled selected>Seleccione compañía</option>
-            <option value="Visa">Visa</option>
-            <option value="Mastercard">Mastercard</option>
-            <option value="American Express">American Express</option>
-            <option value="Discover">Discover</option>
-          </select>
-        </div>
+        <ng-container *ngIf="mostrarCamposTarjeta">
+          <div class="form-section-title">Datos de la Tarjeta</div>
+          
+          <!-- Búsqueda de Tarjeta -->
+          <div class="form-group">
+            <label>Buscar Tarjeta Existente</label>
+            <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 10px;">
+              <input
+                type="text"
+                [formControl]="searchTarjetaControl"
+                placeholder="Buscar por ID o titular"
+                class="input"
+                style="flex: 1;"
+              />
+              <button 
+                type="button" 
+                (click)="buscarTarjeta()"
+                class="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Buscar
+              </button>
+            </div>
+          </div>
+
+          <!-- Resultados de búsqueda -->
+          <div *ngIf="tarjetasEncontradas.length > 0" class="form-group">
+            <label>Tarjetas Encontradas</label>
+            <select
+              (change)="seleccionarTarjeta($event)"
+              class="input"
+            >
+              <option value="" disabled selected>Seleccione una tarjeta</option>
+              <option *ngFor="let tarjeta of tarjetasEncontradas" [value]="tarjeta.id_tarjeta">
+                {{ tarjeta.titular_tarjeta }} - **** **** **** {{ tarjeta.num_tarjeta.slice(-4) }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Toggle para nueva tarjeta -->
+          <div class="form-group" *ngIf="!tarjetaSeleccionada">
+            <button 
+              type="button"
+              (click)="toggleNuevaTarjeta()"
+              class="bg-green-500 text-white px-4 py-2 rounded"
+            >
+              {{ mostrarFormularioNuevaTarjeta ? 'Cancelar Nueva Tarjeta' : 'Agregar Nueva Tarjeta' }}
+            </button>
+          </div>
+
+          <!-- Formulario de nueva tarjeta -->
+          <ng-container *ngIf="mostrarFormularioNuevaTarjeta">
+            <div class="form-group">
+              <label for="num_tarjeta">Número de Tarjeta</label>
+              <input
+                id="num_tarjeta"
+                formControlName="num_tarjeta"
+                type="text"
+                maxlength="16"
+                placeholder="Número de tarjeta (16 dígitos)"
+                class="input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="tipo_tarjeta">Tipo de Tarjeta</label>
+              <select
+                id="tipo_tarjeta"
+                formControlName="tipo_tarjeta"
+                class="input"
+              >
+                <option value="" disabled selected>Seleccione tipo de tarjeta</option>
+                <option value="credito">Crédito</option>
+                <option value="debito">Débito</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="titular_tarjeta">Titular de la Tarjeta</label>
+              <input
+                id="titular_tarjeta"
+                formControlName="titular_tarjeta"
+                type="text"
+                placeholder="Nombre del titular"
+                class="input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="fecha_venc">Fecha de Vencimiento</label>
+              <input
+                id="fecha_venc"
+                formControlName="fecha_venc"
+                type="date"
+                class="input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input
+                id="cvv"
+                formControlName="cvv"
+                type="password"
+                maxlength="3"
+                placeholder="CVV"
+                class="input"
+              />
+            </div>
+            <div class="form-group">
+              <label for="compania_tarjeta">Compañía de la Tarjeta</label>
+              <select
+                id="compania_tarjeta"
+                formControlName="compania_tarjeta"
+                class="input"
+              >
+                <option value="" disabled selected>Seleccione compañía</option>
+                <option value="Visa">Visa</option>
+                <option value="Mastercard">Mastercard</option>
+                <option value="American Express">American Express</option>
+                <option value="Discover">Discover</option>
+              </select>
+            </div>
+          </ng-container>
+        </ng-container>
 
         <div class="form-group">
           <label for="monto_pagado">Monto Pagado</label>

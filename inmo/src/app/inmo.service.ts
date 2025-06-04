@@ -72,4 +72,8 @@ export class InmoService {
   crearTarjeta(data: any): Observable<any> {
     return this.http.post(`${environment.apiURL}/forms/CrearTarjeta`, data);
   }
+
+  buscarTarjetas(searchTerm: string): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiURL}/forms/BuscarTarjetas?search=${searchTerm}`);
+  }
 }
