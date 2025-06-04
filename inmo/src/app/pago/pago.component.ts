@@ -26,7 +26,7 @@ export class PagoComponent implements OnInit {
   tiposContrato: string[] = [];
   estadosPago: string[] = [];
   agentes: string[] = [];
-
+  personas: string[] = [];
 
   constructor(private inmoService: InmoService){}
   ngOnInit(): void {

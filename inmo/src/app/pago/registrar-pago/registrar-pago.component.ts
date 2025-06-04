@@ -57,7 +57,8 @@ export class RegistrarPagoComponent implements OnInit {
       compania_tarjeta: [''],
       monto_pagado: ['', [Validators.required, Validators.min(0)]],
       estado_pago: ['', Validators.required],
-      nombre_agente: ['', Validators.required]
+      nombre_agente: ['', Validators.required],
+      persona_pago: ['', Validators.required]
     });
   }
 
@@ -187,7 +188,8 @@ export class RegistrarPagoComponent implements OnInit {
         compania_tarjeta: tarjetaId, // Puede ser null si es efectivo
         monto_pagado: this.registroForm.get('monto_pagado')?.value,
         estado_pago: this.registroForm.get('estado_pago')?.value,
-        nombre_agente: this.registroForm.get('nombre_agente')?.value
+        nombre_agente: this.registroForm.get('nombre_agente')?.value,
+        persona_pago: this.registroForm.get('persona_pago')?.value
       };
 
       // Crear el pago
