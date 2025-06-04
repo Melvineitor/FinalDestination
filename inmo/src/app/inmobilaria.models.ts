@@ -104,6 +104,7 @@ export interface PagoCrear {
   monto_pagado: number;
   estado_pago: string;
   nombre_agente: number;
+  persona_pago: string;
 }
 export interface Admin {
   id_admin: number;
