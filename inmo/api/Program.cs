@@ -19,25 +19,15 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 // CORS configuration
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("https://frontend-production-c40b.up.railway.app",
-                             "http://localhost:4200")
-                  .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials()
-                  .WithExposedHeaders("Authorization")
-                  .SetIsOriginAllowed(origin =>
-                  {
-                      var host = new Uri(origin).Host;
-                      return host == "frontend-production-c40b.up.railway.app" ||
-                             host == "localhost";
-                  });
-        });
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.SetIsOriginAllowed(origin => true) // Permite cualquier origen
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+    });
 });
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -47,10 +37,11 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 var app = builder.Build();
 
+// CORS debe ser uno de los primeros middleware
+app.UseCors();
+
 // Configure the HTTP request pipeline.
 // IMPORTANT: CORS must be called early in the pipeline, before Authorization and endpoints
-app.UseCors(MyAllowSpecificOrigins);
-
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
