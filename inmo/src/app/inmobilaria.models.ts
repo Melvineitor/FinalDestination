@@ -92,6 +92,7 @@ export interface Pago{
   monto_pagado: number;
   estado_pago: string;
   nombre_agente: string;
+  persona_pago: string;
 }
 export interface PagoCrear {
   fecha_pago: Date;
