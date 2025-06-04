@@ -22,7 +22,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 var allowedOrigins = new[]
 {
     "https://frontend-production-c40b.up.railway.app",
-    "http://localhost:4200"
+    "http://localhost:4200",
+    "https://backend-production-7cbc.up.railway.app"
 };
 
 builder.Services.AddCors(options =>
@@ -34,7 +35,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()
-            .WithExposedHeaders("Authorization")
+            .WithExposedHeaders("Authorization", "Content-Type")
             .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
     });
 });

@@ -1,12 +1,14 @@
 using api.Services;
 using inmobilariaApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using System.Linq;
 
 namespace inmo.api.Controllers
 {
     [ApiController]
     [Route("api/forms")]
+    [EnableCors]
     public class FormsController : ControllerBase
     {
         // GET: api/forms
