@@ -39,12 +39,48 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Database configuration
+try
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    }
 
-builder.Services.AddDbContext<ApplicationDBContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    {
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+               .LogTo(Console.WriteLine, LogLevel.Information)
+               .EnableSensitiveDataLogging()
+               .EnableDetailedErrors();
+    });
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error configuring database: {ex.Message}");
+    throw;
+}
 
 var app = builder.Build();
+
+// Verify database connection
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDBContext>();
+        context.Database.OpenConnection();
+        context.Database.CloseConnection();
+        Console.WriteLine("Database connection verified successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error verifying database connection: {ex.Message}");
+        throw;
+    }
+}
 
 // CORS debe ser uno de los primeros middleware
 app.UseCors();
