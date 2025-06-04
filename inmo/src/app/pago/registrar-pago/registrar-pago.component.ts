@@ -107,23 +107,29 @@ export class RegistrarPagoComponent implements OnInit {
   }
 
   seleccionarTarjeta(event: any) {
-    const tarjetaId = event.target.value;
-    const tarjeta = this.tarjetasEncontradas.find(t => t.id_tarjeta.toString() === tarjetaId);
-    
-    if (tarjeta) {
-      this.tarjetaSeleccionada = tarjeta;
-      this.mostrarFormularioNuevaTarjeta = false;
-      
-      // Actualizar el formulario con los datos de la tarjeta seleccionada
-      this.registroForm.patchValue({
-        num_tarjeta: tarjeta.num_tarjeta,
-        tipo_tarjeta: tarjeta.tipo_tarjeta,
-        titular_tarjeta: tarjeta.titular_tarjeta,
-        fecha_venc: tarjeta.fecha_venc,
-        cvv: tarjeta.cvv,
-        compania_tarjeta: tarjeta.compania_tarjeta
-      });
-    }
+    const tarjetaId = parseInt(event.target.value);
+    if (!tarjetaId) return;
+
+    this.inmoService.obtenerTarjeta(tarjetaId).subscribe({
+      next: (tarjeta) => {
+        this.tarjetaSeleccionada = tarjeta;
+        this.mostrarFormularioNuevaTarjeta = false;
+        
+        // Actualizar el formulario con los datos de la tarjeta seleccionada
+        this.registroForm.patchValue({
+          num_tarjeta: tarjeta.num_tarjeta,
+          tipo_tarjeta: tarjeta.tipo_tarjeta,
+          titular_tarjeta: tarjeta.titular_tarjeta,
+          fecha_venc: tarjeta.fecha_venc,
+          cvv: tarjeta.cvv,
+          compania_tarjeta: tarjeta.compania_tarjeta
+        });
+      },
+      error: (error) => {
+        console.error('Error al obtener los detalles de la tarjeta:', error);
+        alert('Error al obtener los detalles de la tarjeta');
+      }
+    });
   }
 
   toggleNuevaTarjeta() {

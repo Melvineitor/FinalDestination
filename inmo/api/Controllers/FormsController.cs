@@ -118,5 +118,29 @@ namespace inmo.api.Controllers
 
             return Ok(tarjetas);
         }
+
+        [HttpGet("ObtenerTarjeta/{id}")]
+        public IActionResult ObtenerTarjeta(int id)
+        {
+            var tarjeta = _context.Tarjeta
+                .Where(t => t.id_tarjeta == id)
+                .Select(t => new {
+                    t.id_tarjeta,
+                    t.num_tarjeta,
+                    t.tipo_tarjeta,
+                    t.titular_tarjeta,
+                    t.fecha_venc,
+                    t.cvv,
+                    t.compania_tarjeta
+                })
+                .FirstOrDefault();
+
+            if (tarjeta == null)
+            {
+                return NotFound("Tarjeta no encontrada");
+            }
+
+            return Ok(tarjeta);
+        }
     }
 }

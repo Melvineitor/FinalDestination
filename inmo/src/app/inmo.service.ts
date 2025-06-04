@@ -76,4 +76,8 @@ export class InmoService {
   buscarTarjetas(searchTerm: string): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiURL}/forms/BuscarTarjetas?search=${searchTerm}`);
   }
+
+  obtenerTarjeta(id: number): Observable<any> {
+    return this.http.get(`${environment.apiURL}/forms/ObtenerTarjeta/${id}`);
+  }
 }

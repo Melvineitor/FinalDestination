@@ -120,9 +120,9 @@
               (change)="seleccionarTarjeta($event)"
               class="input"
             >
-              <option value="" disabled selected>Seleccione una tarjeta</option>
+              <option value="">Seleccione una tarjeta</option>
               <option *ngFor="let tarjeta of tarjetasEncontradas" [value]="tarjeta.id_tarjeta">
-                {{ tarjeta.titular_tarjeta }} - **** **** **** {{ tarjeta.num_tarjeta.slice(-4) }}
+                {{ tarjeta.titular_tarjeta }} (ID: {{ tarjeta.id_tarjeta }})
               </option>
             </select>
           </div>
