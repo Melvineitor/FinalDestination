@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace inmobilariaApi.Models
 {
-    [Table("Inmueble")]
+    [Table("inmueble")]
     public class Inmueble
     {
         [Key]
