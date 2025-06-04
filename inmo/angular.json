@@ -28,7 +28,9 @@
               "src/styles.css",
               "src/app/shared/styles/responsive.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/app/shared/scripts/responsive.js"
+            ]
           },
           "configurations": {
             "production": {
