@@ -19,14 +19,23 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 // CORS configuration
+var allowedOrigins = new[]
+{
+    "https://frontend-production-c40b.up.railway.app",
+    "http://localhost:4200"
+};
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.SetIsOriginAllowed(origin => true) // Permite cualquier origen
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials();
+        builder
+            .WithOrigins(allowedOrigins)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithExposedHeaders("Authorization")
+            .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
     });
 });
 

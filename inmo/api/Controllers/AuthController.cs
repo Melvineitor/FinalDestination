@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Cors;
 
 namespace inmobilariaApi.Controllers
 {
-    [EnableCors]
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -34,22 +33,15 @@ namespace inmobilariaApi.Controllers
         }
 
         [HttpPost("login")]
-        [EnableCors]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             try
             {
                 _logger.LogInformation($"Intento de login para usuario: {request.nombre_usuario}");
 
-                // Agregar headers CORS manualmente
-                Response.Headers.Add("Access-Control-Allow-Origin", Request.Headers["Origin"]);
-                Response.Headers.Add("Access-Control-Allow-Credentials", "true");
-                Response.Headers.Add("Access-Control-Allow-Methods", "POST, OPTIONS");
-                Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
                 if (string.IsNullOrEmpty(request.nombre_usuario) || string.IsNullOrEmpty(request.contrasena))
                 {
-                    return BadRequest("Usuario y contraseña son requeridos");
+                    return BadRequest(new { message = "Usuario y contraseña son requeridos" });
                 }
 
                 var usuario = await _context.Admin
@@ -58,7 +50,7 @@ namespace inmobilariaApi.Controllers
                 if (usuario == null)
                 {
                     _logger.LogWarning($"Intento de login fallido para usuario: {request.nombre_usuario}");
-                    return Unauthorized("Usuario o contraseña incorrectos");
+                    return Unauthorized(new { message = "Usuario o contraseña incorrectos" });
                 }
 
                 var adminDto = new
@@ -76,43 +68,41 @@ namespace inmobilariaApi.Controllers
                 };
 
                 _logger.LogInformation($"Login exitoso para usuario: {request.nombre_usuario}");
-                return Ok(adminDto);
+                return Ok(new { 
+                    message = "Login exitoso",
+                    data = adminDto
+                });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error en login para usuario: {request.nombre_usuario}");
-                return StatusCode(500, "Error interno del servidor");
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 
-        [HttpOptions("login")]
-        [EnableCors]
-        public IActionResult PreflightLogin()
-        {
-            Response.Headers.Add("Access-Control-Allow-Origin", Request.Headers["Origin"]);
-            Response.Headers.Add("Access-Control-Allow-Credentials", "true");
-            Response.Headers.Add("Access-Control-Allow-Methods", "POST, OPTIONS");
-            Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-            return Ok();
-        }
-
         [HttpPatch("update")]
-        [EnableCors]
         public async Task<IActionResult> UpdateAdmin([FromBody] Admin updatedAdmin)
         {
             try
             {
-                // Agregar headers CORS manualmente
-                Response.Headers.Add("Access-Control-Allow-Origin", Request.Headers["Origin"]);
-                Response.Headers.Add("Access-Control-Allow-Credentials", "true");
-                Response.Headers.Add("Access-Control-Allow-Methods", "PATCH, OPTIONS");
-                Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+                if (updatedAdmin == null || updatedAdmin.id_admin <= 0)
+                {
+                    return BadRequest(new { message = "Datos de administrador inválidos" });
+                }
 
                 var admin = await _context.Admin.FirstOrDefaultAsync(a => a.id_admin == updatedAdmin.id_admin);
 
                 if (admin == null)
                 {
-                    return NotFound("Admin no encontrado");
+                    return NotFound(new { message = "Admin no encontrado" });
+                }
+
+                // Validar datos
+                if (string.IsNullOrEmpty(updatedAdmin.nombre_admin) || 
+                    string.IsNullOrEmpty(updatedAdmin.apellido_admin) ||
+                    string.IsNullOrEmpty(updatedAdmin.correo_admin))
+                {
+                    return BadRequest(new { message = "Campos requeridos faltantes" });
                 }
 
                 admin.nombre_admin = updatedAdmin.nombre_admin;
@@ -126,24 +116,16 @@ namespace inmobilariaApi.Controllers
                 admin.nombre_usuario = updatedAdmin.nombre_usuario;
 
                 await _context.SaveChangesAsync();
-                return Ok(admin);
+                return Ok(new { 
+                    message = "Administrador actualizado exitosamente",
+                    data = admin 
+                });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error al actualizar admin ID: {updatedAdmin.id_admin}");
-                return StatusCode(500, "Error interno del servidor");
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
-        }
-
-        [HttpOptions("update")]
-        [EnableCors]
-        public IActionResult PreflightUpdate()
-        {
-            Response.Headers.Add("Access-Control-Allow-Origin", Request.Headers["Origin"]);
-            Response.Headers.Add("Access-Control-Allow-Credentials", "true");
-            Response.Headers.Add("Access-Control-Allow-Methods", "PATCH, OPTIONS");
-            Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-            return Ok();
         }
     }
 }
