@@ -26,6 +26,7 @@ export class RegistroPersonaComponent {
       correo_persona: ['', [Validators.required, Validators.email]],
       cedula_pasaporte: ['', Validators.required],
       sexo_persona: ['', Validators.required],
+      estado_civil: ['', Validators.required],
       domicilio: ['', Validators.required],
       contrasena: ['', [Validators.required, Validators.minLength(6)]],
       estado_persona: ['', Validators.required],
