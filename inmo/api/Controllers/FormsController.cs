@@ -98,6 +98,20 @@ namespace inmo.api.Controllers
 
             return Ok(nuevaTarjeta);
         }
+        [HttpPost("CrearVenta")]
+        public IActionResult CrearVenta([FromBody] Venta nuevaVenta)
+        {
+            if (nuevaVenta == null)
+            {
+                return BadRequest("Datos incompletos");
+            }
+
+            _context.Venta.Add(nuevaVenta);
+            _context.SaveChanges();
+
+            return Ok(nuevaVenta);
+        }
+        
 
         [HttpGet("BuscarTarjetas")]
         public IActionResult BuscarTarjetas([FromQuery] string search)

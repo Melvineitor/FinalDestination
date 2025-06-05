@@ -124,10 +124,10 @@ isSidebarCollapsed = false;
     this.barChart = new Chart(this.barChartRef.nativeElement, {
       type: 'bar',
       data: {
-        labels: ['Ene', 'Feb', this.barras[2]?.mes_corto, this.barras[0]?.mes_corto, this.barras[3]?.mes_corto, this.barras[1]?.mes_corto, 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        labels: ['Ene', 'Feb', "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
         datasets: [{
           label: 'Ventas',
-          data: [1200, 1900, this.barras[2]?.total, this.barras[0]?.total, this.barras[3]?.total, this.barras[1]?.total, 2200, 2400, 2300, 2600, 2800, 2700],
+          data: [this.barras[2]?.total, 1900,  1500, 2800, this.barras[3]?.total, 2200, 2400, 2300, 2600,2000, this.barras[1]?.total, 2700],
           backgroundColor: '#465fff', // Sin fondo sólido
           borderWidth: 1, // Borde grueso para que se vea como línea
           borderRadius: 8, // Sin esquinas redondeadas

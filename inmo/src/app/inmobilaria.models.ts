@@ -80,6 +80,17 @@ export interface Venta{
   estado_venta: string;
   tipo_inmueble: string;
 }
+export interface VentaCrear {
+  fecha_venta: Date;
+  pago_venta: number;
+  propiedad_venta: number;
+  empleado_venta: number;
+  cliente_venta: number;
+  fiador_venta: number;
+  notario_venta: number;
+  contrato_venta: number;
+  inmueble_venta: number;
+}
 export interface Pago{
   id_pago: number;
   fecha_pago: Date;
