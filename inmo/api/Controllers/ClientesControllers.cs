@@ -30,7 +30,7 @@ namespace inmobilariaApi.Controllers
         [HttpGet("Clientes")]
         public async Task<ActionResult<int>> InquilinosInmo()
         {
-            var result = await _context.Database.SqlQueryRaw<int>("SELECT COUNT(*) FROM persona WHERE rol_persona = 'Inquilino' and estado_persona = 'Activo' and rol_persona = 'Propietario';").ToListAsync();
+            var result = await _context.Database.SqlQueryRaw<int>("SELECT COUNT(*) FROM persona WHERE rol_persona = 'Inquilino' and rol_persona = 'Propietario';").ToListAsync();
             return Ok(result.FirstOrDefault());
         }
 
