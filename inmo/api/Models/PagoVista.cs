@@ -16,5 +16,6 @@ namespace inmobilariaApi.Models
         public double monto_pagado {get; set;}
         public string estado_pago {get; set;} = "";
         public string? nombre_agente { get; set; } = "";
+        public string? persona_nombre { get; set; } = "";
     }
 }
