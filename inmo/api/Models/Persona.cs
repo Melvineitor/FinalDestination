@@ -32,9 +32,7 @@ namespace inmobilariaApi.Models
 
 
         public string pais_origen { get; set; } = "";
-        public string numero_cuenta_banco { get; set; } = "";
-        public string? tipo_cuenta_banco { get; set; } = ""; // "Ahorros", "Corriente", etc.
-        public string banco { get; set; } = "";
+      
         public string comentario { get; set; } = "";
     }
 }
