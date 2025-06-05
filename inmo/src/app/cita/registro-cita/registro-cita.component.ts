@@ -42,8 +42,8 @@ export class RegistroCitaComponent implements OnInit {
     // Cargar empleados y clientes
     this.inmoService.getPersonas().subscribe(
       (personas: Persona[]) => {
-        this.empleados = personas.filter(p => p.rol_persona === 'empleado');
-        this.clientes = personas.filter(p => p.rol_persona === 'cliente');
+        this.empleados = personas.filter(p => p.rol_persona === 'Empleado');
+        this.clientes = personas.filter(p => p.rol_persona === 'Inquilino');
       },
       (error) => {
         console.error('Error al cargar personas:', error);

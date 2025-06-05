@@ -1,141 +1,174 @@
 <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="logo">
-        <div class="logo-img-title">
-          <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-img-title">
+        <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
       </div>
-      <div class="sidebar-title">MENU</div>
-      <ul class="menu" [class.collapsed]="isSidebarCollapsed">
-        <li
-          *ngFor="let item of menuItems"
-          [class.active]="item.name === 'Ventas'"
-          (click)="selectMenuItem(item)"
-        >
-          <a [routerLink]="item.link">
-            <i class="icon">{{ item.icon }}</i> {{ item.name }}
-          </a>
-        </li>
-      </ul>
     </div>
-    <div class="main-content">
-      <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
-        <div class="form-title">Registro de Venta</div>
-        
-        <div class="form-grid">
-          <!-- Fecha de Venta -->
-          <div class="form-group">
-            <label for="fecha_venta">Fecha de Venta</label>
-            <input
-              id="fecha_venta"
-              type="date"
-              formControlName="fecha_venta"
-              class="input"
-            />
-          </div>
+    <div class="sidebar-title">MENU</div>
+    <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+      <li
+        *ngFor="let item of menuItems"
+        [class.active]="item.name === 'Ventas'"
+        (click)="selectMenuItem(item)"
+      >
+        <a [routerLink]="item.link">
+          <i class="icon">{{ item.icon }}</i> {{ item.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="form-title">Registro de Venta</div>
 
-          <!-- Pago de Venta -->
-          <div class="form-group">
-            <label for="pago_venta">Monto de Pago</label>
-            <input
-              id="pago_venta"
-              type="number"
-              formControlName="pago_venta"
-              class="input"
-              placeholder="Monto del pago"
-            />
-          </div>
+      <div class="form-grid">
+        <!-- Fecha de Venta -->
+        <div class="form-group">
+          <label for="fecha_venta">Fecha de Venta</label>
+          <input
+            id="fecha_venta"
+            type="date"
+            formControlName="fecha_venta"
+            class="input"
+          />
+        </div>
 
-          <!-- Propiedad -->
-          <div class="form-group">
-            <label for="propiedad_venta">Propiedad</label>
-            <select
-              id="propiedad_venta"
-              formControlName="propiedad_venta"
-              class="input"
+        <!-- Pago de Venta -->
+        <div class="form-group">
+          <label for="pago_venta">Monto de Pago</label>
+          <input
+            id="pago_venta"
+            type="number"
+            formControlName="pago_venta"
+            class="input"
+            placeholder="Monto del pago"
+          />
+        </div>
+
+        <!-- Propiedad -->
+        <div class="form-group">
+          <label for="propiedad_venta">Propiedad</label>
+          <select
+            id="propiedad_venta"
+            formControlName="propiedad_venta"
+            class="input"
+          >
+            <option value="" disabled selected>Seleccione una propiedad</option>
+            <option
+              *ngFor="let propiedad of propiedades"
+              [value]="propiedad.id_inmueble"
             >
-              <option value="" disabled selected>Seleccione una propiedad</option>
-              <option *ngFor="let propiedad of propiedades" [value]="propiedad.id_propiedad">
-                {{ propiedad.titulo }}
-              </option>
-            </select>
-          </div>
+              {{ propiedad.direccion_inmueble }}
+              {{ propiedad.descripcion_detallada }}
+            </option>
+          </select>
+        </div>
 
-          <!-- Cliente -->
-          <div class="form-group">
-            <label for="cliente_venta">Cliente</label>
-            <select
-              id="cliente_venta"
-              formControlName="cliente_venta"
-              class="input"
+        <!-- Cliente -->
+        <div class="form-group">
+          <label for="cliente_venta">Cliente</label>
+          <select
+            id="cliente_venta"
+            formControlName="cliente_venta"
+            class="input"
+          >
+            <option value="" disabled selected>Seleccione un Inquilino</option>
+            <option
+              *ngFor="let cliente of clientes"
+              [value]="cliente.id_persona"
             >
-              <option value="" disabled selected>Seleccione un Inquilino</option>
-              <option *ngFor="let cliente of clientes" [value]="cliente.id_persona">
-                {{ cliente.nombre_persona }} {{ cliente.apellido_persona }}
-              </option>
-            </select>
-          </div>
+              {{ cliente.nombre_persona }} {{ cliente.apellido_persona }}
+            </option>
+          </select>
+        </div>
 
-          <!-- Fiador -->
-          <div class="form-group">
+        <!-- Propietario -->
+        <div class="form-group">
+          <label for="propietario_venta">Propietario</label>
+          <select
+            id="propietario_venta"
+            formControlName="propietario_venta"
+            class="input"
+          >
+            <option value="" disabled selected>
+              Seleccione un propietario
+            </option>
+            <option
+              *ngFor="let propietario of propietarios"
+              [value]="propietario.id_persona"
+            >
+              {{ propietario.nombre_persona }}
+              {{ propietario.apellido_persona }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Notario -->
+        <div class="form-group">
+          <label for="notario_venta">Notario</label>
+          <select
+            id="notario_venta"
+            formControlName="notario_venta"
+            class="input"
+          >
+            <option value="" disabled selected>Seleccione un notario</option>
+            <option
+              *ngFor="let notario of notarios"
+              [value]="notario.id_persona"
+            >
+              {{ notario.nombre_persona }} {{ notario.apellido_persona }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Fiador -->
+        <div class="form-group">
             <label for="fiador_venta">Fiador</label>
             <select
               id="fiador_venta"
               formControlName="fiador_venta"
               class="input"
             >
-              <option value="" disabled selected>Seleccione un propietario</option>
-              <option *ngFor="let propietario of propietarios" [value]="propietario.id_persona">
-                {{ propietario.nombre_persona }} {{ propietario.apellido_persona }}
+              <option value="" disabled selected>Seleccione un fiador</option>
+              <option
+                *ngFor="let fiador of fiadores"
+                [value]="fiador.id_persona"
+              >
+                {{ fiador.nombre_persona }} {{ fiador.apellido_persona }}
               </option>
             </select>
           </div>
 
-          <!-- Notario -->
-          <div class="form-group">
-            <label for="notario_venta">Notario</label>
-            <select
-              id="notario_venta"
-              formControlName="notario_venta"
-              class="input"
-            >
-              <option value="" disabled selected>Seleccione un notario</option>
-              <option *ngFor="let notario of notarios" [value]="notario.id_persona">
-                {{ notario.nombre_persona }} {{ notario.apellido_persona }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Contrato -->
-          <div class="form-group">
-            <label for="contrato_venta">Número de Contrato</label>
-            <input
-              id="contrato_venta"
-              type="number"
-              formControlName="contrato_venta"
-              class="input"
-              placeholder="Número de contrato"
-            />
-          </div>
-
-          <!-- Inmueble -->
-          <div class="form-group">
-            <label for="inmueble_venta">ID Inmueble</label>
-            <input
-              id="inmueble_venta"
-              type="number"
-              formControlName="inmueble_venta"
-              class="input"
-              placeholder="ID del inmueble"
-            />
-          </div>
+        <!-- Contrato -->
+        <div class="form-group">
+          <label for="contrato_venta">Número de Contrato</label>
+          <input
+            id="contrato_venta"
+            type="number"
+            formControlName="contrato_venta"
+            class="input"
+            placeholder="Número de contrato"
+          />
         </div>
 
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-          Registrar Venta
-        </button>
-      </form>
-    </div>
+        <!-- Inmueble -->
+        <div class="form-group">
+          <label for="inmueble_venta">ID Inmueble</label>
+          <input
+            id="inmueble_venta"
+            type="number"
+            formControlName="inmueble_venta"
+            class="input"
+            placeholder="ID del inmueble"
+          />
+        </div>
+      </div>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+        Registrar Venta
+      </button>
+    </form>
   </div>
-  
+</div>

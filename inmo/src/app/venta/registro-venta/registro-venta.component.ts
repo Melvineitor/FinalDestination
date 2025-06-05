@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { InmoService } from '../../inmo.service';
 import { Router } from '@angular/router';
-import { Persona, VentaCrear } from '../../inmobilaria.models';
+import { Persona, VentaCrear, Inmueble } from '../../inmobilaria.models';
 
 @Component({
   selector: 'app-registro-venta',
@@ -18,7 +18,7 @@ export class RegistroVentaComponent implements OnInit {
   clientes: Persona[] = [];
   fiadores: Persona[] = [];
   notarios: Persona[] = [];
-  propiedades: any[] = [];
+  propiedades: Inmueble[] = [];
   propietarios: Persona[] = [];
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
@@ -67,8 +67,8 @@ export class RegistroVentaComponent implements OnInit {
 
     // Cargar propiedades disponibles
     this.inmoService.getPropiedades().subscribe(
-      (propiedades) => {
-        this.propiedades = propiedades.filter(p => p.estado_propiedad === 'Disponible');
+      (propiedades: Inmueble[]) => {
+        this.propiedades = propiedades
         console.log("Propiedades: " +this.propiedades);
       },
       (error) => {
