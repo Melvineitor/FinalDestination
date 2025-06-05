@@ -85,6 +85,9 @@ namespace api.Services
                 modelBuilder.Entity<Notario>().ToTable("notario", "railway");
                 modelBuilder.Entity<Direccion>().ToTable("direccion", "railway");
                 modelBuilder.Entity<Tarjeta>().ToTable("tarjeta", "railway");
+                modelBuilder.Entity<Venta>().ToTable("venta", "railway");
+                modelBuilder.Entity<Cita>().ToTable("cita", "railway");
+                modelBuilder.Entity<Inmueble>().ToTable("inmueble", "railway");
                 _logger.LogInformation("Model configuration completed successfully");
             }
             catch (Exception ex)
