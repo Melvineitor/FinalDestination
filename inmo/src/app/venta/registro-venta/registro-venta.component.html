@@ -47,36 +47,6 @@
             />
           </div>
 
-          <!-- Propiedad -->
-          <div class="form-group">
-            <label for="propiedad_venta">Propiedad</label>
-            <select
-              id="propiedad_venta"
-              formControlName="propiedad_venta"
-              class="input"
-            >
-              <option value="" disabled selected>Seleccione una propiedad</option>
-              <option *ngFor="let propiedad of propiedades" [value]="propiedad.id_propiedad">
-                {{ propiedad.titulo }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Empleado -->
-          <div class="form-group">
-            <label for="empleado_venta">Empleado</label>
-            <select
-              id="empleado_venta"
-              formControlName="empleado_venta"
-              class="input"
-            >
-              <option value="" disabled selected>Seleccione un empleado</option>
-              <option *ngFor="let empleado of empleados" [value]="empleado.id_persona">
-                {{ empleado.nombre_persona }} {{ empleado.apellido_persona }}
-              </option>
-            </select>
-          </div>
-
           <!-- Cliente -->
           <div class="form-group">
             <label for="cliente_venta">Cliente</label>
@@ -85,39 +55,24 @@
               formControlName="cliente_venta"
               class="input"
             >
-              <option value="" disabled selected>Seleccione un cliente</option>
+              <option value="" disabled selected>Seleccione un Inquilino</option>
               <option *ngFor="let cliente of clientes" [value]="cliente.id_persona">
                 {{ cliente.nombre_persona }} {{ cliente.apellido_persona }}
               </option>
             </select>
           </div>
 
-          <!-- Fiador -->
+          <!-- Propietario -->
           <div class="form-group">
-            <label for="fiador_venta">Fiador</label>
+            <label for="propietario_venta">Propietario</label>
             <select
-              id="fiador_venta"
-              formControlName="fiador_venta"
+              id="propietario_venta"
+              formControlName="propietario_venta"
               class="input"
             >
-              <option value="" disabled selected>Seleccione un fiador</option>
-              <option *ngFor="let fiador of fiadores" [value]="fiador.id_persona">
-                {{ fiador.nombre_persona }} {{ fiador.apellido_persona }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Notario -->
-          <div class="form-group">
-            <label for="notario_venta">Notario</label>
-            <select
-              id="notario_venta"
-              formControlName="notario_venta"
-              class="input"
-            >
-              <option value="" disabled selected>Seleccione un notario</option>
-              <option *ngFor="let notario of notarios" [value]="notario.id_persona">
-                {{ notario.nombre_persona }} {{ notario.apellido_persona }}
+              <option value="" disabled selected>Seleccione un propietario</option>
+              <option *ngFor="let propietario of propietarios" [value]="propietario.id_persona">
+                {{ propietario.nombre_persona }} {{ propietario.apellido_persona }}
               </option>
             </select>
           </div>
@@ -136,14 +91,17 @@
 
           <!-- Inmueble -->
           <div class="form-group">
-            <label for="inmueble_venta">ID Inmueble</label>
-            <input
-              id="inmueble_venta"
-              type="number"
-              formControlName="inmueble_venta"
+            <label for="propiedad_venta">Propiedad</label>
+            <select
+              id="propiedad_venta"
+              formControlName="propiedad_venta"
               class="input"
-              placeholder="ID del inmueble"
-            />
+            >
+              <option value="" disabled selected>Seleccione un inmueble</option>
+              <option *ngFor="let propiedad of propiedades" [value]="propiedad.id_propiedad">
+                {{ propiedad.titulo }}
+              </option>
+            </select>
           </div>
         </div>
 

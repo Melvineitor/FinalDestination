@@ -196,7 +196,7 @@ namespace inmobilariaApi.Controllers
                                 for (int i = 0; i < fieldCount; i++)
                                 {
                                     var columnName = reader.GetName(i);
-                                    var value = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                                    var value = reader.IsDBNull(i) ? DBNull.Value : reader.GetValue(i);
                                     registro[columnName] = value;
                                 }
                                 propiedades.Add(registro);

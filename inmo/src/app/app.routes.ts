@@ -16,6 +16,7 @@ import { RegistrarPagoComponent } from './pago/registrar-pago/registrar-pago.com
 import { RegistroAlquilerComponent } from './alquiler/registro-alquiler/registro-alquiler.component';
 import { AuthGuard } from './auth.guard';
 import { RegistroVentaComponent } from './venta/registro-venta/registro-venta.component';
+import { RegistroCitaComponent } from './cita/registro-cita/registro-cita.component';
 
 export const routes: Routes = [
     {path: 'landing', component: LandingComponent, pathMatch: 'full'},
@@ -32,7 +33,8 @@ export const routes: Routes = [
     {path: 'registroPropiedad', component: RegistroPropiedadComponent },
     {path: 'registroPago', component: RegistrarPagoComponent},
     {path: 'registroAlquiler', component:RegistroAlquilerComponent},
-    {path: 'registroVenta', component:RegistroVentaComponent}
+    {path: 'registroVenta', component:RegistroVentaComponent},
+    {path: 'registroCita', component:RegistroCitaComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

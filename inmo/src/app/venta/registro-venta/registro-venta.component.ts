@@ -16,8 +16,7 @@ export class RegistroVentaComponent implements OnInit {
   registroForm: FormGroup;
   empleados: Persona[] = [];
   clientes: Persona[] = [];
-  fiadores: Persona[] = [];
-  notarios: Persona[] = [];
+  propietarios: Persona[] = [];
   propiedades: any[] = [];
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
@@ -48,10 +47,9 @@ export class RegistroVentaComponent implements OnInit {
     // Cargar empleados
     this.inmoService.getPersonas().subscribe(
       (personas: Persona[]) => {
-        this.empleados = personas.filter(p => p.rol_persona === 'empleado');
-        this.clientes = personas.filter(p => p.rol_persona === 'cliente');
-        this.fiadores = personas.filter(p => p.rol_persona === 'fiador');
-        this.notarios = personas.filter(p => p.rol_persona === 'notario');
+        this.clientes = personas.filter(p => p.rol_persona === 'Inquilino');
+        this.propietarios = personas.filter(p => p.rol_persona === 'Propietario');
+        console.log(this.empleados);
       },
       (error) => {
         console.error('Error al cargar personas:', error);
@@ -61,7 +59,8 @@ export class RegistroVentaComponent implements OnInit {
     // Cargar propiedades disponibles
     this.inmoService.getPropiedades().subscribe(
       (propiedades) => {
-        this.propiedades = propiedades.filter(p => p.estado_propiedad === 'Disponible');
+        this.propiedades = propiedades.filter(p => p.estado_inmueble === 'Disponible');
+        console.log(this.propiedades);
       },
       (error) => {
         console.error('Error al cargar propiedades:', error);
