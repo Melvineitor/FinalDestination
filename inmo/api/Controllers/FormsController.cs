@@ -111,6 +111,20 @@ namespace inmo.api.Controllers
 
             return Ok(nuevaVenta);
         }
+        [HttpPost("CrearCita")]
+        public IActionResult CrearCita([FromBody] Cita nuevaCita)
+        {
+            if (nuevaCita == null)
+            {
+                return BadRequest("Datos incompletos");
+            }
+
+            _context.Cita.Add(nuevaCita);
+            _context.SaveChanges();
+
+            return Ok(nuevaCita);
+        }
+        
         
 
         [HttpGet("BuscarTarjetas")]

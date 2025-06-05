@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Inquilino, VentaCrear } from './inmobilaria.models';
+import { Inquilino, VentaCrear, Cita } from './inmobilaria.models';
 import { environment } from '../environments/environment';
 interface LoginRequest {
   nombre_usuario: string;
@@ -72,6 +72,11 @@ export class InmoService {
   createVenta(data: VentaCrear): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${environment.apiURL}/forms/CrearVenta`, data, { headers });
+  }
+
+  createCita(data: Cita): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${environment.apiURL}/forms/CrearCita`, data, { headers });
   }
 
   crearTarjeta(data: any): Observable<any> {

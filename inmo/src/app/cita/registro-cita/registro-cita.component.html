@@ -1,0 +1,113 @@
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <div class="logo-img-title">
+          <img src="assets/iconologo.png" alt="Logo" class="logo-img" />
+        </div>
+      </div>
+      <div class="sidebar-title">MENU</div>
+      <ul class="menu" [class.collapsed]="isSidebarCollapsed">
+        <li
+          *ngFor="let item of menuItems"
+          [class.active]="item.name === 'Cita'"
+          (click)="selectMenuItem(item)"
+        >
+          <a [routerLink]="item.link">
+            <i class="icon">{{ item.icon }}</i> {{ item.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="main-content">
+      <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
+        <div class="form-title">Registro de Cita</div>
+        
+        <div class="form-grid">
+          <!-- Fecha de Cita -->
+          <div class="form-group">
+            <label for="fecha_cita">Fecha de Cita</label>
+            <input
+              id="fecha_cita"
+              type="date"
+              formControlName="fecha_cita"
+              class="input"
+            />
+          </div>
+
+          <!-- Hora de Cita -->
+          <div class="form-group">
+            <label for="hora_cita">Hora de Cita</label>
+            <input
+              id="hora_cita"
+              type="time"
+              formControlName="hora_cita"
+              class="input"
+            />
+          </div>
+
+          <!-- Motivo de Cita -->
+          <div class="form-group">
+            <label for="motivo_cita">Motivo de la Cita</label>
+            <textarea
+              id="motivo_cita"
+              formControlName="motivo_cita"
+              class="input"
+              placeholder="Describa el motivo de la cita"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <!-- Empleado -->
+          <div class="form-group">
+            <label for="nombre_empleado">Empleado</label>
+            <select
+              id="nombre_empleado"
+              formControlName="nombre_empleado"
+              class="input"
+            >
+              <option value="" disabled selected>Seleccione un empleado</option>
+              <option *ngFor="let empleado of empleados" [value]="empleado.id_persona">
+                {{ empleado.nombre_persona }} {{ empleado.apellido_persona }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Cliente -->
+          <div class="form-group">
+            <label for="nombre_cliente">Cliente</label>
+            <select
+              id="nombre_cliente"
+              formControlName="nombre_cliente"
+              class="input"
+            >
+              <option value="" disabled selected>Seleccione un cliente</option>
+              <option *ngFor="let cliente of clientes" [value]="cliente.id_persona">
+                {{ cliente.nombre_persona }} {{ cliente.apellido_persona }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Estado de la Cita -->
+          <div class="form-group">
+            <label for="estado_cita">Estado de la Cita</label>
+            <select
+              id="estado_cita"
+              formControlName="estado_cita"
+              class="input"
+            >
+              <option value="Pendiente">Pendiente</option>
+              <option value="Confirmada">Confirmada</option>
+              <option value="Cancelada">Cancelada</option>
+              <option value="Completada">Completada</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+          Registrar Cita
+        </button>
+      </form>
+    </div>
+  </div>
+  

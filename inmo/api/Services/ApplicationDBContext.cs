@@ -36,6 +36,7 @@ namespace api.Services
         public DbSet<Direccion> Direccion { get; set; } = null!;
         public DbSet<Tarjeta> Tarjeta { get; set; } = null!;
         public DbSet<Venta> Venta { get; set; } = null!;
+        public DbSet<Cita> Cita { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

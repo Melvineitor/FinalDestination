@@ -155,3 +155,14 @@ propietario: any;
   descripcion_detallada: string;
 }
 
+
+export interface CitaCrear {
+  id_cita: number;
+  fecha_cita: Date;
+  hora_cita: string;
+  motivo_cita: string;
+  empleado_cita: number;
+  cliente_cita: number;
+  estado_cita: string;
+}
+
