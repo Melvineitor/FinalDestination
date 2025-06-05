@@ -80,10 +80,10 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="estado_civil_persona">Estado civil</label>
+          <label for="estado_civil">Estado civil</label>
           <select
-            id="estado_civil_persona"
-            formControlName="estado_civil_persona"
+            id="estado_civil"
+            formControlName="estado_civil"
             class="input"
           >
             <option value="" disabled selected>Estado civil</option>
@@ -205,53 +205,18 @@
         <div class="form-section-title">Datos de Notario</div>
         <div class="form-grid" formGroupName="notarioData">
           <div class="form-group">
-            <label for="num_registro">Número de Registro</label>
+            <label for="matricula_colegio">Matrícula del Colegio</label>
             <input
-              id="num_registro"
-              formControlName="num_registro"
+              id="matricula_colegio"
+              formControlName="matricula_colegio"
               type="text"
-              placeholder="Número de Registro"
-              class="input"
-            />
-          </div>
-          <div class="form-group">
-            <label for="jurisdiccion">Jurisdicción</label>
-            <input
-              id="jurisdiccion"
-              formControlName="jurisdiccion"
-              type="text"
-              placeholder="Jurisdicción"
+              placeholder="Matrícula del Colegio"
               class="input"
             />
           </div>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="selectedRole === 'Fiador'">
-        <div class="form-section-title">Datos de Fiador</div>
-        <div class="form-grid" formGroupName="fiadorData">
-          <div class="form-group">
-            <label for="ingreso_mensual">Ingreso Mensual</label>
-            <input
-              id="ingreso_mensual"
-              formControlName="ingreso_mensual"
-              type="number"
-              placeholder="Ingreso Mensual"
-              class="input"
-            />
-          </div>
-          <div class="form-group">
-            <label for="ocupacion">Ocupación</label>
-            <input
-              id="ocupacion"
-              formControlName="ocupacion"
-              type="text"
-              placeholder="Ocupación"
-              class="input"
-            />
-          </div>
-        </div>
-      </ng-container>
 
       <div class="form-section-title">Seguridad</div>
       <div class="form-group">
