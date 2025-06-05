@@ -3,11 +3,11 @@ import { InmoService } from '../inmo.service';
 import { Alquiler, Cita } from '../inmobilaria.models';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-propiedad',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './cita.component.html',
   styleUrl: './cita.component.css'
 })
