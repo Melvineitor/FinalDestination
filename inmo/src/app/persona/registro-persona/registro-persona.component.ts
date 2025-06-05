@@ -54,29 +54,60 @@ export class RegistroPersonaComponent {
   onRoleChange(event: any): void {
     this.selectedRole = event.target.value;
     
-    // Resetear los grupos de datos específicos
-    this.registroForm.get('empleadoData')?.reset();
-    this.registroForm.get('notarioData')?.reset();
-    this.registroForm.get('fiadorData')?.reset();
+    // Resetear los grupos de datos específicos y remover validadores
+    const empleadoGroup = this.registroForm.get('empleadoData');
+    const notarioGroup = this.registroForm.get('notarioData');
+    const fiadorGroup = this.registroForm.get('fiadorData');
 
-    // Aplicar validadores según el rol seleccionado
+    empleadoGroup?.clearValidators();
+    notarioGroup?.clearValidators();
+    fiadorGroup?.clearValidators();
+
+    empleadoGroup?.reset();
+    notarioGroup?.reset();
+    fiadorGroup?.reset();
+
+    // Aplicar validadores solo al grupo correspondiente al rol seleccionado
     if (this.selectedRole === 'Empleado') {
       this.registroForm.get('empleadoData.sueldo_empleado')?.setValidators([Validators.required]);
       this.registroForm.get('empleadoData.puesto_empleado')?.setValidators([Validators.required]);
     } else if (this.selectedRole === 'Notario') {
       this.registroForm.get('notarioData.matricula_colegio')?.setValidators([Validators.required]);
-    } else if (this.selectedRole === 'Fiador') {
     }
+    // Para otros roles (Propietario, etc.) no se necesitan validadores adicionales
 
     // Actualizar validadores
-    Object.keys(this.registroForm.controls).forEach(key => {
-      const control = this.registroForm.get(key);
-      control?.updateValueAndValidity();
-    });
+    empleadoGroup?.updateValueAndValidity();
+    notarioGroup?.updateValueAndValidity();
+    fiadorGroup?.updateValueAndValidity();
   }
 
   onSubmit(): void {
-    if (this.registroForm.invalid) {
+    // Verificar solo los campos base si no es un rol especial
+    const baseFieldsValid = 
+      this.registroForm.get('nombre_persona')?.valid &&
+      this.registroForm.get('apellido_persona')?.valid &&
+      this.registroForm.get('rol_persona')?.valid &&
+      this.registroForm.get('edad')?.valid &&
+      this.registroForm.get('telefono')?.valid &&
+      this.registroForm.get('correo_persona')?.valid &&
+      this.registroForm.get('cedula_pasaporte')?.valid &&
+      this.registroForm.get('sexo_persona')?.valid &&
+      this.registroForm.get('estado_civil_persona')?.valid &&
+      this.registroForm.get('domicilio')?.valid &&
+      this.registroForm.get('contrasena')?.valid &&
+      this.registroForm.get('estado_persona')?.valid &&
+      this.registroForm.get('pais_origen')?.valid;
+
+    // Verificar campos adicionales solo si el rol lo requiere
+    let roleFieldsValid = true;
+    if (this.selectedRole === 'Empleado') {
+      roleFieldsValid = this.registroForm.get('empleadoData')?.valid ?? false;
+    } else if (this.selectedRole === 'Notario') {
+      roleFieldsValid = this.registroForm.get('notarioData')?.valid ?? false;
+    }
+
+    if (!baseFieldsValid || !roleFieldsValid) {
       alert('Por favor, complete todos los campos requeridos');
       return;
     }
