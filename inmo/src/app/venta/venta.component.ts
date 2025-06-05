@@ -3,11 +3,11 @@ import { InmoService } from '../inmo.service';
 import { Venta } from '../inmobilaria.models';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-propiedad',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './venta.component.html',
   styleUrl: './venta.component.css'
 })
