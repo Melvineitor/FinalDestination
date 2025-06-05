@@ -83,31 +83,50 @@ export class RegistroPersonaComponent {
   }
 
   onSubmit(): void {
-    // Verificar solo los campos base si no es un rol especial
-    const baseFieldsValid = 
-      this.registroForm.get('nombre_persona')?.valid &&
-      this.registroForm.get('apellido_persona')?.valid &&
-      this.registroForm.get('rol_persona')?.valid &&
-      this.registroForm.get('edad')?.valid &&
-      this.registroForm.get('telefono')?.valid &&
-      this.registroForm.get('correo_persona')?.valid &&
-      this.registroForm.get('cedula_pasaporte')?.valid &&
-      this.registroForm.get('sexo_persona')?.valid &&
-      this.registroForm.get('estado_civil_persona')?.valid &&
-      this.registroForm.get('domicilio')?.valid &&
-      this.registroForm.get('contrasena')?.valid &&
-      this.registroForm.get('estado_persona')?.valid &&
-      this.registroForm.get('pais_origen')?.valid;
+    // Lista de campos base y sus nombres amigables
+    const camposBase = {
+      'nombre_persona': 'Nombre',
+      'apellido_persona': 'Apellido',
+      'rol_persona': 'Rol',
+      'edad': 'Edad',
+      'telefono': 'Teléfono',
+      'correo_persona': 'Correo electrónico',
+      'cedula_pasaporte': 'Cédula o Pasaporte',
+      'sexo_persona': 'Sexo',
+      'estado_civil_persona': 'Estado civil',
+      'domicilio': 'Domicilio',
+      'contrasena': 'Contraseña',
+      'estado_persona': 'Estado',
+      'pais_origen': 'País de origen'
+    };
 
-    // Verificar campos adicionales solo si el rol lo requiere
-    let roleFieldsValid = true;
-    if (this.selectedRole === 'Empleado') {
-      roleFieldsValid = this.registroForm.get('empleadoData')?.valid ?? false;
-    } else if (this.selectedRole === 'Notario') {
-      roleFieldsValid = this.registroForm.get('notarioData')?.valid ?? false;
+    // Verificar campos base
+    const camposFaltantes = [];
+    for (const [campo, nombre] of Object.entries(camposBase)) {
+      if (!this.registroForm.get(campo)?.valid) {
+        camposFaltantes.push(nombre);
+      }
     }
 
-    if (!baseFieldsValid || !roleFieldsValid) {
+    // Verificar campos específicos según el rol
+    if (this.selectedRole === 'Empleado') {
+      if (!this.registroForm.get('empleadoData.sueldo_empleado')?.valid) {
+        camposFaltantes.push('Salario del empleado');
+      }
+      if (!this.registroForm.get('empleadoData.puesto_empleado')?.valid) {
+        camposFaltantes.push('Puesto del empleado');
+      }
+    } else if (this.selectedRole === 'Notario') {
+      if (!this.registroForm.get('notarioData.matricula_colegio')?.valid) {
+        camposFaltantes.push('Matrícula del colegio');
+      }
+    }
+
+    if (camposFaltantes.length > 0) {
+      console.log('Campos faltantes o inválidos:');
+      camposFaltantes.forEach(campo => {
+        console.log(`- ${campo}`);
+      });
       alert('Por favor, complete todos los campos requeridos');
       return;
     }
