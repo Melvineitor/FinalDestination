@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { InmoService } from '../../inmo.service';
 import { Router } from '@angular/router';
 import { Persona, VentaCrear, Inmueble } from '../../inmobilaria.models';
+import { AlquilerService } from '../../alquiler/registro-alquiler/alquiler.service';
 
 @Component({
   selector: 'app-registro-venta',
@@ -31,7 +32,7 @@ export class RegistroVentaComponent implements OnInit {
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
 
-  constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
+  constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_venta: ['', Validators.required],
       pago_venta: ['', [Validators.required, Validators.min(0)]],
@@ -66,7 +67,7 @@ export class RegistroVentaComponent implements OnInit {
     );
 
     // Cargar propiedades disponibles
-    this.inmoService.getPropiedades().subscribe(
+    this.alquilerService.getPropiedades().subscribe(
       (propiedades: Inmueble[]) => {
         this.propiedades = propiedades
         console.log("Propiedades: " +this.propiedades);
