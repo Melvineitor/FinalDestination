@@ -29,6 +29,7 @@ namespace api.Services
         public DbSet<Empleado> Empleado { get; set; } = null!;
         public DbSet<Propiedad> Propiedad { get; set; } = null!;
         public DbSet<Pago> Pago { get; set; } = null!;
+        public DbSet<PagoVista> PagoVista { get; set; } = null!;
         public DbSet<Fiador_Solidario> Fiador_Solidario { get; set; } = null!;
         public DbSet<Notario> Notarios { get; set; } = null!;
         public DbSet<Inmueble> Inmueble { get; set; } = null!;
@@ -57,6 +58,13 @@ namespace api.Services
                 {
                     entity.ToTable("Inmueble", "railway");
                     entity.HasKey(e => e.id_inmueble);
+                });
+
+                // Configuración de la vista PagoVista
+                modelBuilder.Entity<PagoVista>(entity =>
+                {
+                    entity.ToView("vista_pagos_detallado", "railway");
+                    entity.HasKey(e => e.id_pago);
                 });
 
                 // Configure other entities to use the railway schema

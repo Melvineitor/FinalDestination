@@ -299,18 +299,57 @@ namespace inmobilariaApi.Controllers
         [HttpGet("MostrarPagos")]
         public async Task<ActionResult> MostrarPagos()
         {
-            var pagos = new List<object>();
             try
             {
-                var result = await _context.Database.SqlQueryRaw<PagoVista>(
-                    "select * from vista_pagos_detallado"
-                ).ToListAsync();
-                return Ok(result);
+                _logger.LogInformation("Iniciando consulta de vista_pagos_detallado");
+                
+                // Primero intentamos obtener los datos usando Entity Framework
+                var result = await _context.PagoVista.ToListAsync();
+                if (result != null && result.Any())
+                {
+                    _logger.LogInformation($"Se encontraron {result.Count} registros en vista_pagos_detallado");
+                    return Ok(result);
+                }
+
+                // Si no hay resultados con EF, intentamos con SQL directo
+                _logger.LogInformation("Intentando consulta SQL directa");
+                var pagos = new List<object>();
+                using (var conn = _context.Database.GetDbConnection())
+                {
+                    await conn.OpenAsync();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT * FROM railway.vista_pagos_detallado";
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            var fieldCount = reader.FieldCount;
+                            while (await reader.ReadAsync())
+                            {
+                                var dict = new Dictionary<string, object?>();
+                                for (int i = 0; i < fieldCount; i++)
+                                {
+                                    var name = reader.GetName(i);
+                                    dict[name] = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                                }
+                                pagos.Add(dict);
+                            }
+                        }
+                    }
+                }
+
+                if (pagos.Any())
+                {
+                    _logger.LogInformation($"Se encontraron {pagos.Count} registros usando SQL directo");
+                    return Ok(pagos);
+                }
+
+                _logger.LogWarning("No se encontraron registros en vista_pagos_detallado");
+                return Ok(new List<object>()); // Retornamos lista vacía en lugar de null
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al mapear pago. Se intentará devolver todos los campos con diagnóstico de errores por registro.");
-                return Ok(pagos);
+                _logger.LogError(ex, "Error al consultar vista_pagos_detallado");
+                return StatusCode(500, new { message = "Error al consultar los pagos", error = ex.Message });
             }
         }
 
