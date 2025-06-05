@@ -27,6 +27,7 @@ namespace inmobilariaApi.Models
 
         public string estado_civil { get; set; } = "";
         public string domicilio { get; set; } = "";
+        public string nombre_usuario { get; set; } = "";
         public string contrasena { get; set; } = "";
         public string estado_persona { get; set; } = ""; // "Activo", "Inactivo", "Eliminado"
 
