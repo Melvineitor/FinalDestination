@@ -47,13 +47,19 @@
         </div>
         <div class="form-group">
           <label for="rol_persona">Rol</label>
-          <input
+          <select
             id="rol_persona"
             formControlName="rol_persona"
-            type="text"
-            placeholder="Rol"
             class="input"
-          />
+            (change)="onRoleChange($event)"
+          >
+            <option value="" disabled selected>Seleccione un rol</option>
+            <option value="Inquilino">Inquilino</option>
+            <option value="Empleado">Empleado</option>
+            <option value="Notario">Notario</option>
+            <option value="Fiador">Fiador</option>
+            <option value="Propietario">Propietario</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="edad">Edad</label>
@@ -158,6 +164,94 @@
           class="input w-full"
         ></textarea>
       </div>
+
+      <!-- Campos específicos por rol -->
+      <ng-container *ngIf="selectedRole === 'Empleado'">
+        <div class="form-section-title">Datos de Empleado</div>
+        <div class="form-grid" formGroupName="empleadoData">
+          <div class="form-group">
+            <label for="cargo">Cargo</label>
+            <input
+              id="cargo"
+              formControlName="cargo"
+              type="text"
+              placeholder="Cargo"
+              class="input"
+            />
+          </div>
+          <div class="form-group">
+            <label for="salario">Salario</label>
+            <input
+              id="salario"
+              formControlName="salario"
+              type="number"
+              placeholder="Salario"
+              class="input"
+            />
+          </div>
+          <div class="form-group">
+            <label for="fecha_inicio">Fecha de Inicio</label>
+            <input
+              id="fecha_inicio"
+              formControlName="fecha_inicio"
+              type="date"
+              class="input"
+            />
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="selectedRole === 'Notario'">
+        <div class="form-section-title">Datos de Notario</div>
+        <div class="form-grid" formGroupName="notarioData">
+          <div class="form-group">
+            <label for="num_registro">Número de Registro</label>
+            <input
+              id="num_registro"
+              formControlName="num_registro"
+              type="text"
+              placeholder="Número de Registro"
+              class="input"
+            />
+          </div>
+          <div class="form-group">
+            <label for="jurisdiccion">Jurisdicción</label>
+            <input
+              id="jurisdiccion"
+              formControlName="jurisdiccion"
+              type="text"
+              placeholder="Jurisdicción"
+              class="input"
+            />
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="selectedRole === 'Fiador'">
+        <div class="form-section-title">Datos de Fiador</div>
+        <div class="form-grid" formGroupName="fiadorData">
+          <div class="form-group">
+            <label for="ingreso_mensual">Ingreso Mensual</label>
+            <input
+              id="ingreso_mensual"
+              formControlName="ingreso_mensual"
+              type="number"
+              placeholder="Ingreso Mensual"
+              class="input"
+            />
+          </div>
+          <div class="form-group">
+            <label for="ocupacion">Ocupación</label>
+            <input
+              id="ocupacion"
+              formControlName="ocupacion"
+              type="text"
+              placeholder="Ocupación"
+              class="input"
+            />
+          </div>
+        </div>
+      </ng-container>
 
       <div class="form-section-title">Seguridad</div>
       <div class="form-group">

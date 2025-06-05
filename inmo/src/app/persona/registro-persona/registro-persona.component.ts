@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { InmoService } from '../../inmo.service';
+import { InmoService, Persona, Empleado, Notario, Fiador } from '../../inmo.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registro-persona',
@@ -12,7 +13,9 @@ import { Router } from '@angular/router';
   styleUrl: './registro-persona.component.css'
 })
 export class RegistroPersonaComponent {
-registroForm: FormGroup;
+  registroForm: FormGroup;
+  selectedRole: string = '';
+
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
     this.registroForm = this.fb.group({
       nombre_persona: ['', Validators.required],
@@ -26,40 +29,138 @@ registroForm: FormGroup;
       estado_civil_persona: ['', Validators.required],
       domicilio: ['', Validators.required],
       contrasena: ['', [Validators.required, Validators.minLength(6)]],
-      estado_persona: ['', Validators.required,],
+      estado_persona: ['', Validators.required],
       pais_origen: ['', Validators.required],
       comentario: [''],
+      // Grupos de campos específicos por rol
+      empleadoData: this.fb.group({
+        id_empleado: [''],
+        persona_empleado: [''],
+        sueldo_empleado: [''],
+        puesto_empleado: ['']
+      }),
+      notarioData: this.fb.group({
+        id_notario: [''],
+        matricula_colegio: [''],
+        persona_notario: ['']
+      }),
+      fiadorData: this.fb.group({
+        id_fiador_solidario: [''],
+        persona_fiador: ['']
+      })
     });
   }
 
-    onSubmit(): void {
+  onRoleChange(event: any): void {
+    this.selectedRole = event.target.value;
+    
+    // Resetear los grupos de datos específicos
+    this.registroForm.get('empleadoData')?.reset();
+    this.registroForm.get('notarioData')?.reset();
+    this.registroForm.get('fiadorData')?.reset();
+
+    // Aplicar validadores según el rol seleccionado
+    if (this.selectedRole === 'Empleado') {
+      this.registroForm.get('empleadoData.sueldo_empleado')?.setValidators([Validators.required]);
+      this.registroForm.get('empleadoData.puesto_empleado')?.setValidators([Validators.required]);
+    } else if (this.selectedRole === 'Notario') {
+      this.registroForm.get('notarioData.matricula_colegio')?.setValidators([Validators.required]);
+    } else if (this.selectedRole === 'Fiador') {
+    }
+
+    // Actualizar validadores
+    Object.keys(this.registroForm.controls).forEach(key => {
+      const control = this.registroForm.get(key);
+      control?.updateValueAndValidity();
+    });
+  }
+
+  onSubmit(): void {
     if (this.registroForm.invalid) {
+      alert('Por favor, complete todos los campos requeridos');
       return;
     }
 
-    this.inmoService.createPersona(this.registroForm.value).subscribe({
-      next: (res) => {
-        console.log('Persona guardada con éxito:', res);
-        alert('Persona guardada correctamente');
-        this.registroForm.reset();
+    const formData = this.registroForm.value;
+    
+    this.inmoService.createPersona(formData).subscribe({
+      next: (personaResponse: Persona) => {
+        console.log('Persona guardada con éxito:', personaResponse);
+        
+        // Usar el ID de la persona creada para los datos específicos del rol
+        const personaId = personaResponse.id_persona;
+        
+        // Preparar datos específicos según el rol
+        if (this.selectedRole === 'Empleado') {
+          const empleadoData = {
+            ...formData.empleadoData,
+            persona_empleado: personaId
+          };
+          this.inmoService.createEmpleado(empleadoData).subscribe({
+            next: () => {
+              alert('Empleado registrado correctamente');
+              this.registroForm.reset();
+              this.router.navigate(['/persona']);
+            },
+            error: (err: HttpErrorResponse) => {
+              console.error('Error al registrar empleado:', err);
+              alert('Error al registrar empleado');
+            }
+          });
+        } else if (this.selectedRole === 'Notario') {
+          const notarioData = {
+            ...formData.notarioData,
+            persona_notario: personaId
+          };
+          this.inmoService.createNotario(notarioData).subscribe({
+            next: () => {
+              alert('Notario registrado correctamente');
+              this.registroForm.reset();
+              this.router.navigate(['/persona']);
+            },
+            error: (err: HttpErrorResponse) => {
+              console.error('Error al registrar notario:', err);
+              alert('Error al registrar notario');
+            }
+          });
+        } else if (this.selectedRole === 'Fiador') {
+          const fiadorData = {
+            ...formData.fiadorData,
+            persona_fiador: personaId
+          };
+          this.inmoService.createFiador(fiadorData).subscribe({
+            next: () => {
+              alert('Fiador registrado correctamente');
+              this.registroForm.reset();
+              this.router.navigate(['/persona']);
+            },
+            error: (err: HttpErrorResponse) => {
+              console.error('Error al registrar fiador:', err);
+              alert('Error al registrar fiador');
+            }
+          });
+        } else {
+          // Para roles que no requieren datos adicionales
+          alert('Persona registrada correctamente');
+          this.registroForm.reset();
+          this.router.navigate(['/persona']);
+        }
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error al guardar persona:', err);
-        alert('Error al guardar los datos');
+        alert('Error al guardar los datos de la persona');
       }
     });
   }
-  
 
-
-menuItems = [
+  menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/' },
     { name: 'Persona', icon: '👤', active: true, link: '/persona' },
     { name: 'Propiedad', icon: '🏢', active: false, link: '/propiedad' },
     { name: 'Alquiler', icon: '🔑', active: false, link: '/alquiler' },
     { name: 'Ventas', icon: '💰', active: false, link: '/venta' },
     { name: 'Pago', icon: '💳', active: false, link: '/pago' },
-    { name: 'Cita', icon: '📅', active: true, link: '/cita' },
+    { name: 'Cita', icon: '📅', active: false, link: '/cita' },
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
 
@@ -68,6 +169,7 @@ menuItems = [
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
+
   selectMenuItem(selectedItem: any): void {
     this.menuItems.forEach(item => item.active = false);
     selectedItem.active = true;

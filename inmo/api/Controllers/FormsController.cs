@@ -124,6 +124,47 @@ namespace inmo.api.Controllers
 
             return Ok(nuevaCita);
         }
+        [HttpPost("CrearEmpleado")]
+        public IActionResult CrearEmpleado([FromBody] Empleado nuevoEmpleado)
+        {
+            if (nuevoEmpleado == null)
+            {
+                return BadRequest("Datos incompletos");
+            }
+
+            _context.Empleado.Add(nuevoEmpleado);
+            _context.SaveChanges();
+
+            return Ok(nuevoEmpleado);
+        }
+        
+        [HttpPost("CrearNotario")]
+        public IActionResult CrearNotario([FromBody] Notario nuevoNotario)
+        {
+            if (nuevoNotario == null)
+            {
+                return BadRequest("Datos incompletos");
+            }
+
+            _context.Notarios.Add(nuevoNotario);
+            _context.SaveChanges();
+
+            return Ok(nuevoNotario);
+        }
+        [HttpPost("CrearFiador")]
+        public IActionResult CrearFiador([FromBody] Fiador_Solidario nuevoFiador)
+        {
+            if (nuevoFiador == null)
+            {
+                return BadRequest("Datos incompletos");
+            }
+
+            _context.Fiador_Solidario.Add(nuevoFiador);
+            _context.SaveChanges();
+
+            return Ok(nuevoFiador);
+        }
+        
         
         
 

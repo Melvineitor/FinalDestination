@@ -3,14 +3,52 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Inquilino, VentaCrear, Cita } from './inmobilaria.models';
 import { environment } from '../environments/environment';
+
 interface LoginRequest {
   nombre_usuario: string;
   contrasena: string;
 }
+
+export interface Persona {
+  id_persona: number;
+  nombre_persona: string;
+  apellido_persona: string;
+  rol_persona: string;
+  edad: number;
+  telefono: string;
+  correo_persona: string;
+  cedula_pasaporte: string;
+  sexo_persona: string;
+  estado_civil_persona: string;
+  domicilio: string;
+  estado_persona: string;
+  pais_origen: string;
+  comentario?: string;
+}
+
+export interface Empleado {
+  id_empleado?: number;
+  persona_empleado: number;
+  sueldo_empleado: number;
+  puesto_empleado: string;
+}
+
+export interface Notario {
+  id_notario?: number;
+  persona_notario: number;
+  matricula_colegio: string;
+}
+
+export interface Fiador {
+  id_fiador_solidario?: number;
+  persona_fiador: number;
+}
+
 @Injectable({
   providedIn: `root`
 })
 export class InmoService {
+ // Ajusta según tu configuración
 
   constructor(private http: HttpClient) { }
 
@@ -48,10 +86,11 @@ export class InmoService {
 
   //Formularios
 
-  createPersona(data: any): Observable<any> {
+  createPersona(persona: Omit<Persona, 'id_persona'>): Observable<Persona> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${environment.apiURL}/forms/CrearPersona`, data, { headers });
+    return this.http.post<Persona>(`${environment.apiURL}/forms/CrearPersona`, persona, { headers });
   }
+
   createPropiedad(data: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${environment.apiURL}/forms/CrearPropiedad`, data, { headers });
@@ -80,7 +119,8 @@ export class InmoService {
   }
 
   crearTarjeta(data: any): Observable<any> {
-    return this.http.post(`${environment.apiURL}/forms/CrearTarjeta`, data);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${environment.apiURL}/forms/CrearTarjeta`, data, { headers } );
   }
 
   buscarTarjetas(searchTerm: string): Observable<any[]> {
@@ -89,5 +129,20 @@ export class InmoService {
 
   obtenerTarjeta(id: number): Observable<any> {
     return this.http.get(`${environment.apiURL}/forms/ObtenerTarjeta/${id}`);
+  }
+
+  createEmpleado(empleado: Empleado): Observable<Empleado> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Empleado>(`${environment.apiURL}/forms/CrearEmpleado`, empleado, { headers });
+  }
+
+  createNotario(notario: Notario): Observable<Notario> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Notario>(`${environment.apiURL}/forms/CrearNotario`, notario, { headers });
+  }
+
+  createFiador(fiador: Fiador): Observable<Fiador> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Fiador>(`${environment.apiURL}/forms/CrearFiador`, fiador, { headers });
   }
 }
