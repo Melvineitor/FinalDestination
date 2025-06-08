@@ -20,6 +20,7 @@
     z-index: 1000;
     width: 100%;
     height: 100vh;
+    overflow-y: auto;
   }
 
   .sidebar.active {
@@ -31,6 +32,8 @@
     margin-left: 0 !important;
     padding: var(--spacing-sm);
     width: 100% !important;
+    height: 100vh;
+    overflow-y: auto;
   }
 
   /* Mobile Cards */
@@ -38,6 +41,25 @@
     min-width: 100% !important;
     max-width: 100% !important;
     margin: var(--spacing-sm) 0;
+  }
+
+  /* Mobile Tables */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(100vh - 180px);
+  }
+
+  .table {
+    min-width: 100%;
+    width: max-content;
+  }
+
+  /* Mobile Forms */
+  .responsive-form {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-bottom: 20px;
   }
 
   /* Mobile Charts */
@@ -63,11 +85,20 @@
   /* Tablet Sidebar */
   .sidebar {
     width: 200px;
+    overflow-y: auto;
   }
 
   /* Tablet Main Content */
   .main-content {
     margin-left: 200px;
+    overflow-y: auto;
+  }
+
+  /* Tablet Tables */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(100vh - 200px);
   }
 
   /* Tablet Cards */
@@ -88,6 +119,8 @@
   padding: var(--spacing-md);
   margin: 0 auto;
   overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 /* Tabla Responsive */
@@ -96,6 +129,7 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin: var(--spacing-sm) 0;
+  max-height: calc(100vh - 200px);
 }
 
 .responsive-table {
@@ -190,6 +224,8 @@
 /* Fix for nested scrolling issues */
 body {
   overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
 }
 
 /* Ensure proper stacking context */
@@ -197,6 +233,7 @@ body {
 .main-content,
 .header {
   will-change: transform;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Fix for chart containers */
@@ -335,6 +372,9 @@ body {
   width: 500px;
   max-height: 90vh;
   overflow-y: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 640px) {

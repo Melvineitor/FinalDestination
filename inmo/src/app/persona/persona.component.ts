@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +10,7 @@ import { InmoService } from '../inmo.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './persona.component.html',
-  styleUrls: ['./persona.component.css']
+  styleUrl: './persona.component.css'
 })
 export class PersonaComponent implements OnInit {
   personas: Persona[] = [];
@@ -24,11 +23,13 @@ export class PersonaComponent implements OnInit {
   roles: string[] = [];
 
   constructor(private inmoService: InmoService){}
+  
   ngOnInit(): void {
     this.inmoService.getPersonas().subscribe((data: Persona[]) => {
       this.personas = data;
       this.extractRoles();
       this.filtrarPersonas();
+      this.totalItems = this.personas.length;
       console.log(data);
     });
   }
@@ -40,9 +41,11 @@ export class PersonaComponent implements OnInit {
 
   filtrarPersonas(): void {
     let filtradas = this.personas;
+    
     if (this.selectedFilter && this.selectedFilter !== 'Todos') {
       filtradas = filtradas.filter(p => p.rol_persona === this.selectedFilter);
     }
+    
     if (this.searchTerm && this.searchTerm.trim() !== '') {
       const term = this.searchTerm.trim().toLowerCase();
       filtradas = filtradas.filter(p =>
@@ -57,8 +60,26 @@ export class PersonaComponent implements OnInit {
         (p.rol_persona && p.rol_persona.toLowerCase().includes(term))
       );
     }
+    
     this.filteredPersonas = filtradas;
     this.totalItems = filtradas.length;
+  }
+
+  mostrarColumna(campo: string): boolean {
+    const columnasDisponibles = [
+      'id_persona',
+      'nombre_persona',
+      'apellido_persona',
+      'rol_persona',
+      'edad',
+      'cedula_pasaporte',
+      'telefono',
+      'sexo_persona',
+      'estado_civil',
+      'domicilio',
+      'estado_persona'
+    ];
+    return columnasDisponibles.includes(campo);
   }
 
   onRoleChange(event: any): void {
@@ -71,6 +92,7 @@ export class PersonaComponent implements OnInit {
       this.currentPage--;
     }
   }
+
   nextPage(): void {
     this.currentPage++;
   }
@@ -86,8 +108,8 @@ export class PersonaComponent implements OnInit {
     { name: 'Alquiler', icon: '🔑', active: false, link: '/alquiler' },
     { name: 'Ventas', icon: '💰', active: false, link: '/venta' },
     { name: 'Pago', icon: '💳', active: false, link: '/pago' },
-    { name: 'Cita', icon: '📅', active: true, link: '/cita' },
-    { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
+    { name: 'Cita', icon: '📅', active: false, link: '/cita' },
+    { name: 'Perfil', icon: '👤', active: false, link: '/perfil' }
   ];
 
   isSidebarCollapsed = false;
@@ -95,6 +117,7 @@ export class PersonaComponent implements OnInit {
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
+
   selectMenuItem(selectedItem: any): void {
     this.menuItems.forEach(item => item.active = false);
     selectedItem.active = true;

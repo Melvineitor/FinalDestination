@@ -13,20 +13,23 @@
         [class.active]="item.name === 'Persona'"
         (click)="selectMenuItem(item)"
       >
-        <a [routerLink]="item.link">
-          <i class="icon">{{ item.icon }}</i> {{ item.name }}
-        </a>
+        <a [href]="item.link"
+          ><i class="icon">{{ item.icon }}</i> {{ item.name }}</a
+        >
       </li>
     </ul>
   </div>
   <div class="main-content">
+    <button class="menu-toggle" (click)="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
     <h1 class="persona-title">Usuarios</h1>
     <div class="persona-container">
       <div class="persona-outer-box">
         <div class="persona-inner-box">
           <div class="action-bar">
             <button class="btn btn-primary" [routerLink]="'/registroPersona'">
-              + Crear Usuarios
+              + Crear Usuario
             </button>
             <div class="persona-filters">
               <div class="persona-search-box">
@@ -50,7 +53,7 @@
                 <input
                   type="text"
                   class="persona-search"
-                  placeholder="Buscar persona..."
+                  placeholder="Buscar..."
                   [(ngModel)]="searchTerm"
                   (input)="filtrarPersonas()"
                 />
@@ -93,36 +96,36 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                   <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Rol</th>
-                  <th>Edad</th>
-                  <th>Cedula</th>
-                  <th>Telefono</th>
-                  <th>Sexo</th>
-                  <th>Estado Civil</th>
-                  <th>Domicilio</th>
-                  <th>Estado</th>
+                  <th *ngIf="mostrarColumna('id_persona')">ID</th>
+                  <th *ngIf="mostrarColumna('nombre_persona')">Nombre</th>
+                  <th *ngIf="mostrarColumna('apellido_persona')">Apellido</th>
+                  <th *ngIf="mostrarColumna('rol_persona')">Rol</th>
+                  <th *ngIf="mostrarColumna('edad')">Edad</th>
+                  <th *ngIf="mostrarColumna('cedula_pasaporte')">Cedula</th>
+                  <th *ngIf="mostrarColumna('telefono')">Telefono</th>
+                  <th *ngIf="mostrarColumna('sexo_persona')">Sexo</th>
+                  <th *ngIf="mostrarColumna('estado_civil')">Estado Civil</th>
+                  <th *ngIf="mostrarColumna('domicilio')">Domicilio</th>
+                  <th *ngIf="mostrarColumna('estado_persona')">Estado</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let persona of filteredPersonas">
-                  <td>{{ persona.id_persona }}</td>
-                  <td>{{ persona.nombre_persona }}</td>
-                  <td>{{ persona.apellido_persona }}</td>
-                  <td>{{ persona.rol_persona }}</td>
-                  <td>{{ persona.edad }}</td>
-                  <td>{{ persona.cedula_pasaporte }}</td>
-                  <td>{{ persona.telefono }}</td>
-                  <td>{{ persona.sexo_persona }}</td>
-                  <td>{{ persona.estado_civil }}</td>
-                  <td>{{persona.domicilio}}</td>
-                  <td>{{persona.estado_persona}}</td>
+                  <td *ngIf="mostrarColumna('id_persona')">{{ persona.id_persona }}</td>
+                  <td *ngIf="mostrarColumna('nombre_persona')">{{ persona.nombre_persona }}</td>
+                  <td *ngIf="mostrarColumna('apellido_persona')">{{ persona.apellido_persona }}</td>
+                  <td *ngIf="mostrarColumna('rol_persona')">{{ persona.rol_persona }}</td>
+                  <td *ngIf="mostrarColumna('edad')">{{ persona.edad }}</td>
+                  <td *ngIf="mostrarColumna('cedula_pasaporte')">{{ persona.cedula_pasaporte }}</td>
+                  <td *ngIf="mostrarColumna('telefono')">{{ persona.telefono }}</td>
+                  <td *ngIf="mostrarColumna('sexo_persona')">{{ persona.sexo_persona }}</td>
+                  <td *ngIf="mostrarColumna('estado_civil')">{{ persona.estado_civil }}</td>
+                  <td *ngIf="mostrarColumna('domicilio')">{{ persona.domicilio || '-' }}</td>
+                  <td *ngIf="mostrarColumna('estado_persona')">{{ persona.estado_persona || '-' }}</td>
                 </tr>
                 <tr *ngIf="filteredPersonas.length === 0">
-                  <td colspan="8" class="text-center">
-                    No hay personas registradas
+                  <td colspan="11" class="text-center">
+                    No hay usuarios registrados
                   </td>
                 </tr>
               </tbody>
