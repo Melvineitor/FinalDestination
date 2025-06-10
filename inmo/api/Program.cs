@@ -29,7 +29,7 @@ var allowedOrigins = new[]
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddPolicy("AllowFrontend", builder =>
     {
         builder
             .WithOrigins(allowedOrigins)
@@ -85,7 +85,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // CORS debe ser uno de los primeros middleware
-app.UseCors();
+app.UseCors("AllowFrontend");
 
 // Configure the HTTP request pipeline.
 // IMPORTANT: CORS must be called early in the pipeline, before Authorization and endpoints
