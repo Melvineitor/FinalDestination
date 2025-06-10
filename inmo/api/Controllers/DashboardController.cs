@@ -23,7 +23,7 @@ namespace api.Controllers
             _context = context;
         }
 
-   [HttpGet("TotalGanancias")]
+   [HttpGet("TotalComisiones")]
 public async Task<ActionResult<double>> GetTotalGanancias()
 {
     double total = 0.0;
