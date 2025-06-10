@@ -21,6 +21,7 @@ selectedPropiedadId: number = 0;
 pagoAlquiler: any[] = [];
 
   registroForm: FormGroup;
+  propietarioInmueble: any;
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_alquiler: ['', Validators.required],
@@ -97,9 +98,11 @@ cargarDatosRelacionados(): void {
     const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
     if (propiedadSeleccionada) {
       this.registroForm.patchValue({
-        pago_alquiler: propiedadSeleccionada.precio
+        pago_alquiler: propiedadSeleccionada.precio,
+        propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona
       });
       this.pagoAlquiler = propiedadSeleccionada.precio;
+      this.propietarioInmueble = propiedadSeleccionada.propietario_inmueble;
       console.log(this.pagoAlquiler);
     }
   }
