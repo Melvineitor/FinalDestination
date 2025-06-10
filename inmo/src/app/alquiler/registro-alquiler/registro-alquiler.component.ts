@@ -68,10 +68,10 @@ cargarDatosRelacionados(): void {
   this.alquilerService.getClientes().subscribe(data => this.clientes = data);
   this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
   this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
-  this.alquilerService.getPropiedades().subscribe(data => {
+  this.inmoService.getPropiedades().subscribe(data => {
     this.propiedades = data;
     console.log(this.propiedades);
-  });
+  }); 
 }
 
   menuItems = [
