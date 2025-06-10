@@ -30,7 +30,7 @@ pagoAlquiler: any[] = [];
       plazo_pago: ['', [Validators.required]],
       propiedad_alquiler: ['', Validators.required],
       empleado_alquiler: ['', Validators.required],
-      cliente_alquiler: ['', Validators.required],
+      inquilino_alquiler: ['', Validators.required],
       fiador_alquiler: ['', Validators.required],
       notario_alquiler: ['', Validators.required],
       contrato_alquiler: ['', Validators.required],
