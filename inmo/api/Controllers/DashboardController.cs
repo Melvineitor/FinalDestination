@@ -7,11 +7,13 @@ using api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Cors;
 
 namespace api.Controllers
 {
     [Route("api/dashboard")]
     [ApiController]
+    [EnableCors]
     public class DashboardController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
