@@ -21,8 +21,7 @@ namespace inmobilariaApi.Models
         public int? fiador_alquiler { get; set; }
         public int notario_alquiler { get; set; }
         public int contrato_alquiler { get; set; }
-        public string estado_alquiler { get; set; } = "";
-        public string direccion_formateada { get; set; } = ""; // "Casa", "Departamento", "Local Comercial", etc.  
+        public string estado_alquiler { get; set; } = ""; // "Casa", "Departamento", "Local Comercial", etc.  
 
     }
 }
