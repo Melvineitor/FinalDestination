@@ -38,7 +38,8 @@ pagoAlquiler: any[] = [];
   }
   ngOnInit(): void {
    this.cargarDatosRelacionados();
-  
+   this.onSelectPropiedad(this.pagoAlquiler);
+   console.log(this.pagoAlquiler);
   }
 
     onSubmit(): void {
