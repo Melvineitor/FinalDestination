@@ -26,6 +26,7 @@ namespace inmo.api.Controllers
                                      select new
                                      {
                                          id_inmueble = i.id_inmueble,
+                                         precio = i.precio,
                                          direccion = $"{d.ciudad_direccion} - {d.zona} - {d.calle}"
                                      }).ToListAsync();
 
