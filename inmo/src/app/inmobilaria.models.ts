@@ -12,7 +12,7 @@ export interface Persona {
   id_persona: number;
   nombre_persona: string;
   apellido_persona: string;
-  rol_persona: string; 
+  rol_persona: string;
   edad: number;
   telefono: string;
   correo_persona: string;
@@ -133,26 +133,31 @@ export interface Admin {
 }
 
 export interface Inmueble {
-propietario: any;
   id_inmueble: number;
-  propietario_inmueble: string;
+  propietario: number;
   tipo_inmueble: string;
-  cant_niveles?: number;
-  cant_habitaciones?: number;
-  cant_banos?: number;
-  cant_parqueos?: number;
-  cuarto_servicio?: number;
-  modulo_local?: string;
-  plaza_local?: string;
-  nivel_apt?: number;
-  uso_espacio?: string;
+  cant_niveles?: number | null;
+  cant_habitaciones?: number | null;
+  cant_banos?: number | null;
+  cant_parqueos?: number | null;
+  cuarto_servicio?: boolean | null;
+  modulo_local?: string | null;
+  plaza_local?: string | null;
+  nivel_apt?: number | null;
+  uso_espacio?: string | null;
   objetivo: string;
-  precio: number;
-  metros_ancho: string;
-  metros_largo: string;
-  direccion_inmueble: number;
+  precio: number | null;
+  negociable: boolean | null;
+  metros_ancho: number | null;
+  metros_largo: number | null;
+  direccion: string;
   estado_inmueble: string;
-  descripcion_detallada: string;
+  descripcion_detallada: string | null;
+  propietario_inmueble?: {
+    id_persona: number;
+    nombre_persona: string;
+    apellido_persona: string;
+  } | null;
 }
 
 
@@ -166,3 +171,8 @@ export interface CitaCrear {
   estado_cita: string;
 }
 
+export interface GananciaMensual {
+  mes: number;
+  anio: number;
+  totalGanancia: number;
+}

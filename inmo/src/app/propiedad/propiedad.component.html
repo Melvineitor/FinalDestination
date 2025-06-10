@@ -23,7 +23,6 @@
     </button>
   </div>
   <div class="main-content">
-    
     <h1 class="persona-title">Propiedad</h1>
     <div class="persona-container">
       <div class="persona-outer-box">
@@ -54,13 +53,17 @@
                 <input
                   type="text"
                   class="persona-search"
-                  placeholder="Buscar..."
+                  placeholder="Buscar por tipo..."
                   [(ngModel)]="searchTerm"
                   (input)="filtrarPorTipo()"
                 />
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox" [(ngModel)]="selectedTipo" (change)="filtrarPorTipo()">
+                <select
+                  class="persona-combobox"
+                  [(ngModel)]="selectedTipo"
+                  (change)="filtrarPorTipo()"
+                >
                   <option value="">Todos</option>
                   <option value="Casa">Casa</option>
                   <option value="Apartamento">Apartamento</option>
@@ -70,7 +73,11 @@
                 </select>
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox" [(ngModel)]="selectedObjetivo" (change)="filtrarPorTipo()">
+                <select
+                  class="persona-combobox"
+                  [(ngModel)]="selectedObjetivo"
+                  (change)="filtrarPorTipo()"
+                >
                   <option value="">Todos</option>
                   <option value="Venta">Venta</option>
                   <option value="Alquiler">Alquiler</option>
@@ -111,47 +118,61 @@
                   <th *ngIf="mostrarColumna('id_inmueble')">ID</th>
                   <th *ngIf="mostrarColumna('propietario')">Propietario</th>
                   <th *ngIf="mostrarColumna('tipo_inmueble')">Tipo Inmueble</th>
-                  <th *ngIf="mostrarColumna('cant_niveles')">Cantidad Niveles</th>
-                  <th *ngIf="mostrarColumna('cant_habitaciones')">Cantidad de Habitaciones</th>
+                  <th *ngIf="mostrarColumna('cant_niveles')">
+                    Cantidad Niveles
+                  </th>
+                  <th *ngIf="mostrarColumna('cant_habitaciones')">
+                    Cantidad de Habitaciones
+                  </th>
                   <th *ngIf="mostrarColumna('cant_banos')">Cantidad Baños</th>
-                  <th *ngIf="mostrarColumna('cant_parqueos')">Cantidad Parqueos</th>
-                  <th *ngIf="mostrarColumna('cuarto_servicio')">Cuarto Servicio</th>
+                  <th *ngIf="mostrarColumna('cant_parqueos')">
+                    Cantidad Parqueos
+                  </th>
+                  <th *ngIf="mostrarColumna('cuarto_servicio')">
+                    Cuarto Servicio
+                  </th>
                   <th *ngIf="mostrarColumna('modulo_local')">Modulo</th>
                   <th *ngIf="mostrarColumna('plaza_local')">Plaza</th>
                   <th *ngIf="mostrarColumna('nivel_apt')">Nivel Apto</th>
                   <th *ngIf="mostrarColumna('uso_espacio')">Uso Espacio</th>
                   <th *ngIf="mostrarColumna('objetivo')">Objetivo</th>
                   <th *ngIf="mostrarColumna('precio')">Precio</th>
+                  <th *ngIf="mostrarColumna('negociable')">Negociable</th>
                   <th *ngIf="mostrarColumna('metros_ancho')">Ancho</th>
                   <th *ngIf="mostrarColumna('metros_largo')">Largo</th>
-                  <th *ngIf="mostrarColumna('direccion_inmueble')">Dirección</th>
+                  <th *ngIf="mostrarColumna('direccion_inmueble')">
+                    Dirección
+                  </th>
                   <th *ngIf="mostrarColumna('estado_inmueble')">Estado</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let propiedad of propiedadesFiltradas">
-                  <td *ngIf="mostrarColumna('id_inmueble')">{{ propiedad.id_inmueble }}</td>
-                  <td *ngIf="mostrarColumna('propietario')">{{ propiedad.propietario || '-' }}</td>
-                  <td *ngIf="mostrarColumna('tipo_inmueble')">{{ propiedad.tipo_inmueble }}</td>
-                  <td *ngIf="mostrarColumna('cant_niveles')">{{ propiedad.cant_niveles || '-' }}</td>
-                  <td *ngIf="mostrarColumna('cant_habitaciones')">{{ propiedad.cant_habitaciones || '-' }}</td>
-                  <td *ngIf="mostrarColumna('cant_banos')">{{ propiedad.cant_banos || '-' }}</td>
-                  <td *ngIf="mostrarColumna('cant_parqueos')">{{ propiedad.cant_parqueos || '-' }}</td>
-                  <td *ngIf="mostrarColumna('cuarto_servicio')">{{ propiedad.cuarto_servicio || '-' }}</td>
-                  <td *ngIf="mostrarColumna('modulo_local')">{{ propiedad.modulo_local || '-' }}</td>
-                  <td *ngIf="mostrarColumna('plaza_local')">{{ propiedad.plaza_local || '-' }}</td>
-                  <td *ngIf="mostrarColumna('nivel_apt')">{{ propiedad.nivel_apt || '-' }}</td>
-                  <td *ngIf="mostrarColumna('uso_espacio')">{{ propiedad.uso_espacio || '-' }}</td>
-                  <td *ngIf="mostrarColumna('objetivo')">{{ propiedad.objetivo || '-' }}</td>
-                  <td *ngIf="mostrarColumna('precio')">{{ propiedad.precio || '-' }}</td>
-                  <td *ngIf="mostrarColumna('metros_ancho')">{{ propiedad.metros_ancho || '-' }}</td>
-                  <td *ngIf="mostrarColumna('metros_largo')">{{ propiedad.metros_largo || '-' }}</td>
-                  <td *ngIf="mostrarColumna('direccion_inmueble')">{{ propiedad.direccion_inmueble || '-' }}</td>
-                  <td *ngIf="mostrarColumna('estado_inmueble')">{{ propiedad.estado_inmueble || '-' }}</td>
+                <tr *ngFor="let inmueble of inmueblesFiltrados">
+                  <td *ngIf="mostrarColumna('id_inmueble')">{{ inmueble.id_inmueble || '-' }}</td>
+                  <td *ngIf="mostrarColumna('propietario')">
+                    {{ inmueble.propietario || 'Sin propietario' }}
+                  </td>
+                  <td *ngIf="mostrarColumna('tipo_inmueble')">{{ inmueble.tipo_inmueble || '-' }}</td>
+                  <td *ngIf="mostrarColumna('cant_niveles')">{{ inmueble.cant_niveles === null || inmueble.cant_niveles === undefined ? '-' : inmueble.cant_niveles }}</td>
+                  <td *ngIf="mostrarColumna('cant_habitaciones')">{{ inmueble.cant_habitaciones === null || inmueble.cant_habitaciones === undefined ? '-' : inmueble.cant_habitaciones }}</td>
+                  <td *ngIf="mostrarColumna('cant_banos')">{{ inmueble.cant_banos === null || inmueble.cant_banos === undefined ? '-' : inmueble.cant_banos }}</td>
+                  <td *ngIf="mostrarColumna('cant_parqueos')">{{ inmueble.cant_parqueos === null || inmueble.cant_parqueos === undefined ? '-' : inmueble.cant_parqueos }}</td>
+                  <td *ngIf="mostrarColumna('cuarto_servicio')">{{ inmueble.cuarto_servicio === null || inmueble.cuarto_servicio === undefined ? '-' : (inmueble.cuarto_servicio ? 'Sí' : 'No') }}</td>
+                  <td *ngIf="mostrarColumna('modulo_local')">{{ inmueble.modulo_local || '-' }}</td>
+                  <td *ngIf="mostrarColumna('plaza_local')">{{ inmueble.plaza_local || '-' }}</td>
+                  <td *ngIf="mostrarColumna('nivel_apt')">{{ inmueble.nivel_apt === null || inmueble.nivel_apt === undefined ? '-' : inmueble.nivel_apt }}</td>
+                  <td *ngIf="mostrarColumna('uso_espacio')">{{ inmueble.uso_espacio || '-' }}</td>
+                  <td *ngIf="mostrarColumna('objetivo')">{{ inmueble.objetivo || '-' }}</td>
+                  <td *ngIf="mostrarColumna('precio')">{{ inmueble.precio === null || inmueble.precio === undefined ? '-' : inmueble.precio | number }}</td>
+                  <td *ngIf="mostrarColumna('negociable')">{{ inmueble.negociable === null || inmueble.negociable === undefined ? '-' : (inmueble.negociable ? 'Sí' : 'No') }}</td>
+                  <td *ngIf="mostrarColumna('metros_ancho')">{{ inmueble.metros_ancho === null || inmueble.metros_ancho === undefined ? '-' : inmueble.metros_ancho }}</td>
+                  <td *ngIf="mostrarColumna('metros_largo')">{{ inmueble.metros_largo === null || inmueble.metros_largo === undefined ? '-' : inmueble.metros_largo }}</td>
+                  <td *ngIf="mostrarColumna('direccion')">{{ inmueble.direccion || '-' }}</td>
+                  <td *ngIf="mostrarColumna('estado_inmueble')">{{ inmueble.estado_inmueble || '-' }}</td>
                 </tr>
-                <tr *ngIf="propiedadesFiltradas.length === 0">
+                <tr *ngIf="inmueblesFiltrados.length === 0">
                   <td colspan="18" class="text-center">
-                    No hay propiedades registradas
+                    No hay inmuebles registrados
                   </td>
                 </tr>
               </tbody>
@@ -175,7 +196,7 @@
             <button
               class="btn btn-sm btn-outline-primary"
               (click)="nextPage()"
-              [disabled]="propiedades.length < pageSize"
+              [disabled]="inmuebles.length < pageSize"
             >
               Siguiente
             </button>

@@ -59,41 +59,10 @@
             <option value="" disabled selected>Seleccione objetivo</option>
             <option value="Venta">Venta</option>
             <option value="Alquiler">Alquiler</option>
+            <option value="Venta y Alquiler">Venta y Alquiler</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="metros_ancho">Metros Ancho</label>
-          <input
-            id="metros_ancho"
-            formControlName="metros_ancho"
-            type="number"
-            placeholder="Metros Ancho"
-            class="input"
-            (input)="calcularPrecio()"
-          />
-        </div>
-        <div class="form-group">
-          <label for="metros_largo">Metros Largo</label>
-          <input
-            id="metros_largo"
-            formControlName="metros_largo"
-            type="number"
-            placeholder="Metros Largo"
-            class="input"
-            (input)="calcularPrecio()"
-          />
-        </div>
-        <div class="form-group">
-          <label for="precio">Precio (USD$650/m²)</label>
-          <input
-            id="precio"
-            formControlName="precio"
-            type="number"
-            placeholder="Precio calculado"
-            class="input"
-            readonly
-          />
-        </div>
+      
         <div class="form-group">
           <label for="estado_inmueble">Estado</label>
           <select
@@ -265,7 +234,51 @@
               class="input"
             />
           </div>
+          
         </ng-container>
+        <ng-container *ngIf="mostrarCampos('Solar')">
+          <div class="form-group">
+            <label for="metros_largo">Metros Largo</label>
+            <input
+              id="metros_largo"
+              formControlName="metros_largo"
+              type="number"
+              placeholder="Metros Largo"
+              class="input"
+            />
+          </div>
+          <div class="form-group">
+            <label for="metros_ancho">Metros Ancho</label>
+            <input
+              id="metros_ancho"
+              formControlName="metros_ancho"
+              type="number"
+              placeholder="Metros Ancho"
+              class="input"
+            />
+          </div>
+        </ng-container>
+        <div class="form-group">
+          <label for="precio">Precio (USD$650/m²)</label>
+          <input
+            id="precio"
+            formControlName="precio"
+            type="number"
+            placeholder="Precio calculado"
+            class="input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="negociable">Negociable</label>
+          <select
+            id="negociable"
+            formControlName="negociable"
+            class="input"
+          >
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+          </select>
+        </div>
       </div>
       <div class="form-section-title">Descripción</div>
       <div class="form-group">

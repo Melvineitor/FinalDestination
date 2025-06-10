@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { InmoService } from '../../inmo.service';
 import { Router } from '@angular/router';
 import { Persona } from '../../inmobilaria.models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-registro-persona',
@@ -12,10 +13,12 @@ import { Persona } from '../../inmobilaria.models';
   templateUrl: './registro-propiedad.component.html',
   styleUrl: './registro-propiedad.component.css'
 })
-export class RegistroPropiedadComponent implements OnInit {
+export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   registroForm: FormGroup;
   propietarios: Persona[] = [];
   selectedTipoInmueble: string = '';
+  anchoSubscription: Subscription | undefined;
+  largoSubscription: Subscription | undefined;
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
     { name: 'Persona', icon: '👤', active: false, link: '/persona' },
@@ -29,7 +32,7 @@ export class RegistroPropiedadComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
     this.registroForm = this.fb.group({
-      propietario_inmueble: ['', Validators.required],
+      propietario: ['', Validators.required],
       tipo_inmueble: ['', Validators.required],
       cant_niveles: [null],
       cant_habitaciones: [null],
@@ -42,8 +45,8 @@ export class RegistroPropiedadComponent implements OnInit {
       uso_espacio: [null],
       objetivo: ['', Validators.required],
       precio: [null],
-      metros_ancho: [null, Validators.required],
-      metros_largo: [null, Validators.required],
+      metros_ancho: [null],
+      metros_largo: [null],
       estado_inmueble: ['', Validators.required],
       descripcion_detallada: [''],
       ciudad_direccion: ['', Validators.required],
@@ -52,10 +55,6 @@ export class RegistroPropiedadComponent implements OnInit {
       especificaciones_direccion: [''],
       provincia: ['', Validators.required]
     });
-
-    // Calcula el precio automáticamente cuando cambian ancho o largo
-    this.registroForm.get('metros_ancho')?.valueChanges.subscribe(() => this.calcularPrecio());
-    this.registroForm.get('metros_largo')?.valueChanges.subscribe(() => this.calcularPrecio());
 
     this.inmoService.getPersonas().subscribe((personas: Persona[]) => {
       this.propietarios = personas.filter(p => p.rol_persona && p.rol_persona.toLowerCase() === 'propietario');
@@ -76,6 +75,23 @@ export class RegistroPropiedadComponent implements OnInit {
   onTipoInmuebleChange(event: any) {
     this.selectedTipoInmueble = event.target.value;
     this.resetCamposEspecificos();
+    
+    // Remove existing subscriptions if they exist
+    if (this.anchoSubscription) {
+      this.anchoSubscription.unsubscribe();
+    }
+    if (this.largoSubscription) {
+      this.largoSubscription.unsubscribe();
+    }
+
+    // Only set up price calculation for Solar type
+    if (this.selectedTipoInmueble === 'Solar') {
+      this.anchoSubscription = this.registroForm.get('metros_ancho')?.valueChanges.subscribe(() => this.calcularPrecio());
+      this.largoSubscription = this.registroForm.get('metros_largo')?.valueChanges.subscribe(() => this.calcularPrecio());
+    } else {
+      // Reset price when not Solar
+      this.registroForm.get('precio')?.setValue(null);
+    }
   }
 
   resetCamposEspecificos() {
@@ -89,7 +105,9 @@ export class RegistroPropiedadComponent implements OnInit {
       modulo_local: null,
       plaza_local: null,
       nivel_apt: null,
-      uso_espacio: null
+      uso_espacio: null,
+      metros_ancho: null,
+      metros_largo: null,
     });
   }
 
@@ -157,5 +175,14 @@ export class RegistroPropiedadComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  ngOnDestroy() {
+    if (this.anchoSubscription) {
+      this.anchoSubscription.unsubscribe();
+    }
+    if (this.largoSubscription) {
+      this.largoSubscription.unsubscribe();
+    }
   }
 }

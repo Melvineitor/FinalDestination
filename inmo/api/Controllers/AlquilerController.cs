@@ -62,7 +62,7 @@ namespace inmo.api.Controllers
                 i.id_cliente,
                 NombreCompleto = i.Persona.nombre_persona + " " + i.Persona.apellido_persona,
                 Inmuebles = inmuebles
-                    .Where(im => im.propietario_inmueble == i.id_cliente)
+                    .Where(im => im.propietario_inmueble.ToString() == i.id_cliente.ToString())
                     .Select(im => new
                     {
                         im.id_inmueble,

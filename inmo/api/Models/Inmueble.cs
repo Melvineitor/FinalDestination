@@ -25,9 +25,10 @@ namespace inmobilariaApi.Models
         public int? nivel_apt { get; set; }
         public string? uso_espacio { get; set; } = ""; // "Residencial", "Comercial", "Industrial", etc.
         public string objetivo { get; set; } = ""; // "Venta", "Alquiler", "Mantenimiento", etc.
-        public double precio { get; set; } // null si no está a la venta
-        public int metros_ancho { get; set; }// "100 m²", "200 m²", etc.
-        public int metros_largo { get; set; } // "100 m²", "200 m²", etc.
+        public double? precio { get; set; } // null si no está a la venta
+        public string negociable { get; set; } = ""; // "Si", "No"
+        public int? metros_ancho { get; set; }// "100 m²", "200 m²", etc.
+        public int? metros_largo { get; set; } // "100 m²", "200 m²", etc.
         [ForeignKey("Direccion")]
         public int direccion_inmueble { get; set; }
         public string estado_inmueble { get; set; } = ""; // "Disponible", "Alquilado", "Vendido", etc.

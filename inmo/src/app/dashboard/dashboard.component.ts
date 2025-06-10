@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import { LucideAngularModule, Users } from 'lucide-angular';
 import { Router } from '@angular/router';
+import { DashboardService } from '../dashboard.service';
 @Component({
   selector: 'app-root',
   imports: [CommonModule, LucideAngularModule],
@@ -27,8 +28,10 @@ export class dashboardComponent implements AfterViewInit {
   
   private pieChart!: Chart<'pie', number[], string>;
   private barChart!: Chart<'bar', number[], string>;
+  gananciasMensuales: any[] | [] = [];
+  totalGanancias: any | 0 = 0;
 
-  constructor(private inmoService: InmoService, private router: Router) {
+  constructor(private inmoService: InmoService, private router: Router, private dashboardService: DashboardService) {
     Chart.register(PieController, ArcElement, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
   }
   
@@ -47,7 +50,7 @@ export class dashboardComponent implements AfterViewInit {
 
   cards = [
     { title: 'Total de Clientes', value: 0, percentage: '+12% este mes' },
-    { title: 'Pagos Recibidos', value: 0, percentage: '+8% este mes'  }
+    { title: 'Comisiones Recibidas', value: 0, percentage: '+8% este mes'  }
   ];
 
   ngAfterViewInit(): void {
@@ -57,28 +60,117 @@ export class dashboardComponent implements AfterViewInit {
       this.cards[0].value = Array.isArray(this.inquilinos) ? this.inquilinos.length : this.inquilinos;
       console.log(this.inquilinos);
     });
-    this.inmoService.getPagos().subscribe((data: any) => {
-      this.pagos = data;
+    this.dashboardService.getTotalComisiones().subscribe((data: any) => {
+      this.totalGanancias = data;
       //Actualizar el valor de las cartas despues de conseguir la data
-      this.cards[1].value = Array.isArray(this.pagos) ? this.pagos.length : this.pagos;
-      console.log(this.pagos);
+      this.cards[1].value = Array.isArray(this.totalGanancias) ? this.totalGanancias.length : this.totalGanancias;
+      console.log(this.totalGanancias);
     });
     this.inmoService.getPagosEstados().subscribe((data: any) => {
       this.pagosEstados = data;
       console.log(data);
-    });
-    this.inmoService.getBarras().subscribe((data: any) => {
-      this.barras = data;
-      console.log(data);
+      // Inicializar el gráfico de pie después de tener los datos
       this.initializeCharts();
     });
-     this.initializeCharts();
+    this.dashboardService.getGananciasMensuales().subscribe(data => {
+      this.barras = data;
+      console.log('Datos recibidos:', data);
+      
+      // Asegurarnos de que tenemos un array de 12 meses
+      const datosMensuales = Array(12).fill(0);
+      
+      // Llenar el array con los datos recibidos
+      this.barras.forEach((item: any) => {
+        const mesIndex = item.mes - 1; // Convertir mes a índice 0-11
+        datosMensuales[mesIndex] = item.totalGanancia;
+      });
+
+      console.log('Datos procesados:', datosMensuales);
+      
+      // Crear o actualizar el gráfico de barras
+      if (this.barChart) {
+        this.barChart.destroy();
+      }
+      
+      this.barChart = new Chart(this.barChartRef.nativeElement, {
+        type: 'bar',
+        data: {
+          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+          datasets: [{
+            label: 'Ganancias',
+            data: [this.barras[0].TotalGanancia, this.barras[1].TotalGanancia, this.barras[2].TotalGanancia, this.barras[3].TotalGanancia, this.barras[4].TotalGanancia, this.barras[5].TotalGanancia, this.barras[6].TotalGanancia, this.barras[7].TotalGanancia, this.barras[8].TotalGanancia, this.barras[9].TotalGanancia, this.barras[10].TotalGanancia, this.barras[11].TotalGanancia],
+            backgroundColor: '#465fff',
+            borderWidth: 1,
+            borderRadius: 8,
+            barPercentage: 0.7,
+            categoryPercentage: 0.7
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Ganancias por Mes',
+              font: {
+                size: 28
+              }
+            },
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.y !== null) {
+                    label += new Intl.NumberFormat('es-DO', {
+                      style: 'currency',
+                      currency: 'DOP'
+                    }).format(Number(context.parsed.y));
+                  }
+                  return label;
+                }
+              }
+            }
+          },
+          layout: {
+            padding: {
+              bottom: 40
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                padding: 10
+              }
+            },
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: '#e5e7eb'
+              },
+              ticks: {
+                callback: function(value) {
+                  return new Intl.NumberFormat('es-DO', {
+                    style: 'currency',
+                    currency: 'DOP'
+                  }).format(Number(value));
+                }
+              }
+            }
+          }
+        }
+      });
+    });
   }
-  
-  //buscador
- private onSearch() {
-throw new Error('Method not implemented.');
-}
 
 //Menu
 isSidebarCollapsed = false;
@@ -115,60 +207,6 @@ isSidebarCollapsed = false;
           },
           legend: {
             position: 'bottom'
-          }
-        }
-      }
-    });
-
-    // Bar Chart - Ventas por mes
-    this.barChart = new Chart(this.barChartRef.nativeElement, {
-      type: 'bar',
-      data: {
-        labels: ['Ene', 'Feb', "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-        datasets: [{
-          label: 'Ventas',
-          data: [this.barras[2]?.total, 1900,  1500, 2800, this.barras[3]?.total, 2200, 2400, 2300, 2600,2000, this.barras[1]?.total, 2700],
-          backgroundColor: '#465fff', // Sin fondo sólido
-          borderWidth: 1, // Borde grueso para que se vea como línea
-          borderRadius: 8, // Sin esquinas redondeadas
-          barPercentage: 0.7,
-          categoryPercentage: 0.7
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Ventas por Mes',
-            font: {
-              size: 28
-            }
-          },
-          legend: {
-            display: false
-          }
-        },
-        layout: {
-          padding: {
-            bottom: 40 // Margen inferior para los meses
-          }
-        },
-        scales: {
-          x: {
-            grid: {
-              display: false
-            },
-            ticks: {
-              padding: 10 // Espacio extra para los meses
-            }
-          },
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: '#e5e7eb'
-            }
           }
         }
       }

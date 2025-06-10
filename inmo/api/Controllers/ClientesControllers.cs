@@ -30,7 +30,7 @@ namespace inmobilariaApi.Controllers
         [HttpGet("Clientes")]
         public async Task<ActionResult<int>> InquilinosInmo()
         {
-            var result = await _context.Database.SqlQueryRaw<int>("SELECT COUNT(*) FROM persona WHERE rol_persona = 'Inquilino' and rol_persona = 'Propietario';").ToListAsync();
+            var result = await _context.Database.SqlQueryRaw<int>("SELECT COUNT(*) FROM persona WHERE rol_persona = 'Inquilino' or rol_persona = 'Propietario';").ToListAsync();
             return Ok(result.FirstOrDefault());
         }
 
@@ -140,7 +140,7 @@ namespace inmobilariaApi.Controllers
                 var result = await _context.Database.SqlQueryRaw<Inmueble>(
                     "SELECT id_inmueble, propietario_inmueble, tipo_inmueble, cant_niveles, cant_habitaciones, " +
                     "cant_banos, cant_parqueos, cuarto_servicio, modulo_local, plaza_local, nivel_apt, " +
-                    "uso_espacio, objetivo, precio, metros_ancho, metros_largo, direccion_inmueble, " +
+                    "uso_espacio, objetivo, precio, negociable,metros_ancho, metros_largo, direccion_inmueble, " +
                     "estado_inmueble, descripcion_detallada FROM inmueble"
                 ).ToListAsync();
 
@@ -151,28 +151,29 @@ namespace inmobilariaApi.Controllers
                 // Mapear el resultado con los datos relacionados
                 var mappedResult = result.Select(i => new {
                     i.id_inmueble,
-                    propietario = personas.FirstOrDefault(p => p.id_persona == i.propietario_inmueble) != null
-                        ? $"{personas.First(p => p.id_persona == i.propietario_inmueble).nombre_persona} {personas.First(p => p.id_persona == i.propietario_inmueble).apellido_persona}"
+                    propietario = personas.FirstOrDefault(p => p.id_persona.ToString() == i.propietario_inmueble.ToString()) != null
+                        ? $"{personas.First(p => p.id_persona.ToString() == i.propietario_inmueble.ToString()).nombre_persona} {personas.First(p => p.id_persona.ToString() == i.propietario_inmueble.ToString()).apellido_persona}"
                         : "Sin propietario",
-                    i.tipo_inmueble,
-                    i.cant_niveles,
-                    i.cant_habitaciones,
-                    i.cant_banos,
-                    i.cant_parqueos,
-                    i.cuarto_servicio,
-                    i.modulo_local,
-                    i.plaza_local,
-                    i.nivel_apt,
-                    i.uso_espacio,
-                    i.objetivo,
-                    i.precio,
-                    i.metros_ancho,
-                    i.metros_largo,
-                    direccion = direcciones.FirstOrDefault(d => d.id_direccion == i.direccion_inmueble) != null
-                        ? $"{direcciones.First(d => d.id_direccion == i.direccion_inmueble).ciudad_direccion} - {direcciones.First(d => d.id_direccion == i.direccion_inmueble).zona} - {direcciones.First(d => d.id_direccion == i.direccion_inmueble).calle}"
-                        : "Sin dirección",
-                    i.estado_inmueble,
-                    i.descripcion_detallada
+                    tipo_inmueble = i.tipo_inmueble ?? "-",
+                    cant_niveles = i.cant_niveles ?? 0,
+                    cant_habitaciones = i.cant_habitaciones ?? 0,
+                    cant_banos = i.cant_banos ?? 0,
+                    cant_parqueos = i.cant_parqueos ?? 0,
+                    cuarto_servicio = i.cuarto_servicio ?? 0,
+                    modulo_local = i.modulo_local ?? "-",
+                    plaza_local = i.plaza_local ?? "-",
+                    nivel_apt = i.nivel_apt ?? 0,
+                    uso_espacio = i.uso_espacio ?? "-",
+                    objetivo = i.objetivo ?? "-",
+                    precio = i.precio ?? 0.0,
+                    negociable = i.negociable ?? "-",
+                    metros_ancho = i.metros_ancho ?? 0,
+                    metros_largo = i.metros_largo ?? 0,
+                    direccion = direcciones.FirstOrDefault(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()) != null
+                        ? $"{direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).ciudad_direccion} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).zona} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).calle}"
+                        : "",
+                    estado_inmueble = i.estado_inmueble ?? "",
+                    descripcion_detallada = i.descripcion_detallada ?? ""
                 }).ToList();
 
                 return Ok(mappedResult);
