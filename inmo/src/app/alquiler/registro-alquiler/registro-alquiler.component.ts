@@ -38,7 +38,7 @@ pagoAlquiler: any[] = [];
   }
   ngOnInit(): void {
    this.cargarDatosRelacionados();
-   console.log(this.propiedades);
+  
   }
 
     onSubmit(): void {
@@ -67,7 +67,10 @@ cargarDatosRelacionados(): void {
   this.alquilerService.getClientes().subscribe(data => this.clientes = data);
   this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
   this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
-  this.alquilerService.getPropiedades().subscribe(data => this.propiedades = data);
+  this.alquilerService.getPropiedades().subscribe(data => {
+    this.propiedades = data;
+    console.log(this.propiedades);
+  });
 }
 
   menuItems = [
