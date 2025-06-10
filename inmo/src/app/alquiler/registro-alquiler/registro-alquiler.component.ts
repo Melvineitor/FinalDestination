@@ -38,7 +38,6 @@ pagoAlquiler: any[] = [];
   }
   ngOnInit(): void {
    this.cargarDatosRelacionados();
-   this.onSelectPropiedad(this.pagoAlquiler);
    console.log(this.pagoAlquiler);
   }
 
@@ -97,6 +96,9 @@ cargarDatosRelacionados(): void {
   onSelectPropiedad(event: any): void {
     const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
     if (propiedadSeleccionada) {
+      this.registroForm.patchValue({
+        pago_alquiler: propiedadSeleccionada.precio
+      });
       this.pagoAlquiler = propiedadSeleccionada.precio;
       console.log(this.pagoAlquiler);
     }

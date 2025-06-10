@@ -70,6 +70,7 @@
           <select
             id="propiedad"
             formControlName="propiedad_alquiler"
+            (change)="onSelectPropiedad($event)"
             class="form-control"
           >
             <option value="">Seleccione una propiedad</option>
