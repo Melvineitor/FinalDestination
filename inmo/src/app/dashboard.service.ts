@@ -11,9 +11,9 @@ export class DashboardService {
   constructor(private http: HttpClient) { }
 
   getGananciasMensuales(): Observable<GananciaMensual[]> {
-    return this.http.get<GananciaMensual[]>(`${environment.apiURL}/dashboard/GananciasPorMes`);
+    return this.http.get<GananciaMensual[]>(`${environment.apiURL}api/dashboard/GananciasPorMes`);
   }
   getTotalComisiones(): Observable<number> {
-    return this.http.get<number>(`${environment.apiURL}/dashboard/TotalComisiones`);
+    return this.http.get<number>(`${environment.apiURL}api/dashboard/TotalComisiones`);
   }
 }
