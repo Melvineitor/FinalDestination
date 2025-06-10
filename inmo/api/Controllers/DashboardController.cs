@@ -23,13 +23,29 @@ namespace api.Controllers
             _context = context;
         }
 
-       [HttpGet("TotalComisiones")]
-       [EnableCors]
-    public async Task<ActionResult<double>> GetTotalComisiones()
+   [HttpGet("TotalGanancias")]
+public async Task<ActionResult<double>> GetTotalGanancias()
+{
+    double total = 0.0;
+
+    using (var connection = _context.Database.GetDbConnection())
     {
-        var total = await _context.Comision.SumAsync(c => c.Monto_Comision);
-        return Ok(total);
+        await connection.OpenAsync();
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = @"
+                SELECT COALESCE(SUM(Monto_Comision), 0.0)
+                FROM Comision
+            ";
+
+            var result = await command.ExecuteScalarAsync();
+            total = Convert.ToDouble(result);
+        }
     }
+
+    return Ok(total);
+}
+
 public class GananciaMensualDto
 {
     public int Mes { get; set; }
