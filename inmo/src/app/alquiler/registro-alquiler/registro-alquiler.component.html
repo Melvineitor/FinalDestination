@@ -49,9 +49,10 @@
           <input
             id="pago_alquiler"
             formControlName="pago_alquiler"
+            [ngModel]="pagoAlquiler"
             type="number"
             placeholder="Pago del alquiler"
-            class="input"
+            readonly
           />
         </div>
         <div class="form-group">

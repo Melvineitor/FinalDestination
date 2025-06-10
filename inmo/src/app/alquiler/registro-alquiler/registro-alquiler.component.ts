@@ -17,6 +17,8 @@ clientes: any[] = [];
 fiadores: any[] = [];
 notarios: any[] = [];
 propiedades: any[] = [];
+selectedPropiedadId: number = 0;
+pagoAlquiler: any[] = [];
 
   registroForm: FormGroup;
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
@@ -87,4 +89,11 @@ cargarDatosRelacionados(): void {
     this.menuItems.forEach(item => item.active = false);
     selectedItem.active = true;
   }
+  onSelectPropiedad(event: any): void {
+    const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
+    if (propiedadSeleccionada) {
+      this.pagoAlquiler = propiedadSeleccionada.precio; // o propiedadSeleccionada.monto_alquiler
+    }
+  }
+  
 }
