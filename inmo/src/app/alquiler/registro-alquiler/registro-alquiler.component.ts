@@ -35,6 +35,7 @@ pagoAlquiler: any[] = [];
       notario_alquiler: ['', Validators.required],
       contrato_alquiler: ['', Validators.required],
       estado_alquiler: ['', Validators.required],
+      id_inmueble: ['', Validators.required],
     });
   }
   ngOnInit(): void {
@@ -99,7 +100,8 @@ cargarDatosRelacionados(): void {
     if (propiedadSeleccionada) {
       this.registroForm.patchValue({
         pago_alquiler: propiedadSeleccionada.precio,
-        propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona
+        propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona,
+        id_inmueble: propiedadSeleccionada.id_inmueble
       });
       this.pagoAlquiler = propiedadSeleccionada.precio;
       this.propietarioInmueble = propiedadSeleccionada.propietario_inmueble;
