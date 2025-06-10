@@ -71,11 +71,13 @@
             id="propiedad"
             formControlName="propiedad_alquiler"
             class="form-control"
+            (change)="onSelectPropiedad($event)"
+            [ngModel]="selectedPropiedadId"
           >
             <option value="">Seleccione una propiedad</option>
             <option
               *ngFor="let propiedad of propiedades"
-              [value]="propiedad.id_propiedad"
+              [value]="propiedad.id_inmueble"
             >
               {{ propiedad.direccion }}
             </option>
