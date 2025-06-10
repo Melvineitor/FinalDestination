@@ -93,7 +93,8 @@ cargarDatosRelacionados(): void {
   onSelectPropiedad(event: any): void {
     const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
     if (propiedadSeleccionada) {
-      this.pagoAlquiler = propiedadSeleccionada.precio; // o propiedadSeleccionada.monto_alquiler
+      this.pagoAlquiler = propiedadSeleccionada.precio;
+      console.log(this.pagoAlquiler);
     }
   }
   
