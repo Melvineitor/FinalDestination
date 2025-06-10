@@ -24,6 +24,7 @@ namespace api.Controllers
         }
 
        [HttpGet("TotalComisiones")]
+       [EnableCors]
     public async Task<ActionResult<double>> GetTotalComisiones()
     {
         var total = await _context.Comision.SumAsync(c => c.Monto_Comision);
