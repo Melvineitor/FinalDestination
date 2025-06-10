@@ -34,8 +34,8 @@ public async Task<ActionResult<double>> GetTotalGanancias()
         using (var command = connection.CreateCommand())
         {
             command.CommandText = @"
-                SELECT COALESCE(SUM(Monto_Comision), 0.0)
-                FROM Comision
+                SELECT COALESCE(SUM(monto_comision), 0.0)
+                FROM comision
             ";
 
             var result = await command.ExecuteScalarAsync();
