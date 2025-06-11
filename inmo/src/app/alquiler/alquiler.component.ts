@@ -44,7 +44,7 @@ export class AlquilerComponent implements OnInit {
         (a.nombre_cliente && a.nombre_cliente.toLowerCase().includes(term)) ||
         (a.nombre_fiador && a.nombre_fiador.toLowerCase().includes(term)) ||
         (a.nombre_notario && a.nombre_notario.toLowerCase().includes(term)) ||
-        (a.id_contrato && a.id_contrato.toString().toLowerCase().includes(term)) ||
+        (a.contrato_alquiler && a.contrato_alquiler.toLowerCase().includes(term)) ||
         (a.estado_alquiler && a.estado_alquiler.toLowerCase().includes(term)) ||
         (a.especificaciones_direccion && a.especificaciones_direccion.toLowerCase().includes(term)) ||
         (a.plazo_pago && a.plazo_pago.toLowerCase().includes(term)) ||
