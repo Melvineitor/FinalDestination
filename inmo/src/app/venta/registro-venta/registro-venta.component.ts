@@ -33,6 +33,7 @@ export class RegistroVentaComponent implements OnInit {
   ];
   pagoAlquiler: number | null = null;
   propietarioInmueble: { id_persona: number; nombre_persona: string; apellido_persona: string; } | null | undefined;
+  propiedadesActivas: Inmueble[] = [];
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
@@ -44,40 +45,21 @@ export class RegistroVentaComponent implements OnInit {
       fiador_venta: ['', Validators.required],
       notario_venta: ['', Validators.required],
       contrato_venta: ['', Validators.required],
-      inmueble_venta: ['', Validators.required]
+      inmueble_venta: ['', Validators.required],
+      estado_venta: ['Completado', Validators.required]
     });
   }
 
   ngOnInit() {
     // Cargar empleados
-    this.inmoService.getPersonas().subscribe(
-      (personas: Persona[]) => {
-        this.empleados = personas.filter(p => p.rol_persona === 'Empleado');
-        this.clientes = personas.filter(p => p.rol_persona === 'Inquilino');
-        this.fiadores = personas.filter(p => p.rol_persona === 'Fiador');
-        this.notarios = personas.filter(p => p.rol_persona === 'Notario');
-        this.propietarios = personas.filter(p => p.rol_persona === 'Propietario');
-        console.log("Propietarios: " +this.propietarios);
-        console.log("Fiadores: " +this.fiadores);
-        console.log("Notarios: " +this.notarios);
-        console.log("Clientes: " +this.clientes);
-        console.log("Empleados: " +this.empleados);
-      },
-      (error) => {
-        console.error('Error al cargar personas:', error);
-      }
-    );
-
-    // Cargar propiedades disponibles
-    this.inmoService.getPropiedades().subscribe(
-      (propiedades: Inmueble[]) => {
-        this.propiedades = propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Venta');
-        console.log("Propiedades: " +this.propiedades);
-      },
-      (error) => {
-        console.error('Error al cargar propiedades:', error);
-      }
-    );
+    this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
+    this.alquilerService.getClientes().subscribe(data => this.clientes = data);
+    this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
+    this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
+    this.inmoService.getPropiedades().subscribe(data => {this.propietarios = data;
+      console.log("Propietarios: " +this.propietarios);
+      this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Venta');
+    });
   }
 
   async onSubmit() {

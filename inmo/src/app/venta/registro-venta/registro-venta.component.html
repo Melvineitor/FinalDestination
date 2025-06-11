@@ -36,16 +36,7 @@
         </div>
 
         <!-- Pago de Venta -->
-        <div class="form-group">
-          <label for="pago_venta">Monto de Pago</label>
-          <input
-            id="pago_venta"
-            type="number"
-            formControlName="pago_venta"
-            class="input"
-            placeholder="Monto del pago"
-          />
-        </div>
+        
 
         <!-- Propiedad -->
         <div class="form-group">
@@ -79,27 +70,6 @@
               [value]="cliente.id_persona"
             >
               {{ cliente.nombre_persona }} {{ cliente.apellido_persona }}
-            </option>
-          </select>
-        </div>
-
-        <!-- Propietario -->
-        <div class="form-group">
-          <label for="propietario_venta">Propietario</label>
-          <select
-            id="propietario_venta"
-            formControlName="propietario_venta"
-            class="input"
-          >
-            <option value="" disabled selected>
-              Seleccione un propietario
-            </option>
-            <option
-              *ngFor="let propietario of propietarios"
-              [value]="propietario.id_persona"
-            >
-              {{ propietario.nombre_persona }}
-              {{ propietario.apellido_persona }}
             </option>
           </select>
         </div>
@@ -149,6 +119,41 @@
             formControlName="contrato_venta"
             class="input"
             placeholder="Contrato"
+          />
+        </div>
+        <div class="form-group">
+          <label for="pago_venta">Monto de Pago</label>
+          <input
+            id="pago_venta"
+            type="number"
+            formControlName="pago_venta"
+            class="input"
+            placeholder="Monto del pago"
+            [ngModel]="pagoAlquiler"
+            readonly
+          />
+        </div>
+        <div class="form-group">
+          <label for="id_inmueble">ID Inmueble</label>
+        <input
+          id="id_inmueble"
+          formControlName="id_inmueble"
+          type="number"
+          placeholder="ID del inmueble"
+          class="input"
+          readonly
+          />
+        </div>
+        <div class="form-group">
+          <label for="estado_venta">Estado</label>
+          <input
+            id="estado_venta"
+            formControlName="estado_venta"
+            type="text"
+            placeholder="Completado"
+            class="input"
+            value="Completado"
+            readonly
           />
         </div>
       </div>
