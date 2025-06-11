@@ -16,7 +16,6 @@ namespace inmobilariaApi.Models
         public string? nombre_fiador { get; set; } = "";
         public string? nombre_notario { get; set; } = "";
         public string? contrato_venta { get; set; } = "";
-        public string? inmueble_venta { get; set; } = "";
         public string? estado_venta { get; set; } = "";
     }
 }
