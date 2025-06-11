@@ -44,14 +44,17 @@
             class="input"
             [attr.min]="registroForm.get('fecha_alquiler')?.value"
           />
-          <div *ngIf="registroForm.errors?.['fechaInvalida']" style="color: red;">
+          <div
+            *ngIf="registroForm.errors?.['fechaInvalida']"
+            style="color: red"
+          >
             La fecha de fin no puede ser menor que la fecha de inicio.
           </div>
         </div>
-        
+
         <div class="form-group">
           <label for="plazo_pago">Plazo de Pago</label>
-         <select
+          <select
             id="plazo_pago"
             formControlName="plazo_pago"
             type="text"
@@ -75,7 +78,7 @@
           >
             <option value="">Seleccione una propiedad</option>
             <option
-              *ngFor="let propiedad of propiedadesActivas"
+              *ngFor="let propiedad of propiedades"
               [value]="propiedad.id_inmueble"
             >
               {{ propiedad.codigo_referencia }}
@@ -158,13 +161,13 @@
         </div>
         <div class="form-group">
           <label for="id_inmueble">ID Inmueble</label>
-        <input
-          id="id_inmueble"
-          formControlName="id_inmueble"
-          type="number"
-          placeholder="ID del inmueble"
-          class="input"
-          readonly
+          <input
+            id="id_inmueble"
+            formControlName="id_inmueble"
+            type="number"
+            placeholder="ID del inmueble"
+            class="input"
+            readonly
           />
         </div>
         <div class="form-group">
