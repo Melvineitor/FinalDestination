@@ -79,10 +79,10 @@
           >
             <option value="">Seleccione una propiedad</option>
             <option
-              *ngFor="let propiedad of propiedades"
+              *ngFor="let propiedad of propiedadesActivas"
               [value]="propiedad.id_inmueble"
             >
-              {{ propiedad.direccion }}
+              {{ propiedad.codigo_referencia }}
             </option>
           </select>
         </div>
@@ -139,7 +139,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="contrato_alquiler">Contrato</label>
+          <label for="contrato_alquiler">Se firmo el contrato? (Si/No)</label>
           <input
             id="contrato_alquiler"
             formControlName="contrato_alquiler"

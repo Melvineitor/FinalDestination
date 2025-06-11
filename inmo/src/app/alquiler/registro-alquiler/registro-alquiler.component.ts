@@ -18,6 +18,7 @@ fiadores: any[] = [];
 notarios: any[] = [];
 propiedades: any[] = [];
 selectedPropiedadId: number = 0;
+propiedadesActivas: any[] = [];
 pagoAlquiler: any[] = [];
 
   registroForm: FormGroup;
@@ -86,6 +87,7 @@ cargarDatosRelacionados(): void {
   this.inmoService.getPropiedades().subscribe(data => {
     this.propiedades = data;
     console.log(this.propiedades);
+    this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble === 'Activo' || p.estado_inmueble === 'activo');
   }); 
 }
 
