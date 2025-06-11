@@ -15,12 +15,12 @@ import { AlquilerService } from '../../alquiler/registro-alquiler/alquiler.servi
 })
 export class RegistroVentaComponent implements OnInit {
   registroForm: FormGroup;
-  empleados: Persona[] = [];
-  clientes: Persona[] = [];
-  fiadores: Persona[] = [];
-  notarios: Persona[] = [];
-  propiedades: Inmueble[] = [];
-  propietarios: Persona[] = [];
+  empleados: any[] = [];
+  clientes: any[] = [];
+  fiadores: any[] = [];
+  notarios: any[] = [];
+  propiedades: any[] = [];
+  propietarios: any[] = [];
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
     { name: 'Persona', icon: '👤', active: false, link: '/persona' },
@@ -31,9 +31,9 @@ export class RegistroVentaComponent implements OnInit {
     { name: 'Cita', icon: '📅', active: false, link: '/cita' },
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
-  pagoAlquiler: number | null = null;
+  pagoVenta: number | null = null;
   propietarioInmueble: { id_persona: number; nombre_persona: string; apellido_persona: string; } | null | undefined;
-  propiedadesActivas: Inmueble[] = [];
+  propiedadesActivas: any[] = [];
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
@@ -104,9 +104,9 @@ export class RegistroVentaComponent implements OnInit {
         propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona,
         id_inmueble: propiedadSeleccionada.id_inmueble
       });
-      this.pagoAlquiler = propiedadSeleccionada.precio;
+      this.pagoVenta = propiedadSeleccionada.precio;
       this.propietarioInmueble = propiedadSeleccionada.propietario_inmueble;
-      console.log(this.pagoAlquiler);
+      console.log(this.pagoVenta);
     }
   }
 }
