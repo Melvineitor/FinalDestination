@@ -144,6 +144,7 @@
                     Dirección
                   </th>
                   <th *ngIf="mostrarColumna('estado_inmueble')">Estado</th>
+                  <th *ngIf="mostrarColumna('codigo_referencia')">Codigo Referencia</th>
                 </tr>
               </thead>
               <tbody>
@@ -169,6 +170,7 @@
                   <td *ngIf="mostrarColumna('metros_largo')">{{ inmueble.metros_largo === null || inmueble.metros_largo === undefined ? '-' : inmueble.metros_largo }}</td>
                   <td *ngIf="mostrarColumna('direccion')">{{ inmueble.direccion || '-' }}</td>
                   <td *ngIf="mostrarColumna('estado_inmueble')">{{ inmueble.estado_inmueble || '-' }}</td>
+                  <td *ngIf="mostrarColumna('codigo_referencia')">{{ inmueble.codigo_referencia || '-' }}</td>
                 </tr>
                 <tr *ngIf="inmueblesFiltrados.length === 0">
                   <td colspan="18" class="text-center">
