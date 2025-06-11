@@ -32,7 +32,6 @@ export class RegistroVentaComponent implements OnInit {
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
   pagoVenta: number | null = null;
-  id_inmueble: number | null = null;
   propietarioInmueble: { id_persona: number; nombre_persona: string; apellido_persona: string; } | null | undefined;
   propiedadesActivas: any[] = [];
 
