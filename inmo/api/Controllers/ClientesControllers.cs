@@ -288,13 +288,50 @@ namespace inmobilariaApi.Controllers
             try
             {
                 var result = await _context.Database.SqlQueryRaw<Venta>(
-                    "select * from vista_ventas_detallado"
+                    "select *, COALESCE(nombre_fiador, '') as nombre_fiador, COALESCE(nombre_notario, '') as nombre_notario from vista_ventas_detallado;"
                 ).ToListAsync();
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al mapear venta. Se intentará devolver todos los campos con diagnóstico de errores por registro.");
+                // Consulta dinámica de todos los campos
+                using (var conn = _context.Database.GetDbConnection())
+                {
+                    await conn.OpenAsync();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "select *, COALESCE(nombre_fiador, '') as nombre_fiador, COALESCE(nombre_notario, '') as nombre_notario from vista_ventas_detallado;";
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            var fieldCount = reader.FieldCount;
+                            while (await reader.ReadAsync())
+                            {
+                                var dict = new Dictionary<string, object?>();
+                                var errores = new List<string>();
+                                for (int i = 0; i < fieldCount; i++)
+                                {
+                                    var name = reader.GetName(i);
+                                    try
+                                    {
+                                        dict[name] = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        dict[name] = null;
+                                        errores.Add(name);
+                                        _logger.LogError(e, $"Falla al leer campo {name}");
+                                    }
+                                }
+                                if (errores.Count > 0)
+                                {
+                                    dict["errores"] = errores;
+                                }
+                                ventas.Add(dict);
+                            }
+                        }
+                    }
+                }
                 return Ok(ventas);
             }
         }
