@@ -68,7 +68,8 @@ export class RegistroVentaComponent implements OnInit {
       'notario_venta': 'Notario',
       'contrato_venta': 'Contrato de Venta',
       'estado_venta': 'Estado de Venta',
-      'id_inmueble': 'ID Inmueble'
+      'id_inmueble': 'ID Inmueble',
+      'propietario_inmueble': 'Propietario del Inmueble'
     };
 
     Object.keys(this.registroForm.controls).forEach(key => {
@@ -76,11 +77,19 @@ export class RegistroVentaComponent implements OnInit {
       if (control && control.invalid) {
         // Verificar si tiene error 'required'
         if (control.errors?.['required']) {
-          camposFaltantes.push(camposConNombres[key] || key);
+          const nombreCampo = camposConNombres[key];
+          if (nombreCampo) {
+            camposFaltantes.push(nombreCampo);
+          } else {
+            // Si no está en el mapeo, usar el key original pero formateado
+            const nombreFormateado = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            camposFaltantes.push(nombreFormateado);
+          }
         }
         // Verificar si tiene error 'min' (para pago_venta)
         else if (control.errors?.['min']) {
-          camposFaltantes.push(`${camposConNombres[key] || key} (debe ser mayor a 0)`);
+          const nombreCampo = camposConNombres[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          camposFaltantes.push(`${nombreCampo} (debe ser mayor a 0)`);
         }
       }
     });
