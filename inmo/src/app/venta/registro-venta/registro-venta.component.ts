@@ -32,9 +32,10 @@ export class RegistroVentaComponent implements OnInit {
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
   pagoVenta: number | null = null;
+  id_inmueble: number | null = null;
   propietarioInmueble: { id_persona: number; nombre_persona: string; apellido_persona: string; } | null | undefined;
   propiedadesActivas: any[] = [];
-  id_inmueble: number | null = null;
+
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_venta: ['', Validators.required],
@@ -101,6 +102,7 @@ export class RegistroVentaComponent implements OnInit {
   onSelectPropiedad(event: any): void {
     const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
     if (propiedadSeleccionada) {
+      console.log(propiedadSeleccionada.id_inmueble);
       this.registroForm.patchValue({
         pago_venta: propiedadSeleccionada.precio,
         propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona,
@@ -108,7 +110,6 @@ export class RegistroVentaComponent implements OnInit {
       });
       this.pagoVenta = propiedadSeleccionada.precio;
       this.propietarioInmueble = propiedadSeleccionada.propietario_inmueble;
-      this.id_inmueble = propiedadSeleccionada.id_inmueble;
       console.log(this.pagoVenta);
     }
   }
