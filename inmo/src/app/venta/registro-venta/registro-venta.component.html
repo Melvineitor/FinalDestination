@@ -110,7 +110,22 @@
               </option>
             </select>
           </div>
-
+          <div class="form-group">
+            <label for="empleado_venta">Empleado</label>
+            <select
+              id="empleado_venta"
+              formControlName="empleado_venta"
+              class="input"
+            >
+              <option value="" disabled selected>Seleccione un empleado</option>
+              <option
+                *ngFor="let empleado of empleados"
+                [value]="empleado.id_persona"
+              >
+                {{ empleado.NombreCompleto }}
+              </option>
+            </select>
+          </div>
         <!-- Contrato -->
         <div class="form-group">
           <label for="contrato_venta">Se firmo el contrato? (Si/No)</label>
