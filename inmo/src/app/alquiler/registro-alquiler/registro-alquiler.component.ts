@@ -23,6 +23,7 @@ pagoAlquiler: any[] = [];
 
   registroForm: FormGroup;
   propietarioInmueble: any;
+id_inmueble: any;
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_alquiler: ['', Validators.required],
