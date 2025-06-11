@@ -70,7 +70,7 @@
               *ngFor="let cliente of clientes"
               [value]="cliente.id_persona"
             >
-              {{ cliente.nombre_persona }} {{ cliente.apellido_persona }}
+              {{ cliente.NombreCompleto }}
             </option>
           </select>
         </div>
@@ -88,7 +88,7 @@
               *ngFor="let notario of notarios"
               [value]="notario.id_persona"
             >
-              {{ notario.nombre_persona }} {{ notario.apellido_persona }}
+              {{ notario.NombreCompleto }}
             </option>
           </select>
         </div>
@@ -106,7 +106,7 @@
                 *ngFor="let fiador of fiadores"
                 [value]="fiador.id_persona"
               >
-                {{ fiador.nombre_persona }} {{ fiador.apellido_persona }}
+                {{ fiador.NombreCompleto }}
               </option>
             </select>
           </div>
