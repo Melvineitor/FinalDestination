@@ -34,7 +34,7 @@ export class RegistroVentaComponent implements OnInit {
   pagoVenta: number | null = null;
   propietarioInmueble: { id_persona: number; nombre_persona: string; apellido_persona: string; } | null | undefined;
   propiedadesActivas: any[] = [];
-
+  id_inmueble: number | null = null;
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_venta: ['', Validators.required],
@@ -108,6 +108,7 @@ export class RegistroVentaComponent implements OnInit {
       });
       this.pagoVenta = propiedadSeleccionada.precio;
       this.propietarioInmueble = propiedadSeleccionada.propietario_inmueble;
+      this.id_inmueble = propiedadSeleccionada.id_inmueble;
       console.log(this.pagoVenta);
     }
   }
