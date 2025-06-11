@@ -50,16 +50,9 @@ export class RegistroVentaComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    // Cargar empleados
-    this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
-    this.alquilerService.getClientes().subscribe(data => this.clientes = data);
-    this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
-    this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
-    this.inmoService.getPropiedades().subscribe(data => {this.propietarios = data;
-      console.log("Propietarios: " +this.propietarios);
-      this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Venta');
-    });
+  ngOnInit(): void {
+    this.cargarDatosRelacionados();
+    console.log(this.pagoVenta);
   }
 
   async onSubmit() {
@@ -85,7 +78,15 @@ export class RegistroVentaComponent implements OnInit {
       console.error('Error:', err);
     }
   }
-
+  cargarDatosRelacionados(): void {
+    this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
+    this.alquilerService.getClientes().subscribe(data => this.clientes = data);
+    this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
+    this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
+    this.inmoService.getPropiedades().subscribe(data => {this.propiedades = data;
+      this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Venta');
+    });
+  }
   selectMenuItem(item: any): void {
     this.menuItems.forEach(menuItem => menuItem.active = false);
     item.active = true;
@@ -100,7 +101,7 @@ export class RegistroVentaComponent implements OnInit {
     const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
     if (propiedadSeleccionada) {
       this.registroForm.patchValue({
-        pago_alquiler: propiedadSeleccionada.precio,
+        pago_venta: propiedadSeleccionada.precio,
         propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona,
         id_inmueble: propiedadSeleccionada.id_inmueble
       });
