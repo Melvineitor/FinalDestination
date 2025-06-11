@@ -45,7 +45,6 @@ export class RegistroVentaComponent implements OnInit {
       fiador_venta: ['', Validators.required],
       notario_venta: ['', Validators.required],
       contrato_venta: ['', Validators.required],
-      inmueble_venta: ['', Validators.required],
       estado_venta: ['Completado', Validators.required],
       id_inmueble: ['', Validators.required]
     });
