@@ -35,7 +35,7 @@ pagoAlquiler: any[] = [];
       fiador_alquiler: ['', Validators.required],
       notario_alquiler: ['', Validators.required],
       contrato_alquiler: ['', Validators.required],
-      estado_alquiler: ['', Validators.required],
+      estado_alquiler: ['Completado', Validators.required],
       id_inmueble: ['', Validators.required],
     },
     {

@@ -48,17 +48,7 @@
             La fecha de fin no puede ser menor que la fecha de inicio.
           </div>
         </div>
-        <div class="form-group">
-          <label for="pago_alquiler">Pago del Alquiler</label>
-          <input
-            id="pago_alquiler"
-            formControlName="pago_alquiler"
-            [ngModel]="pagoAlquiler"
-            type="number"
-            placeholder="Pago del alquiler"
-            readonly
-          />
-        </div>
+        
         <div class="form-group">
           <label for="plazo_pago">Plazo de Pago</label>
          <select
@@ -160,7 +150,7 @@
             id="estado_alquiler"
             formControlName="estado_alquiler"
             type="text"
-            placeholder="Estado del alquiler"
+            placeholder="Completado"
             class="input"
             value="Completado"
             readonly
@@ -175,6 +165,17 @@
           placeholder="ID del inmueble"
           class="input"
           readonly
+          />
+        </div>
+        <div class="form-group">
+          <label for="pago_alquiler">Pago del Alquiler</label>
+          <input
+            id="pago_alquiler"
+            formControlName="pago_alquiler"
+            [ngModel]="pagoAlquiler"
+            type="number"
+            placeholder="Pago del alquiler"
+            readonly
           />
         </div>
       </div>
