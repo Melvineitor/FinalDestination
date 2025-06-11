@@ -55,39 +55,92 @@ export class RegistroVentaComponent implements OnInit {
     console.log(this.pagoVenta);
   }
 
+  // Método para obtener los campos faltantes
+  obtenerCamposFaltantes(): string[] {
+    const camposFaltantes: string[] = [];
+    const camposConNombres: { [key: string]: string } = {
+      'fecha_venta': 'Fecha de Venta',
+      'pago_venta': 'Pago de Venta',
+      'propiedad_venta': 'Propiedad',
+      'empleado_venta': 'Empleado',
+      'cliente_venta': 'Cliente',
+      'fiador_venta': 'Fiador',
+      'notario_venta': 'Notario',
+      'contrato_venta': 'Contrato de Venta',
+      'estado_venta': 'Estado de Venta',
+      'id_inmueble': 'ID Inmueble'
+    };
+
+    Object.keys(this.registroForm.controls).forEach(key => {
+      const control = this.registroForm.get(key);
+      if (control && control.invalid) {
+        // Verificar si tiene error 'required'
+        if (control.errors?.['required']) {
+          camposFaltantes.push(camposConNombres[key] || key);
+        }
+        // Verificar si tiene error 'min' (para pago_venta)
+        else if (control.errors?.['min']) {
+          camposFaltantes.push(`${camposConNombres[key] || key} (debe ser mayor a 0)`);
+        }
+      }
+    });
+
+    return camposFaltantes;
+  }
+
   async onSubmit() {
     if (this.registroForm.invalid) {
-      alert('Por favor, complete todos los campos requeridos');
+      const camposFaltantes = this.obtenerCamposFaltantes();
+      
+      let mensajeError = 'Formulario Inválido.';
+      
+      if (camposFaltantes.length > 0) {
+        mensajeError += `\n\nCampos faltantes o inválidos:\n• ${camposFaltantes.join('\n• ')}`;
+      }
+      
+      console.warn('Formulario inválido:', this.registroForm.errors, this.registroForm.value);
+      console.warn('Campos faltantes:', camposFaltantes);
+      
+      alert(mensajeError);
+      this.registroForm.markAllAsTouched();
       return;
     }
 
     try {
       const ventaData: VentaCrear = this.registroForm.value;
+      console.log('Datos enviados al backend:', ventaData);
+      
       this.inmoService.createVenta(ventaData).subscribe({
         next: (response: any) => {
+          console.log('Venta guardada con éxito:', response);
           alert('Venta registrada correctamente');
-          this.router.navigate(['/venta']);
+          this.registroForm.reset();
+          // Opcional: redirigir a la lista de ventas
+          // this.router.navigate(['/venta']);
         },
         error: (error: any) => {
+          console.error('Error al guardar venta:', error);
           alert('Error al registrar la venta');
-          console.error('Error:', error);
         }
       });
     } catch (err) {
+      console.error('Error al procesar la venta:', err);
       alert('Error al procesar la venta');
-      console.error('Error:', err);
     }
   }
+
   cargarDatosRelacionados(): void {
     this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
     this.alquilerService.getClientes().subscribe(data => this.clientes = data);
     console.log(this.clientes);
     this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
     this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
-    this.inmoService.getPropiedades().subscribe(data => {this.propiedades = data;
+    this.inmoService.getPropiedades().subscribe(data => {
+      this.propiedades = data;
       this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Venta');
     });
   }
+
   selectMenuItem(item: any): void {
     this.menuItems.forEach(menuItem => menuItem.active = false);
     item.active = true;
@@ -98,6 +151,7 @@ export class RegistroVentaComponent implements OnInit {
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
+
   onSelectPropiedad(event: any): void {
     const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
     if (propiedadSeleccionada) {
