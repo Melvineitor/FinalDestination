@@ -72,6 +72,7 @@ export interface Venta{
   id_venta: number;
   fecha_venta: Date;
   pago_venta: number;
+  plazo_pago: string;
   id_propiedad: number;
   nombre_empleado: string;
   nombre_cliente: string;
@@ -79,7 +80,7 @@ export interface Venta{
   nombre_notario: string;
   contrato_venta: string;
   estado_venta: string;
-  tipo_inmueble: string;
+  especificaciones_direccion: string;
 }
 export interface VentaCrear {
   fecha_venta: Date;

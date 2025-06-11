@@ -100,26 +100,29 @@
               <thead>
                 <tr>
                   <th>Fecha Venta</th>
-                   <th>Tipo Inmueble</th>
-                  <th>Pago Venta</th>
-                  <th>Empleado </th>
-                  <th>Inquilino</th>
+                   <th>Pago Venta</th>
+                  <th>Plazo Pago </th>
+                  <th>Empleado</th>
+                  <th>Cliente</th>
                   <th>Fiador</th>
                   <th>Notario</th>
                   <th>Contrato</th>
+                  <th>Estado</th>
+                  <th>Di</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let venta of ventasFiltradas ">
                   <td>{{ venta.fecha_venta }}</td>
-                  <td>{{ venta.tipo_inmueble }}</td>
                   <td>{{ venta.pago_venta }}</td>
+                  <td>{{ venta.plazo_pago }}</td>
                   <td>{{ venta.nombre_empleado }}</td>
                   <td>{{ venta.nombre_cliente }}</td>
                   <td>{{ venta.nombre_fiador}}</td>
                   <td>{{venta.nombre_notario || "-"}}</td>
                   <td>{{ venta.contrato_venta }}</td>
-                  
+                  <td>{{ venta.estado_venta }}</td>
+                  <td>{{ venta.especificaciones_direccion }}</td>
                 </tr>
                 <tr *ngIf="ventasFiltradas.length === 0">
                   <td colspan="8" class="text-center">
