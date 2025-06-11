@@ -34,7 +34,7 @@ export class VentaComponent implements OnInit {
   filtrarVentas(): void {
     let filtradas = this.ventas;
     if (this.selectedFilter) {
-      filtradas = filtradas.filter(v => v.tipo_inmueble === this.selectedFilter);
+      filtradas = filtradas.filter(v => v.plazo_pago === this.selectedFilter);
     }
     if (this.searchTerm && this.searchTerm.trim() !== '') {
       const term = this.searchTerm.trim().toLowerCase();
@@ -44,7 +44,7 @@ export class VentaComponent implements OnInit {
         (v.nombre_fiador && v.nombre_fiador.toLowerCase().includes(term)) ||
         (v.nombre_notario && v.nombre_notario.toLowerCase().includes(term)) ||
         (v.id_propiedad && v.id_propiedad.toString().toLowerCase().includes(term)) ||
-        (v.tipo_inmueble && v.tipo_inmueble.toLowerCase().includes(term))
+        (v.plazo_pago && v.plazo_pago.toLowerCase().includes(term))
       );
     }
     this.ventasFiltradas = filtradas;
