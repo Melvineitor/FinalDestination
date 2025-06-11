@@ -44,6 +44,7 @@
           <select
             id="propiedad_venta"
             formControlName="propiedad_venta"
+            (change)="onSelectPropiedad($event)"
             class="input"
           >
             <option value="" disabled selected>Seleccione una propiedad</option>
