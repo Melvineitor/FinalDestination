@@ -20,14 +20,12 @@ namespace inmo.api.Controllers
         public async Task<IActionResult> GetInmuebles()
         {
             var propiedades = await (from i in _context.Inmueble
-                                     join d in _context.Direccion
-                                     on i.direccion_inmueble equals d.id_direccion
                                      where i.estado_inmueble == "Disponible" || i.estado_inmueble == "Mantenimiento"
                                      select new
                                      {
                                          id_inmueble = i.id_inmueble,
                                          precio = i.precio,
-                                         direccion = $"{d.ciudad_direccion} - {d.zona} - {d.calle}"
+                                         codigo_referencia = i.codigo_referencia
                                      }).ToListAsync();
 
             return Ok(propiedades);

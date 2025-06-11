@@ -141,7 +141,7 @@ namespace inmobilariaApi.Controllers
                     "SELECT id_inmueble, propietario_inmueble, tipo_inmueble, cant_niveles, cant_habitaciones, " +
                     "cant_banos, cant_parqueos, cuarto_servicio, modulo_local, plaza_local, nivel_apt, " +
                     "uso_espacio, objetivo, precio, negociable,metros_ancho, metros_largo, direccion_inmueble, " +
-                    "estado_inmueble, descripcion_detallada FROM inmueble"
+                    "estado_inmueble, descripcion_detallada, codigo_referencia FROM inmueble"
                 ).ToListAsync();
 
                 // Obtener datos relacionados
@@ -173,7 +173,8 @@ namespace inmobilariaApi.Controllers
                         ? $"{direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).ciudad_direccion} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).zona} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).calle}"
                         : "",
                     estado_inmueble = i.estado_inmueble ?? "",
-                    descripcion_detallada = i.descripcion_detallada ?? ""
+                    descripcion_detallada = i.descripcion_detallada ?? "",
+                    codigo_referencia = i.codigo_referencia ?? ""
                 }).ToList();
 
                 return Ok(mappedResult);

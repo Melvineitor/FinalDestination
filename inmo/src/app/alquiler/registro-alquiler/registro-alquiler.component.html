@@ -42,7 +42,11 @@
             type="date"
             placeholder="Fecha de fin del alquiler"
             class="input"
+            [attr.min]="registroForm.get('fecha_alquiler')?.value"
           />
+          <div *ngIf="registroForm.errors?.['fechaInvalida']" style="color: red;">
+            La fecha de fin no puede ser menor que la fecha de inicio.
+          </div>
         </div>
         <div class="form-group">
           <label for="pago_alquiler">Pago del Alquiler</label>

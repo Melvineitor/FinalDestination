@@ -52,7 +52,7 @@ empleado_alquiler: any;
   nombre_cliente: string;
   nombre_fiador: string;
   nombre_notario: string;
-  id_contrato: number;
+  contrato_alquiler: string;
   estado_alquiler: string;
   especificaciones_direccion: string;
 }
@@ -153,6 +153,7 @@ export interface Inmueble {
   direccion: string;
   estado_inmueble: string;
   descripcion_detallada: string | null;
+  codigo_referencia: string;
   propietario_inmueble?: {
     id_persona: number;
     nombre_persona: string;

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { InmoService } from '../../inmo.service';
 import { Router } from '@angular/router';
 import { AlquilerService } from './alquiler.service';
@@ -36,11 +36,25 @@ pagoAlquiler: any[] = [];
       contrato_alquiler: ['', Validators.required],
       estado_alquiler: ['', Validators.required],
       id_inmueble: ['', Validators.required],
-    });
+    },
+    {
+      validators: [this.validarFechas]
+    }
+  );
   }
   ngOnInit(): void {
    this.cargarDatosRelacionados();
    console.log(this.pagoAlquiler);
+  }
+  validarFechas(formGroup: AbstractControl) {
+    const inicio = formGroup.get('fecha_alquiler')?.value;
+    const fin = formGroup.get('fecha_fin_alquiler')?.value;
+
+    if (inicio && fin && new Date(inicio) > new Date(fin)) {
+      return { fechaInvalida: true };
+    }
+
+    return null;
   }
 
     onSubmit(): void {

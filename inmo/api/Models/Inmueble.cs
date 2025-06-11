@@ -33,6 +33,7 @@ namespace inmobilariaApi.Models
         public int direccion_inmueble { get; set; }
         public string estado_inmueble { get; set; } = ""; // "Disponible", "Alquilado", "Vendido", etc.
         public string descripcion_detallada { get; set; } = "";
+        public string codigo_referencia {get; set; } = "";
 
 
     }
