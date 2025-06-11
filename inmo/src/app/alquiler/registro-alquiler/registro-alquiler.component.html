@@ -61,13 +61,19 @@
         </div>
         <div class="form-group">
           <label for="plazo_pago">Plazo de Pago</label>
-          <input
+         <select
             id="plazo_pago"
             formControlName="plazo_pago"
             type="text"
             placeholder="Plazo de pago"
             class="input"
-          />
+          >
+            <option value="">Seleccione un plazo de pago</option>
+            <option value="Mensual">Mensual</option>
+            <option value="Quincenal">Quincenal</option>
+            <option value="Semanal">Semanal</option>
+            <option value="Diario">Diario</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="propiedad">Propiedad</label>
@@ -156,6 +162,8 @@
             type="text"
             placeholder="Estado del alquiler"
             class="input"
+            value="Completado"
+            readonly
           />
         </div>
         <div class="form-group">
