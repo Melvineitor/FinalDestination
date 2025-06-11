@@ -23,7 +23,6 @@ pagoAlquiler: any[] = [];
 
   registroForm: FormGroup;
   propietarioInmueble: any;
-id_inmueble: any;
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_alquiler: ['', Validators.required],
@@ -88,7 +87,7 @@ cargarDatosRelacionados(): void {
   this.inmoService.getPropiedades().subscribe(data => {
     this.propiedades = data;
     console.log(this.propiedades);
-    this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Alquiler');
+    this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble !== 'Completado' || p.objetivo == 'Alquiler');
   }); 
 }
 
