@@ -49,8 +49,7 @@ export class AlquilerComponent implements OnInit {
         (a.especificaciones_direccion && a.especificaciones_direccion.toLowerCase().includes(term)) ||
         (a.plazo_pago && a.plazo_pago.toLowerCase().includes(term)) ||
         (a.fecha_alquiler && a.fecha_alquiler.toString().toLowerCase().includes(term)) ||
-        (a.fecha_fin_alquiler && a.fecha_fin_alquiler.toString().toLowerCase().includes(term)) ||
-        (a.codigo_referencia && a.codigo_referencia.toLowerCase().includes(term))
+        (a.fecha_fin_alquiler && a.fecha_fin_alquiler.toString().toLowerCase().includes(term))
       );
     }
     this.alquileresFiltrados = filtrados;
