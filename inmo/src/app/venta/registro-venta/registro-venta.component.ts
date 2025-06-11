@@ -31,6 +31,8 @@ export class RegistroVentaComponent implements OnInit {
     { name: 'Cita', icon: '📅', active: false, link: '/cita' },
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
+  pagoAlquiler: number | null = null;
+  propietarioInmueble: { id_persona: number; nombre_persona: string; apellido_persona: string; } | null | undefined;
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
@@ -67,9 +69,9 @@ export class RegistroVentaComponent implements OnInit {
     );
 
     // Cargar propiedades disponibles
-    this.alquilerService.getPropiedades().subscribe(
+    this.inmoService.getPropiedades().subscribe(
       (propiedades: Inmueble[]) => {
-        this.propiedades = propiedades
+        this.propiedades = propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Venta');
         console.log("Propiedades: " +this.propiedades);
       },
       (error) => {
@@ -111,5 +113,18 @@ export class RegistroVentaComponent implements OnInit {
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+  onSelectPropiedad(event: any): void {
+    const propiedadSeleccionada = this.propiedades.find(p => p.id_inmueble == event.target.value);
+    if (propiedadSeleccionada) {
+      this.registroForm.patchValue({
+        pago_alquiler: propiedadSeleccionada.precio,
+        propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona,
+        id_inmueble: propiedadSeleccionada.id_inmueble
+      });
+      this.pagoAlquiler = propiedadSeleccionada.precio;
+      this.propietarioInmueble = propiedadSeleccionada.propietario_inmueble;
+      console.log(this.pagoAlquiler);
+    }
   }
 }
