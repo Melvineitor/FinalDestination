@@ -124,6 +124,7 @@
                   <td>{{ alquiler.contrato_alquiler}}</td>
                   <td>{{ alquiler.estado_alquiler || "Indefinido"}}</td>
                   <td>{{ alquiler.especificaciones_direccion }}</td>
+                  <td>{{ alquiler.codigo_referencia }}</td>
                 </tr>
                 <tr *ngIf="alquileresFiltrados.length === 0">
                   <td colspan="11" class="text-center">

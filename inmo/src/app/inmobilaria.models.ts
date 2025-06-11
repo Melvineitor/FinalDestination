@@ -55,6 +55,7 @@ empleado_alquiler: any;
   contrato_alquiler: string;
   estado_alquiler: string;
   especificaciones_direccion: string;
+  codigo_referencia: string;
 }
 
 
