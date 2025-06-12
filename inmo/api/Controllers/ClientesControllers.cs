@@ -288,7 +288,7 @@ namespace inmobilariaApi.Controllers
             try
             {
                 var result = await _context.Database.SqlQueryRaw<Venta>(
-                    "select *, COALESCE(nombre_notario, '') as nombre_notario from vista_ventas_detallado;"
+                    "select * from vista_ventas_detallado;"
                 ).ToListAsync();
                 return Ok(result);
             }
@@ -301,7 +301,7 @@ namespace inmobilariaApi.Controllers
                     await conn.OpenAsync();
                     using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "select *, COALESCE(nombre_fiador, '') as nombre_fiador, COALESCE(nombre_notario, '') as nombre_notario from vista_ventas_detallado;";
+                        cmd.CommandText = "select * from vista_ventas_detallado;";
                         using (var reader = await cmd.ExecuteReaderAsync())
                         {
                             var fieldCount = reader.FieldCount;
