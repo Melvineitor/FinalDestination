@@ -88,6 +88,7 @@ cargarDatosRelacionados(): void {
     this.propiedades = data;
     console.log(this.propiedades);
     this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble !== 'Completado' || p.objetivo == 'Alquiler');
+    console.log(this.propiedadesActivas);
   }); 
 }
 

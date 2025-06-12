@@ -78,7 +78,7 @@
           >
             <option value="">Seleccione una propiedad</option>
             <option
-              *ngFor="let propiedad of propiedades"
+              *ngFor="let propiedad of propiedadesActivas"
               [value]="propiedad.id_inmueble"
             >
               {{ propiedad.codigo_referencia }}
