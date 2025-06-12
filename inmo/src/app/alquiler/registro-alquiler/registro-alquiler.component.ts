@@ -82,7 +82,7 @@ pagoAlquiler: any[] = [];
 cargarDatosRelacionados(): void {
   this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
   this.alquilerService.getClientes().subscribe(data => this.clientes = data);
-  this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
+    this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
   this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
   this.inmoService.getPropiedades().subscribe(data => {
     this.propiedades = data;

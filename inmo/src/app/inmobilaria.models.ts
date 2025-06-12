@@ -76,7 +76,6 @@ export interface Venta{
   id_propiedad: number;
   nombre_empleado: string;
   nombre_cliente: string;
-  nombre_fiador: string;
   nombre_notario: string;
   contrato_venta: string;
   estado_venta: string;
@@ -88,7 +87,6 @@ export interface VentaCrear {
   propiedad_venta: number;
   empleado_venta: number;
   cliente_venta: number;
-  fiador_venta: number;
   notario_venta: number;
   contrato_venta: string;
   inmueble_venta: number;

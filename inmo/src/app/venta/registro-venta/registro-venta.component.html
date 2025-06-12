@@ -93,23 +93,7 @@
           </select>
         </div>
 
-        <!-- Fiador -->
-        <div class="form-group">
-            <label for="fiador_venta">Fiador</label>
-            <select
-              id="fiador_venta"
-              formControlName="fiador_venta"
-              class="input"
-            >
-              <option value="" disabled selected>Seleccione un fiador</option>
-              <option
-                *ngFor="let fiador of fiadores"
-                [value]="fiador.id_persona"
-              >
-                {{ fiador.NombreCompleto }}
-              </option>
-            </select>
-          </div>
+        <!-- Empleado -->
           <div class="form-group">
             <label for="empleado_venta">Empleado</label>
             <select

@@ -17,7 +17,6 @@ export class RegistroVentaComponent implements OnInit {
   registroForm: FormGroup;
   empleados: any[] = [];
   clientes: any[] = [];
-  fiadores: any[] = [];
   notarios: any[] = [];
   propiedades: any[] = [];
   propietarios: any[] = [];
@@ -42,7 +41,6 @@ export class RegistroVentaComponent implements OnInit {
       propiedad_venta: ['', Validators.required],
       empleado_venta: ['', Validators.required],
       cliente_venta: ['', Validators.required],
-      fiador_venta: ['', Validators.required],
       notario_venta: ['', Validators.required],
       contrato_venta: ['', Validators.required],
       estado_venta: ['Completado', Validators.required],
@@ -64,7 +62,6 @@ export class RegistroVentaComponent implements OnInit {
       'propiedad_venta': 'Propiedad',
       'empleado_venta': 'Empleado',
       'cliente_venta': 'Cliente',
-      'fiador_venta': 'Fiador',
       'notario_venta': 'Notario',
       'contrato_venta': 'Contrato de Venta',
       'estado_venta': 'Estado de Venta',
@@ -142,7 +139,6 @@ export class RegistroVentaComponent implements OnInit {
     this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
     this.alquilerService.getClientes().subscribe(data => this.clientes = data);
     console.log(this.clientes);
-    this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
     this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
     this.inmoService.getPropiedades().subscribe(data => {
       this.propiedades = data;

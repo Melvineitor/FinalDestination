@@ -13,7 +13,6 @@ namespace inmobilariaApi.Models
         public int id_propiedad { get; set; }
         public string nombre_empleado { get; set; } = "";
         public string? nombre_cliente { get; set; } = "";
-        public string? nombre_fiador { get; set; } = "";
         public string? nombre_notario { get; set; } = "";
         public string? contrato_venta { get; set; } = "";
         public string? estado_venta { get; set; } = "";
