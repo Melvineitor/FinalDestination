@@ -142,7 +142,7 @@ export class RegistroVentaComponent implements OnInit {
     this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
     this.inmoService.getPropiedades().subscribe(data => {
       this.propiedades = data;
-      this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble !== 'Completado' && p.objetivo == 'Venta');
+      this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Venta');
     });
   }
 
