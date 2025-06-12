@@ -53,7 +53,8 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       zona: ['', Validators.required],
       calle: ['', Validators.required],
       especificaciones_direccion: [''],
-      provincia: ['', Validators.required]
+      provincia: ['', Validators.required],
+      codigo_referencia: ['', Validators.required]
     });
 
     this.inmoService.getPersonas().subscribe((personas: Persona[]) => {
