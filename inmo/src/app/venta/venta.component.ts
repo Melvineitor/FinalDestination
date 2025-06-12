@@ -41,7 +41,6 @@ export class VentaComponent implements OnInit {
       filtradas = filtradas.filter(v =>
         (v.nombre_empleado && v.nombre_empleado.toLowerCase().includes(term)) ||
         (v.nombre_cliente && v.nombre_cliente.toLowerCase().includes(term)) ||
-        (v.nombre_fiador && v.nombre_fiador.toLowerCase().includes(term)) ||
         (v.nombre_notario && v.nombre_notario.toLowerCase().includes(term)) ||
         (v.id_propiedad && v.id_propiedad.toString().toLowerCase().includes(term)) ||
         (v.plazo_pago && v.plazo_pago.toLowerCase().includes(term))
