@@ -288,7 +288,7 @@ namespace inmobilariaApi.Controllers
             try
             {
                 var result = await _context.Database.SqlQueryRaw<Venta>(
-                    "select *,  COALESCE(nombre_notario, '') as nombre_notario from vista_ventas_detallado;"
+                    "select *, COALESCE(nombre_notario, '') as nombre_notario from vista_ventas_detallado;"
                 ).ToListAsync();
                 return Ok(result);
             }
