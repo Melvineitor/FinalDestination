@@ -68,7 +68,7 @@
             <option value="" disabled selected>Seleccione un Inquilino</option>
             <option
               *ngFor="let cliente of clientes"
-              [value]="cliente.id_persona"
+              [value]="cliente.id_cliente"
             >
               {{ cliente.NombreCompleto }}
             </option>
@@ -86,7 +86,7 @@
             <option value="" disabled selected>Seleccione un notario</option>
             <option
               *ngFor="let notario of notarios"
-              [value]="notario.id_persona"
+              [value]="notario.id_notario"
             >
               {{ notario.NombreCompleto }}
             </option>
@@ -104,7 +104,7 @@
               <option value="" disabled selected>Seleccione un empleado</option>
               <option
                 *ngFor="let empleado of empleados"
-                [value]="empleado.id_persona"
+                [value]="empleado.id_empleado"
               >
                 {{ empleado.NombreCompleto }}
               </option>

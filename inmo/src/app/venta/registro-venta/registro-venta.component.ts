@@ -37,14 +37,14 @@ export class RegistroVentaComponent implements OnInit {
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_venta: ['', Validators.required],
-      pago_venta: ['', [Validators.required, Validators.min(0)]],
+      pago_venta: [0, [Validators.required, Validators.min(0)]],
       propiedad_venta: [0, Validators.required],
-      empleado_venta: ['', Validators.required],
-      inquilino_venta: ['', Validators.required],
-      notario_venta: ['', Validators.required],
+      empleado_venta: [0, Validators.required],
+      inquilino_venta: [0, Validators.required],
+      notario_venta: [0, Validators.required],
       contrato_venta: ['', Validators.required],
       estado_venta: ['Completado', Validators.required],
-      id_inmueble: ['', Validators.required]
+      id_inmueble: [0, Validators.required]
     });
   }
 
