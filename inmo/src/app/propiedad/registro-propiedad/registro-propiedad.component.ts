@@ -34,7 +34,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
     this.registroForm = this.fb.group({
-      propietario: ['', Validators.required],
+      propietario: [0, Validators.required],
       tipo_inmueble: ['', Validators.required],
       cant_niveles: [0],
       cant_habitaciones: [0],
