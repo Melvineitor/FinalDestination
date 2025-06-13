@@ -36,20 +36,20 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
     this.registroForm = this.fb.group({
       propietario: ['', Validators.required],
       tipo_inmueble: ['', Validators.required],
-      cant_niveles: [null],
-      cant_habitaciones: [null],
-      cant_banos: [null],
-      cant_parqueos: [null],
-      cuarto_servicio: [null],
-      modulo_local: [null],
-      plaza_local: [null],
-      nivel_apt: [null],
-      uso_espacio: [null],
+      cant_niveles: [''],
+      cant_habitaciones: [''],
+      cant_banos: [''],
+      cant_parqueos: [''],
+      cuarto_servicio: [''],
+      modulo_local: [''],
+      plaza_local: [''],
+      nivel_apt: [''],
+      uso_espacio: [''],
       objetivo: ['', Validators.required],
-      precio: [null],
-      metros_ancho: [null],
-      metros_largo: [null],
-      area_total: [null],
+      precio: [0],
+      metros_ancho: [''],
+      metros_largo: [''],
+      area_total: [''],
       estado_inmueble: ['Disponible', Validators.required],
       descripcion_detallada: [''],
       ciudad_direccion: ['', Validators.required],
@@ -58,7 +58,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       especificaciones_direccion: [''],
       provincia: ['', Validators.required],
       codigo_referencia: ['', Validators.required],
-      precioMetros: [null],
+      precioMetros: [''],
     });
 
     this.inmoService.getPersonas().subscribe((personas: Persona[]) => {
@@ -89,26 +89,26 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       this.precioMetrosSubscription = this.registroForm.get('precioMetros')?.valueChanges.subscribe(() => this.calcularPrecio());
     } else {
       // Reset price when not Solar
-      this.registroForm.get('precio')?.setValue(null);
-      this.registroForm.get('area_total')?.setValue(null);
+      this.registroForm.get('precio')?.setValue(0);
+      this.registroForm.get('area_total')?.setValue('');
     }
   }
 
   resetCamposEspecificos() {
     // Resetear todos los campos específicos
     this.registroForm.patchValue({
-      cant_niveles: null,
-      cant_habitaciones: null,
-      cant_banos: null,
-      cant_parqueos: null,
-      cuarto_servicio: null,
-      modulo_local: null,
-      plaza_local: null,
-      nivel_apt: null,
-      uso_espacio: null,
-      metros_ancho: null,
-      metros_largo: null,
-      area_total: null,
+      cant_niveles: '',
+      cant_habitaciones: '',
+      cant_banos: '',
+      cant_parqueos: '',
+      cuarto_servicio: '',
+      modulo_local: '',
+      plaza_local: '',
+      nivel_apt: '',
+      uso_espacio: '',
+      metros_ancho: '',
+      metros_largo: '',
+      area_total: '',
     });
   }
 
@@ -132,7 +132,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       this.registroForm.get('precio')?.setValue(precio, { emitEvent: false });
     } else {
       // Opcional: borrar el precio si los datos no están completos
-      this.registroForm.get('precio')?.setValue(null, { emitEvent: false });
+      this.registroForm.get('precio')?.setValue(0, { emitEvent: false });
     }
   }
   onButtonClick() {
