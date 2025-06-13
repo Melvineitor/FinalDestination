@@ -90,6 +90,8 @@ namespace api.Services
                 modelBuilder.Entity<Venta>().ToTable("venta", "railway");
                 modelBuilder.Entity<Cita>().ToTable("cita", "railway");
                 modelBuilder.Entity<Inmueble>().ToTable("inmueble", "railway");
+                modelBuilder.Entity<Transaccion>().ToTable("transaccion", "railway");
+                modelBuilder.Entity<Comision>().ToTable("comision", "railway");
                 _logger.LogInformation("Model configuration completed successfully");
             }
             catch (Exception ex)
