@@ -11,12 +11,12 @@ namespace inmobilariaApi.Models
     public class Transaccion
     {
         [Key]
-        public int Id_Transaccion { get; set; }
-        public int Id_Inmueble { get; set; }
-        public string Tipo_Transaccion { get; set; } = "";
-        public DateTime Fecha_Transaccion { get; set; }
-        public double Monto_Transaccion { get; set; }
-        public int? Id_Inquilino { get; set; }
+        public int id_transaccion { get; set; }
+        public int id_inmueble { get; set; }
+        public string tipo_transaccion { get; set; } = "";
+        public DateTime fecha_transaccion { get; set; }
+        public double monto_transaccion { get; set; }
+        public int? id_inquilino { get; set; }
         public string nombre_agente { get; set; } = "";
     }
 }
