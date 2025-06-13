@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Pago } from '../inmobilaria.models';
+import { Pago, Comision, Transaccion, Propiedad } from '../inmobilaria.models';
 import { InmoService } from '../inmo.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -14,8 +14,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./pago.component.css']
 })
 export class PagoComponent implements OnInit {
-  pagos: Pago[] = [];
-  pagosFiltrados: Pago[] = [];
+  transacciones: Transaccion[] = [];
+  comisiones: Comision[] = [];
   pageSize = 10;
   currentPage = 1;
   totalItems = 0;
@@ -23,31 +23,42 @@ export class PagoComponent implements OnInit {
   selectedTipoContrato: string = '';
   selectedEstado: string = '';
   selectedAgente: string = '';
-  tiposContrato: string[] = [];
-  estadosPago: string[] = [];
+  tiposTransaccion: string[] = [];
+  tiposComision: string[] = [];
+  estadosTransaccion: string[] = [];
   agentes: string[] = [];
   personas: string[] = [];
-
+  transaccionesFiltrados: Transaccion[] = [];
+  propiedades: Propiedad[] = [];
   constructor(private inmoService: InmoService){}
   ngOnInit(): void {
-    this.inmoService.getPagosAlquiler().subscribe((data: Pago[]) => {
-      this.pagos = data;
-      this.tiposContrato = Array.from(new Set(data.map(p => p.tipo_contrato)));
-      this.estadosPago = Array.from(new Set(data.map(p => p.estado_pago)));
+    this.inmoService.getTransacciones().subscribe((data: Transaccion[]) => {
+      this.transacciones = data;
+      this.tiposTransaccion = Array.from(new Set(data.map(p => p.tipo_transaccion)));
+      this.estadosTransaccion = Array.from(new Set(data.map(p => p.id_inquilino.toString())));
       this.agentes = Array.from(new Set(data.map(p => p.nombre_agente)));
-      this.filtrarPagos();
-      this.totalItems = this.pagos.length;
-      console.log(data);
+      this.filtrarTransacciones();
+      this.totalItems = this.transacciones.length;
+      console.log(this.transacciones);
+    });
+    this.inmoService.getComisiones().subscribe((data: Comision[]) => {
+      this.comisiones = data;
+      this.tiposComision = Array.from(new Set(data.map(p => p.tipo_transaccion)));
+      this.filtrarComisiones();
+      console.log(this.comisiones);
+    });
+    this.inmoService.getPropiedades().subscribe((data: Propiedad[]) => {
+      this.propiedades = data;
     });
   }
 
-  filtrarPagos(): void {
-    let filtrados = this.pagos;
+  filtrarTransacciones(): void {
+    let filtrados = this.transacciones;
     if (this.selectedTipoContrato) {
-      filtrados = filtrados.filter(p => p.tipo_contrato === this.selectedTipoContrato);
+      filtrados = filtrados.filter(p => p.tipo_transaccion === this.selectedTipoContrato);
     }
     if (this.selectedEstado) {
-      filtrados = filtrados.filter(p => p.estado_pago === this.selectedEstado);
+      filtrados = filtrados.filter(p => p.id_inquilino.toString() === this.selectedEstado);
     }
     if (this.selectedAgente) {
       filtrados = filtrados.filter(p => p.nombre_agente === this.selectedAgente);
@@ -55,13 +66,19 @@ export class PagoComponent implements OnInit {
     if (this.searchTerm && this.searchTerm.trim() !== '') {
       const term = this.searchTerm.trim().toLowerCase();
       filtrados = filtrados.filter(p =>
-        (p.tipo_contrato && p.tipo_contrato.toLowerCase().includes(term)) ||
-        (p.estado_pago && p.estado_pago.toLowerCase().includes(term)) ||
+        (p.tipo_transaccion && p.tipo_transaccion.toLowerCase().includes(term)) ||
+        (p.id_inquilino && p.id_inquilino.toString().toLowerCase().includes(term)) ||
         (p.nombre_agente && p.nombre_agente.toLowerCase().includes(term))
       );
     }
-    this.pagosFiltrados = filtrados;
+    this.transaccionesFiltrados = filtrados;
     this.totalItems = filtrados.length;
+  }
+  filtrarComisiones(): void {
+    let filtrados = this.comisiones;
+    if (this.selectedTipoContrato) {
+      filtrados = filtrados.filter(p => p.tipo_transaccion === this.selectedTipoContrato);
+    }
   }
 
   prevPage(): void {

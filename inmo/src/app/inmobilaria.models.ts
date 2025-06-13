@@ -159,6 +159,25 @@ export interface Inmueble {
   codigo_referencia: string;
 }
 
+export interface Transaccion{
+  id_transaccion: number;
+  id_inmueble: number;
+  tipo_transaccion: string;
+  fecha_transaccion: Date;
+  monto_transaccion: number;
+  id_inquilino: number;
+  nombre_agente: string;
+}
+export interface Comision{
+  id_comision: number;
+  porcentaje_comision: number;
+  monto_comision: number;
+  fecha_comision: Date;
+  estado_comision: string;
+  transaccion: number;
+  tipo_transaccion: string;
+  id_inmueble: number;
+}
 
 export interface CitaCrear {
   id_cita: number;

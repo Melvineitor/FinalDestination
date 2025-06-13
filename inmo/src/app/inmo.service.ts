@@ -66,8 +66,11 @@ export class InmoService {
   getVentas(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiURL}/Inmobilaria/MostrarVentas`);
   }
-  getPagosAlquiler(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiURL}/Inmobilaria/MostrarPagos`);
+  getTransacciones(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiURL}/forms/MostrarTransacciones`);
+  }
+  getComisiones(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiURL}/forms/MostrarComisiones`);
   }
 
   //Formularios

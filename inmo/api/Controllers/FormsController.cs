@@ -47,20 +47,33 @@ namespace inmo.api.Controllers
 
             return Ok(nuevoInmueble); // puedes devolver solo el ID o todo el objeto
         }
-
-        [HttpPost("CrearPago")]
-        public IActionResult CrearPago([FromBody] Pago nuevoPago)
+        [HttpGet("MostrarTransacciones")]
+        public IActionResult MostrarTransacciones()
         {
-            if (nuevoPago == null)
+            var transacciones = _context.Transaccion.ToList();
+            return Ok(transacciones);
+        }
+
+        [HttpPost("CrearTransaccion")]
+        public IActionResult CrearTransaccion([FromBody] Transaccion nuevaTransaccion)
+        {
+            if (nuevaTransaccion == null)
             {
                 return BadRequest("Datos incompletos");
             }
 
-            _context.Pago.Add(nuevoPago);
+            _context.Transaccion.Add(nuevaTransaccion);
             _context.SaveChanges();
 
-            return Ok(nuevoPago); // puedes devolver solo el ID o todo el objeto
+            return Ok(nuevaTransaccion); // puedes devolver solo el ID o todo el objeto
         }
+        [HttpGet("MostrarComisiones")]
+        public IActionResult MostrarComisiones()
+        {
+            var comisiones = _context.Comision.ToList();
+            return Ok(comisiones);
+        }
+
         [HttpPost("CrearAlquiler")]
         public IActionResult CrearAlquiler([FromBody] Alquiler nuevoAlquiler)
         {

@@ -22,6 +22,7 @@
   <div class="main-content">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Sección de Pagos -->
     <h1 class="persona-title">Pagos</h1>
     <div class="persona-container">
       <div class="persona-outer-box">
@@ -54,25 +55,19 @@
                   class="persona-search"
                   placeholder="Buscar pago..."
                   [(ngModel)]="searchTerm"
-                  (input)="filtrarPagos()"
+                  (input)="filtrarTransacciones()"
                 />
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox" [(ngModel)]="selectedTipoContrato" (change)="filtrarPagos()">
+                <select class="persona-combobox" [(ngModel)]="selectedTipoContrato" (change)="filtrarTransacciones()">
                   <option value="">Todos</option>
-                  <option *ngFor="let tipo of tiposContrato" [value]="tipo">{{ tipo }}</option>
+                  <option *ngFor="let tipo of tiposTransaccion" [value]="tipo">{{ tipo }}</option>
                 </select>
               </div>
               <div class="persona-combo-box">
-                <select class="persona-combobox" [(ngModel)]="selectedEstado" (change)="filtrarPagos()">
+                <select class="persona-combobox" [(ngModel)]="selectedEstado" (change)="filtrarTransacciones()">
                   <option value="">Estado</option>
-                  <option *ngFor="let estado of estadosPago" [value]="estado">{{ estado }}</option>
-                </select>
-              </div>
-              <div class="persona-combo-box">
-                <select class="persona-combobox" [(ngModel)]="selectedAgente" (change)="filtrarPagos()">
-                  <option value="">Agente</option>
-                  <option *ngFor="let agente of agentes" [value]="agente">{{ agente }}</option>
+                  <option *ngFor="let estado of estadosTransaccion" [value]="estado">{{ estado }}</option>
                 </select>
               </div>
               <button
@@ -120,19 +115,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let pago of pagosFiltrados">
-                  <td>{{ pago.fecha_pago }}</td>
-                  <td>{{ pago.metodo_pago }}</td>
-                  <td>{{ pago.motivo_pago }}</td>
-                  <td>{{ pago.desc_pago }}</td>
-                  <td>{{ pago.tipo_contrato }}</td>
-                  <td>{{ pago.descripcion_penalidad }}</td>
-                  <td>{{ pago.compania_tarjeta || "Pago en Efectivo" }}</td>
-                  <td>{{ pago.monto_pagado }}</td>
-                  <td>{{ pago.estado_pago }}</td>
-                  <td>{{ pago.persona_pago || "Sin persona" }}</td>
+                <tr *ngFor="let transaccion of transaccionesFiltrados">
+                  <td>{{ transaccion.id_transaccion }}</td>
+                  <td>{{ transaccion.fecha_transaccion }}</td>
+                  <td>{{ transaccion.tipo_transaccion }}</td>
+                  <td>{{ transaccion.monto_transaccion }}</td>
+                  <td>{{ transaccion.id_inquilino }}</td>
+                  <td>{{ transaccion.nombre_agente || "Sin persona" }}</td>
                 </tr>
-                <tr *ngIf="pagosFiltrados.length === 0">
+                <tr *ngIf="transaccionesFiltrados.length === 0">
                   <td colspan="10" class="text-center">
                     No hay pagos registrados
                   </td>
@@ -158,7 +149,103 @@
             <button
               class="btn btn-sm btn-outline-primary"
               (click)="nextPage()"
-              [disabled]="pagos.length < pageSize"
+              [disabled]="transacciones.length < pageSize"
+            >
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Comisiones -->
+    <h1 class="persona-title">Comisiones</h1>
+    <div class="persona-container">
+      <div class="persona-outer-box">
+        <div class="persona-inner-box">
+          <div class="action-bar">
+            <button class="btn btn-primary" [routerLink]="'/registroComision'">
+              + Agregar Comisión
+            </button>
+            <div class="persona-filters">
+              <div class="persona-search-box">
+                <ng-container>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-search-icon lucide-search"
+                  >
+                    <path d="m21 21-4.34-4.34" />
+                    <circle cx="11" cy="11" r="8" />
+                  </svg>
+                </ng-container>
+                <input
+                  type="text"
+                  class="persona-search"
+                  placeholder="Buscar comisión..."
+                  [(ngModel)]="searchTerm"
+                  (input)="filtrarComisiones()"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID Comisión</th>
+                  <th>Fecha Comisión</th>
+                  <th>Tipo Comisión</th>
+                  <th>Estado</th>
+                  <th>Monto Comisión</th> 
+                  <th>ID Inmueble</th>
+                  <th>ID Transaccion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let comision of comisiones">
+                  <td>{{ comision.id_comision }}</td>
+                  <td>{{ comision.fecha_comision }}</td>
+                  <td>{{ comision.tipo_transaccion }}</td>
+                  <td>{{ comision.estado_comision }}</td>
+                  <td>{{ comision.monto_comision }}</td>
+                  <td>{{ comision.id_inmueble }}</td>
+                  <td>{{ comision.transaccion }}</td>
+                </tr>
+                <tr *ngIf="comisiones.length === 0">
+                  <td colspan="10" class="text-center">
+                    No hay comisiones registradas
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination-info">
+            Mostrando {{ (currentPage - 1) * pageSize + 1 }} a
+            {{ currentPage * pageSize }} de {{ totalItems }}
+          </div>
+          <div class="pagination-controls">
+            <button
+              class="btn btn-sm btn-outline-primary"
+              (click)="prevPage()"
+              [disabled]="currentPage === 1"
+            >
+              Previo
+            </button>
+            <button class="btn btn-sm btn-outline-primary">
+              {{ currentPage }}
+            </button>
+            <button
+              class="btn btn-sm btn-outline-primary"
+              (click)="nextPage()"
+              [disabled]="comisiones.length < pageSize"
             >
               Siguiente
             </button>

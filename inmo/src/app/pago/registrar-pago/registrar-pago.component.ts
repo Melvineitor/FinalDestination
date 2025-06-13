@@ -39,6 +39,7 @@ export class RegistrarPagoComponent implements OnInit {
     { name: 'Cita', icon: '📅', active: false, link: '/cita' },
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
+propiedades: any;
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
     this.registroForm = this.fb.group({

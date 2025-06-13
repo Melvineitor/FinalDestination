@@ -21,239 +21,89 @@
   </div>
   <div class="main-content">
     <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="form">
-      <div class="form-title">Registro de Pago</div>
-      <div class="form-section-title">Datos del Pago</div>
+      <div class="form-title">Registro de Transaccion</div>
+      <div class="form-section-title">Datos de la Transaccion</div>
       <div class="form-grid">
         <div class="form-group">
-          <label for="fecha_pago">Fecha de Pago</label>
+          <label for="fecha_transaccion">Fecha de Transaccion</label>
           <input
-            id="fecha_pago"
-            formControlName="fecha_pago"
+            id="fecha_transaccion"
+            formControlName="fecha_transaccion"
             type="date"
             placeholder="Fecha de pago"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="metodo_pago">Método de Pago</label>
+          <label for="tipo_transaccion">Tipo de Transaccion</label>
           <select
-            id="metodo_pago"
-            formControlName="metodo_pago"
-            (change)="onMetodoPagoChange($event)"
+            id="tipo_transaccion"
+            formControlName="tipo_transaccion"
             class="input"
           >
-            <option value="" disabled selected>Seleccione método de pago</option>
-            <option value="Efectivo">Efectivo</option>
-            <option value="Tarjeta">Tarjeta</option>
+            <option value="" disabled selected>Seleccione tipo de transaccion</option>
+            <option value="Alquiler">Alquiler</option>
+            <option value="Venta">Venta</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="motivo_pago">Motivo del Pago</label>
-          <input
-            id="motivo_pago"
-            formControlName="motivo_pago"
-            type="text"
-            placeholder="Motivo del pago"
+          <label for="id_inmueble">ID de Inmueble</label>
+          <select
+            id="id_inmueble"
+            formControlName="id_inmueble"
             class="input"
-          />
+          >
+            <option value="" disabled selected>Seleccione un inmueble</option>
+            <option *ngFor="let propiedad of propiedades" [value]="propiedad.id_inmueble">
+              {{ propiedad.codigo_referencia }}
+            </option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="desc_pago">Descripción del Pago</label>
+          <label for="id_inquilino">ID Inquilino</label>
           <input
-            id="desc_pago"
-            formControlName="desc_pago"
-            type="text"
-            placeholder="Descripción del pago"
-            class="input"
-          />
-        </div>
-        <div class="form-group">
-          <label for="tipo_contrato">ID de Contrato</label>
-          <input
-            id="tipo_contrato"
-            formControlName="tipo_contrato"
+            id="id_inquilino"
+            formControlName="id_inquilino"
             type="number"
-            placeholder="Tipo de contrato"
-            class="input"
-          />
-        </div>
-        <div class="form-group">
-          <label for="descripcion_penalidad">ID Penalidad</label>
-          <input
-            id="descripcion_penalidad"
-            formControlName="descripcion_penalidad"
-            type="number"
-            placeholder="Descripción penalidad"
+            placeholder="ID Inquilino"
             class="input"
           />
         </div>
 
-        <!-- Sección de Tarjeta -->
-        <ng-container *ngIf="mostrarCamposTarjeta">
-          <div class="form-section-title">Datos de la Tarjeta</div>
-          
-          <!-- Búsqueda de Tarjeta -->
-          <div class="form-group">
-            <label>Buscar Tarjeta Existente</label>
-            <div class="search-container" style="display: flex; gap: 10px; margin-bottom: 10px;">
-              <input
-                type="text"
-                [formControl]="searchTarjetaControl"
-                placeholder="Buscar por ID o titular"
-                class="input"
-                style="flex: 1;"
-              />
-              <button 
-                type="button" 
-                (click)="buscarTarjeta()"
-                class="bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-
-          <!-- Resultados de búsqueda -->
-          <div *ngIf="tarjetasEncontradas.length > 0" class="form-group">
-            <label>Tarjetas Encontradas</label>
-            <select
-              (change)="seleccionarTarjeta($event)"
-              class="input"
-            >
-              <option value="">Seleccione una tarjeta</option>
-              <option *ngFor="let tarjeta of tarjetasEncontradas" [value]="tarjeta.id_tarjeta">
-                {{ tarjeta.titular_tarjeta }} (ID: {{ tarjeta.id_tarjeta }})
-              </option>
-            </select>
-          </div>
-
-          <!-- Toggle para nueva tarjeta -->
-          <div class="form-group" *ngIf="!tarjetaSeleccionada">
-            <button 
-              type="button"
-              (click)="toggleNuevaTarjeta()"
-              class="bg-green-500 text-white px-4 py-2 rounded"
-            >
-              {{ mostrarFormularioNuevaTarjeta ? 'Cancelar Nueva Tarjeta' : 'Agregar Nueva Tarjeta' }}
-            </button>
-          </div>
-
-          <!-- Formulario de nueva tarjeta -->
-          <ng-container *ngIf="mostrarFormularioNuevaTarjeta">
-            <div class="form-group">
-              <label for="num_tarjeta">Número de Tarjeta</label>
-              <input
-                id="num_tarjeta"
-                formControlName="num_tarjeta"
-                type="text"
-                maxlength="16"
-                placeholder="Número de tarjeta (16 dígitos)"
-                class="input"
-              />
-            </div>
-            <div class="form-group">
-              <label for="tipo_tarjeta">Tipo de Tarjeta</label>
-              <select
-                id="tipo_tarjeta"
-                formControlName="tipo_tarjeta"
-                class="input"
-              >
-                <option value="" disabled selected>Seleccione tipo de tarjeta</option>
-                <option value="credito">Crédito</option>
-                <option value="debito">Débito</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="titular_tarjeta">Titular de la Tarjeta</label>
-              <input
-                id="titular_tarjeta"
-                formControlName="titular_tarjeta"
-                type="text"
-                placeholder="Nombre del titular"
-                class="input"
-              />
-            </div>
-            <div class="form-group">
-              <label for="fecha_venc">Fecha de Vencimiento</label>
-              <input
-                id="fecha_venc"
-                formControlName="fecha_venc"
-                type="date"
-                class="input"
-              />
-            </div>
-            <div class="form-group">
-              <label for="cvv">CVV</label>
-              <input
-                id="cvv"
-                formControlName="cvv"
-                type="password"
-                maxlength="3"
-                placeholder="CVV"
-                class="input"
-              />
-            </div>
-            <div class="form-group">
-              <label for="compania_tarjeta">Compañía de la Tarjeta</label>
-              <select
-                id="compania_tarjeta"
-                formControlName="compania_tarjeta"
-                class="input"
-              >
-                <option value="" disabled selected>Seleccione compañía</option>
-                <option value="Visa">Visa</option>
-                <option value="Mastercard">Mastercard</option>
-                <option value="American Express">American Express</option>
-                <option value="Discover">Discover</option>
-              </select>
-            </div>
-          </ng-container>
-        </ng-container>
-
         <div class="form-group">
-          <label for="monto_pagado">Monto Pagado</label>
+          <label for="monto_transaccion">Monto Transaccion</label>
           <input
-            id="monto_pagado"
-            formControlName="monto_pagado"
+            id="monto_transaccion"
+            formControlName="monto_transaccion"
             type="number"
             placeholder="Monto pagado"
             class="input"
           />
         </div>
         <div class="form-group">
-          <label for="estado_pago">Estado del Pago</label>
+          <label for="estado_transaccion">Estado de la Transaccion</label>
           <select
-            id="estado_pago"
-            formControlName="estado_pago"
+            id="estado_transaccion"
+            formControlName="estado_transaccion"
             class="input"
           >
             <option value="" disabled selected>Seleccione estado</option>
             <option value="Pendiente">Pendiente</option>
             <option value="Completo">Completo</option>
-            <option value="Fallido">Fallido</option>
-            <option value="En proceso">En proceso</option>
+            <option value="Cancelado">Cancelado</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="nombre_agente">ID del Agente</label>
+          <label for="nombre_agente">Nombre del Agente</label>
           <input
             id="nombre_agente"
             formControlName="nombre_agente"
-            type="number"
+            type="text"
             placeholder="Nombre del agente"
             class="input"
           />
         </div>
-        <div class="form-group">
-          <label for="persona_pago">Nombre de la Persona</label>
-          <input
-            id="persona_pago"
-            formControlName="persona_pago"
-            type="text"
-            placeholder="Nombre de la persona"
-            class="input"
-          />
-        </div>
+     
       </div>
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
         Guardar Pago
