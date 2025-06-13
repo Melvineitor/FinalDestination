@@ -15,6 +15,6 @@ namespace inmobilariaApi.Models
     public string estado_comision { get; set; } = "";
     public int transaccion { get; set; }
     public string tipo_transaccion { get; set; } = "";
-    public int id_inmueble { get; set; }
+    public int? id_inmueble { get; set; }
 }
 }
