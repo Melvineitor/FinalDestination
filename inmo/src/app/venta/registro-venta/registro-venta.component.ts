@@ -38,6 +38,7 @@ export class RegistroVentaComponent implements OnInit {
     this.registroForm = this.fb.group({
       fecha_venta: ['', Validators.required],
       pago_venta: [0, [Validators.required, Validators.min(0)]],
+      plazo_pago: ['', Validators.required],
       propiedad_venta: [0, Validators.required],
       empleado_venta: [0, Validators.required],
       inquilino_venta: [0, Validators.required],
@@ -59,6 +60,7 @@ export class RegistroVentaComponent implements OnInit {
     const camposConNombres: { [key: string]: string } = {
       'fecha_venta': 'Fecha de Venta',
       'pago_venta': 'Pago de Venta',
+      'plazo_pago': 'Plazo de Pago',
       'propiedad_venta': 'Propiedad',
       'empleado_venta': 'Empleado',
       'inquilino_venta': 'Inquilino',
