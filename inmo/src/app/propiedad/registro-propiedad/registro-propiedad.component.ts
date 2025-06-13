@@ -98,18 +98,18 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   resetCamposEspecificos() {
     // Resetear todos los campos específicos
     this.registroForm.patchValue({
-      cant_niveles: '',
-      cant_habitaciones: '',
-      cant_banos: '',
-      cant_parqueos: '',
+      cant_niveles: 0,
+      cant_habitaciones: 0,
+      cant_banos: 0,
+      cant_parqueos: 0,
       cuarto_servicio: '',
       modulo_local: '',
       plaza_local: '',
-      nivel_apt: '',
+      nivel_apt: 0,
       uso_espacio: '',
-      metros_ancho: '',
-      metros_largo: '',
-      area_total: '',
+      metros_ancho: 0,
+      metros_largo: 0,
+      area_total: 0,
     });
   }
 
