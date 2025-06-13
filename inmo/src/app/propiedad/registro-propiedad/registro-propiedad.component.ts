@@ -135,6 +135,10 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       this.registroForm.get('precio')?.setValue(null, { emitEvent: false });
     }
   }
+  onButtonClick() {
+    console.log('¡BOTÓN CLICKEADO!');
+    alert('¡Botón clickeado!');
+  }
   
 
   async onSubmit() {
