@@ -66,7 +66,6 @@ export class RegistroVentaComponent implements OnInit {
       'contrato_venta': 'Contrato de Venta',
       'estado_venta': 'Estado de Venta',
       'id_inmueble': 'ID Inmueble',
-      'propietario_inmueble': 'Propietario del Inmueble'
     };
 
     Object.keys(this.registroForm.controls).forEach(key => {
@@ -163,7 +162,7 @@ export class RegistroVentaComponent implements OnInit {
       console.log(propiedadSeleccionada.id_inmueble);
       this.registroForm.patchValue({
         pago_venta: propiedadSeleccionada.precio,
-        propietario_inmueble: propiedadSeleccionada.propietario_inmueble?.id_persona,
+        inquilino_venta: propiedadSeleccionada.propietario_inmueble?.id_persona,
         id_inmueble: propiedadSeleccionada.id_inmueble
       });
       this.pagoVenta = propiedadSeleccionada.precio;

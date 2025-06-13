@@ -91,6 +91,8 @@ export interface VentaCrear {
   notario_venta: number;
   contrato_venta: string;
   inmueble_venta: number;
+  estado_venta: string;
+  id_inmueble: number;
 }
 export interface Pago{
   id_pago: number;

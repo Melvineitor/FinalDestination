@@ -287,7 +287,7 @@ namespace inmobilariaApi.Controllers
             var ventas = new List<object>();
             try
             {
-                var result = await _context.Database.SqlQueryRaw<Venta>(
+                var result = await _context.Database.SqlQueryRaw<VentaVista>(
                     "select * from vista_ventas_detallado;"
                 ).ToListAsync();
                 return Ok(result);
