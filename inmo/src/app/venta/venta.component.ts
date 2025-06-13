@@ -40,7 +40,7 @@ export class VentaComponent implements OnInit {
       const term = this.searchTerm.trim().toLowerCase();
       filtradas = filtradas.filter(v =>
         (v.nombre_empleado && v.nombre_empleado.toLowerCase().includes(term)) ||
-        (v.nombre_cliente && v.nombre_cliente.toLowerCase().includes(term)) ||
+        (v.nombre_inquilino && v.nombre_inquilino.toLowerCase().includes(term)) ||
         (v.nombre_notario && v.nombre_notario.toLowerCase().includes(term)) ||
         (v.id_inmueble && v.id_inmueble.toString().toLowerCase().includes(term)) ||
         (v.plazo_pago && v.plazo_pago.toLowerCase().includes(term))

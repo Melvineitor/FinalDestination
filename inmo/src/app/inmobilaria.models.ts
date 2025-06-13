@@ -75,7 +75,7 @@ export interface Venta{
   plazo_pago: string;
   propiedad_venta: number;
   nombre_empleado: string;
-  nombre_cliente: string;
+  nombre_inquilino: string;
   nombre_notario: string;
   contrato_venta: string;
   estado_venta: string;
@@ -87,7 +87,7 @@ export interface VentaCrear {
   pago_venta: number;
   propiedad_venta: number;
   empleado_venta: number;
-  cliente_venta: number;
+  inquilino_venta: number;
   notario_venta: number;
   contrato_venta: string;
   inmueble_venta: number;
