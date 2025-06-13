@@ -19,6 +19,9 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   selectedTipoInmueble: string = '';
   anchoSubscription: Subscription | undefined;
   largoSubscription: Subscription | undefined;
+  areaTotal: number = 0;
+  precioMetros: number = 0;
+  precioMetrosSubscription: Subscription | undefined;
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
     { name: 'Persona', icon: '👤', active: false, link: '/persona' },
@@ -47,7 +50,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       precio: [null],
       metros_ancho: [null],
       metros_largo: [null],
-      estado_inmueble: ['', Validators.required],
+      estado_inmueble: ['Disponible', Validators.required],
       descripcion_detallada: [''],
       ciudad_direccion: ['', Validators.required],
       zona: ['', Validators.required],
@@ -89,6 +92,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
     if (this.selectedTipoInmueble === 'Solar') {
       this.anchoSubscription = this.registroForm.get('metros_ancho')?.valueChanges.subscribe(() => this.calcularPrecio());
       this.largoSubscription = this.registroForm.get('metros_largo')?.valueChanges.subscribe(() => this.calcularPrecio());
+      this.precioMetrosSubscription = this.registroForm.get('precioMetros')?.valueChanges.subscribe(() => this.calcularPrecio());
     } else {
       // Reset price when not Solar
       this.registroForm.get('precio')?.setValue(null);
@@ -119,9 +123,9 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   calcularPrecio(): void {
     const ancho = parseFloat(this.registroForm.get('metros_ancho')?.value) || 0;
     const largo = parseFloat(this.registroForm.get('metros_largo')?.value) || 0;
-    const precioMetro = 650;
     const metrosCuadrados = ancho * largo;
-    const precio = metrosCuadrados * precioMetro;
+    this.areaTotal = metrosCuadrados;
+    const precio = metrosCuadrados * this.precioMetros;
     this.registroForm.get('precio')?.setValue(precio, { emitEvent: false });
   }
 
@@ -184,6 +188,9 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
     }
     if (this.largoSubscription) {
       this.largoSubscription.unsubscribe();
+    }
+    if (this.precioMetrosSubscription) {
+      this.precioMetrosSubscription.unsubscribe();
     }
   }
 }

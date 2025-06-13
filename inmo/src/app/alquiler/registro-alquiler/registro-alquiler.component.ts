@@ -87,7 +87,7 @@ cargarDatosRelacionados(): void {
   this.inmoService.getPropiedades().subscribe(data => {
     this.propiedades = data;
     console.log(this.propiedades);
-    this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble != 'Completado' && p.objetivo == 'Alquiler');
+    this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble == 'Activo' || p.estado_inmueble == 'Disponible' && p.objetivo == 'Alquiler');
     console.log(this.propiedadesActivas);
   }); 
 }

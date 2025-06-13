@@ -170,7 +170,7 @@ namespace inmobilariaApi.Controllers
                     metros_ancho = i.metros_ancho ?? 0,
                     metros_largo = i.metros_largo ?? 0,
                     direccion = direcciones.FirstOrDefault(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()) != null
-                        ? $"{direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).ciudad_direccion} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).zona} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).calle}"
+                        ? $"{direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).sector} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).zona} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).calle}"
                         : "",
                     estado_inmueble = i.estado_inmueble ?? "",
                     descripcion_detallada = i.descripcion_detallada ?? "",
