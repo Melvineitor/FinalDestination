@@ -138,44 +138,74 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   
 
   async onSubmit() {
+    console.log('onSubmit ejecutado'); // Debug: confirmar que se ejecuta
+    console.log('Estado del formulario:', this.registroForm.valid);
+    console.log('Errores del formulario:', this.registroForm.errors);
+    console.log('Valores del formulario:', this.registroForm.value);
+  
+    // Mostrar errores específicos de campos si el formulario es inválido
     if (this.registroForm.invalid) {
+      console.log('Formulario inválido');
+      Object.keys(this.registroForm.controls).forEach(key => {
+        const control = this.registroForm.get(key);
+        if (control?.invalid) {
+          console.log(`Campo ${key} es inválido:`, control.errors);
+        }
+      });
+      alert('Por favor, complete todos los campos requeridos');
       return;
     }
+  
     this.calcularPrecio();
+  
     // 1. Crear dirección primero
     const direccionData = {
       ciudad_direccion: this.registroForm.get('ciudad_direccion')?.value,
       zona: this.registroForm.get('zona')?.value,
       calle: this.registroForm.get('calle')?.value,
       especificaciones_direccion: this.registroForm.get('especificaciones_direccion')?.value,
-      provincia: this.registroForm.get('provincia')?.value, // Asumiendo que la ciudad es la provincia
+      provincia: this.registroForm.get('provincia')?.value,
     };
+    
     console.log('Datos enviados a crearDireccion:', direccionData);
+  
     try {
+      console.log('Intentando crear dirección...');
       const direccionResp = await this.inmoService.crearDireccion(direccionData).toPromise();
+      console.log('Respuesta de dirección:', direccionResp);
+      
       const direccionId = direccionResp.id_direccion;
+      
       // 2. Preparar datos de inmueble
       const formData = { ...this.registroForm.getRawValue() };
       formData.direccion_inmueble = direccionId;
+      
       // Elimina los campos de dirección del objeto a enviar
       delete formData.ciudad_direccion;
       delete formData.zona;
       delete formData.calle;
       delete formData.especificaciones_direccion;
-      delete formData.provincia; 
+      delete formData.provincia;
+      
       // 3. Crear inmueble
-      console.log('Datos enviados al backend:', formData);
+      console.log('Datos enviados al backend para inmueble:', formData);
+      console.log('Intentando crear inmueble...');
+      
       this.inmoService.createPropiedad(formData).subscribe({
         next: (res) => {
+          console.log('Respuesta exitosa del inmueble:', res);
           alert('Inmueble guardado correctamente');
           this.registroForm.reset();
         },
         error: (err) => {
-          alert('Error al guardar el inmueble');
+          console.error('Error al guardar el inmueble:', err);
+          alert(`Error al guardar el inmueble: ${err.message || err}`);
         }
       });
+      
     } catch (err) {
-      alert('Error al guardar la dirección');
+      console.error('Error al guardar la dirección:', err);
+      alert(`Error al guardar la dirección: ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 
