@@ -144,7 +144,6 @@ export interface Inmueble {
   modulo_local?: string | null;
   plaza_local?: string | null;
   nivel_apt?: number | null;
-  uso_espacio?: string | null;
   objetivo: string;
   precio: number | null;
   negociable: boolean | null;

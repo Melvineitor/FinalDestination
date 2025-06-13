@@ -23,7 +23,6 @@ namespace inmobilariaApi.Models
         public string? modulo_local { get; set; } = "";
         public string? plaza_local { get; set; } = "";
         public int? nivel_apt { get; set; }
-        public string? uso_espacio { get; set; } = ""; // "Residencial", "Comercial", "Industrial", etc.
         public string objetivo { get; set; } = ""; // "Venta", "Alquiler", "Mantenimiento", etc.
         public double? precio { get; set; } // null si no está a la venta
         public string negociable { get; set; } = ""; // "Si", "No"

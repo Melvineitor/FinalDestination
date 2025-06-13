@@ -134,7 +134,6 @@
                   <th *ngIf="mostrarColumna('modulo_local')">Modulo</th>
                   <th *ngIf="mostrarColumna('plaza_local')">Plaza</th>
                   <th *ngIf="mostrarColumna('nivel_apt')">Nivel Apto</th>
-                  <th *ngIf="mostrarColumna('uso_espacio')">Uso Espacio</th>
                   <th *ngIf="mostrarColumna('objetivo')">Objetivo</th>
                   <th *ngIf="mostrarColumna('precio')">Precio</th>
                   <th *ngIf="mostrarColumna('negociable')">Negociable</th>
@@ -163,7 +162,6 @@
                   <td *ngIf="mostrarColumna('modulo_local')">{{ inmueble.modulo_local || '-' }}</td>
                   <td *ngIf="mostrarColumna('plaza_local')">{{ inmueble.plaza_local || '-' }}</td>
                   <td *ngIf="mostrarColumna('nivel_apt')">{{ inmueble.nivel_apt === null || inmueble.nivel_apt === undefined ? '-' : inmueble.nivel_apt }}</td>
-                  <td *ngIf="mostrarColumna('uso_espacio')">{{ inmueble.uso_espacio || '-' }}</td>
                   <td *ngIf="mostrarColumna('objetivo')">{{ inmueble.objetivo || '-' }}</td>
                   <td *ngIf="mostrarColumna('precio')">{{ inmueble.precio === null || inmueble.precio === undefined ? '-' : inmueble.precio | number }}</td>
                   <td *ngIf="mostrarColumna('negociable')">{{ inmueble.negociable === null || inmueble.negociable === undefined ? '-' : (inmueble.negociable ? 'Sí' : 'No') }}</td>

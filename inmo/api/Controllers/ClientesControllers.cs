@@ -163,7 +163,6 @@ namespace inmobilariaApi.Controllers
                     modulo_local = i.modulo_local ?? "-",
                     plaza_local = i.plaza_local ?? "-",
                     nivel_apt = i.nivel_apt ?? 0,
-                    uso_espacio = i.uso_espacio ?? "-",
                     objetivo = i.objetivo ?? "-",
                     precio = i.precio ?? 0.0,
                     negociable = i.negociable ?? "-",
