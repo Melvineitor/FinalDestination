@@ -140,7 +140,7 @@ namespace inmobilariaApi.Controllers
                 var result = await _context.Database.SqlQueryRaw<Inmueble>(
                     "SELECT id_inmueble, propietario_inmueble, tipo_inmueble, cant_niveles, cant_habitaciones, " +
                     "cant_banos, cant_parqueos, cuarto_servicio, modulo_local, plaza_local, nivel_apt, " +
-                    "uso_espacio, objetivo, precio, negociable,metros_ancho, metros_largo, area_total, direccion_inmueble, " +
+                    "objetivo, precio, negociable,metros_ancho, metros_largo, area_total, direccion_inmueble, " +
                     "estado_inmueble, descripcion_detallada, codigo_referencia FROM inmueble"
                 ).ToListAsync();
 
@@ -159,7 +159,7 @@ namespace inmobilariaApi.Controllers
                     cant_habitaciones = i.cant_habitaciones ?? 0,
                     cant_banos = i.cant_banos ?? 0,
                     cant_parqueos = i.cant_parqueos ?? 0,
-                    cuarto_servicio = i.cuarto_servicio ?? 0,
+                    cuarto_servicio = i.cuarto_servicio ?? "-",
                     modulo_local = i.modulo_local ?? "-",
                     plaza_local = i.plaza_local ?? "-",
                     nivel_apt = i.nivel_apt ?? 0,

@@ -19,7 +19,7 @@ namespace inmobilariaApi.Models
         public int? cant_habitaciones { get; set; }
         public int? cant_banos { get; set; }
         public int? cant_parqueos { get; set; }
-        public int? cuarto_servicio { get; set; } // 0 = No, 1 = Sí
+        public string? cuarto_servicio { get; set; } = ""; // 0 = No, 1 = Sí
         public string? modulo_local { get; set; } = "";
         public string? plaza_local { get; set; } = "";
         public int? nivel_apt { get; set; }
