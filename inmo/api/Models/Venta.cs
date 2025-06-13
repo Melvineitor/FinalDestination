@@ -10,6 +10,7 @@ namespace inmobilariaApi.Models
         public int id_venta { get; set; }
         public DateOnly fecha_venta { get; set; }
         public double pago_venta { get; set; }
+        public string? plazo_pago { get; set; } = "";
         public int propiedad_venta { get; set; }
         public int? empleado_venta { get; set; }
         public int? inquilino_venta { get; set; }
