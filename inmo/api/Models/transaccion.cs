@@ -18,10 +18,5 @@ namespace inmobilariaApi.Models
         public double Monto_Transaccion { get; set; }
         public int? Id_Inquilino { get; set; }
         public string nombre_agente { get; set; } = "";
-
-        [ForeignKey("Id_Inmueble")]
-        public Inmueble Inmueble { get; set; } = null!;
-
-        public Comision? Comision { get; set; } = null!;
     }
 }
