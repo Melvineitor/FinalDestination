@@ -42,7 +42,7 @@ export class VentaComponent implements OnInit {
         (v.nombre_empleado && v.nombre_empleado.toLowerCase().includes(term)) ||
         (v.nombre_cliente && v.nombre_cliente.toLowerCase().includes(term)) ||
         (v.nombre_notario && v.nombre_notario.toLowerCase().includes(term)) ||
-        (v.id_propiedad && v.id_propiedad.toString().toLowerCase().includes(term)) ||
+        (v.id_inmueble && v.id_inmueble.toString().toLowerCase().includes(term)) ||
         (v.plazo_pago && v.plazo_pago.toLowerCase().includes(term))
       );
     }

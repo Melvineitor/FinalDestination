@@ -38,7 +38,7 @@ export class RegistroVentaComponent implements OnInit {
     this.registroForm = this.fb.group({
       fecha_venta: ['', Validators.required],
       pago_venta: ['', [Validators.required, Validators.min(0)]],
-      propiedad_venta: ['', Validators.required],
+      propiedad_venta: [0, Validators.required],
       empleado_venta: ['', Validators.required],
       cliente_venta: ['', Validators.required],
       notario_venta: ['', Validators.required],

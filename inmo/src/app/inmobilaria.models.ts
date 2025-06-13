@@ -73,13 +73,14 @@ export interface Venta{
   fecha_venta: Date;
   pago_venta: number;
   plazo_pago: string;
-  id_propiedad: number;
+  propiedad_venta: number;
   nombre_empleado: string;
   nombre_cliente: string;
   nombre_notario: string;
   contrato_venta: string;
   estado_venta: string;
   especificaciones_direccion: string;
+  id_inmueble: number;
 }
 export interface VentaCrear {
   fecha_venta: Date;
@@ -140,7 +141,7 @@ export interface Inmueble {
   cant_habitaciones?: number | null;
   cant_banos?: number | null;
   cant_parqueos?: number | null;
-  cuarto_servicio?: boolean | null;
+  cuarto_servicio?: string | null;
   modulo_local?: string | null;
   plaza_local?: string | null;
   nivel_apt?: number | null;
