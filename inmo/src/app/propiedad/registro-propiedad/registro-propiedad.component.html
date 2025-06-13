@@ -278,7 +278,8 @@
           </button>
         </ng-container>
         <div class="form-group">
-          <label for="precio">Precio (USD${{areaTotal || 0}} m²)</label>
+          <label for="precio">Precio (USD${{precioMetros || 0}}/ m²)</label>
+          USD$
           <input
             id="precio"
             formControlName="precio"
