@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { InmoService } from '../../inmo.service';
 import { Router } from '@angular/router';
 import { Persona, Cita } from '../../inmobilaria.models';
-
+import { AlquilerService } from '../../alquiler/registro-alquiler/alquiler.service';
 @Component({
   selector: 'app-registro-cita',
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -14,8 +14,8 @@ import { Persona, Cita } from '../../inmobilaria.models';
 })
 export class RegistroCitaComponent implements OnInit {
   registroForm: FormGroup;
-  empleados: Persona[] = [];
-  clientes: Persona[] = [];
+  empleados: any[] = [];
+  clientes: any[] = [];
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
     { name: 'Persona', icon: '👤', active: false, link: '/persona' },
@@ -27,29 +27,25 @@ export class RegistroCitaComponent implements OnInit {
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
 
-  constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
+  constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
       fecha_cita: ['', Validators.required],
       hora_cita: ['', Validators.required],
       motivo_cita: ['', Validators.required],
-      nombre_empleado: ['', Validators.required],
-      nombre_cliente: ['', Validators.required],
+      empleado_cita: [0, Validators.required],
+      cliente_cita: [0, Validators.required],
       estado_cita: ['Pendiente', Validators.required]
     });
   }
 
   ngOnInit() {
     // Cargar empleados y clientes
-    this.inmoService.getPersonas().subscribe(
-      (personas: Persona[]) => {
-        this.empleados = personas.filter(p => p.rol_persona === 'Empleado');
-        this.clientes = personas.filter(p => p.rol_persona === 'Inquilino');
-      },
-      (error) => {
-        console.error('Error al cargar personas:', error);
-      }
-    );
+    this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
+    console.log(this.empleados);
+    this.alquilerService.getClientes().subscribe(data => this.clientes = data);
+    console.log(this.clientes);
   }
+  
 
   async onSubmit() {
     if (this.registroForm.invalid) {

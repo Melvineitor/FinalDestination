@@ -62,28 +62,28 @@
           <div class="form-group">
             <label for="nombre_empleado">Empleado</label>
             <select
-              id="nombre_empleado"
-              formControlName="nombre_empleado"
+              id="empleado_cita"
+              formControlName="empleado_cita"
               class="input"
             >
               <option value="" disabled selected>Seleccione un empleado</option>
-              <option *ngFor="let empleado of empleados" [value]="empleado.id_persona">
-                {{ empleado.nombre_persona }} {{ empleado.apellido_persona }}
+              <option *ngFor="let empleado of empleados" [value]="empleado.id_empleado">
+                {{ empleado.NombreCompleto }}
               </option>
             </select>
           </div>
 
           <!-- Cliente -->
           <div class="form-group">
-            <label for="nombre_cliente">Cliente</label>
+            <label for="cliente_cita">Inquilino</label>
             <select
-              id="nombre_cliente"
-              formControlName="nombre_cliente"
+              id="cliente_cita"
+              formControlName="cliente_cita"
               class="input"
             >
               <option value="" disabled selected>Seleccione un cliente</option>
-              <option *ngFor="let cliente of clientes" [value]="cliente.id_persona">
-                {{ cliente.nombre_persona }} {{ cliente.apellido_persona }}
+              <option *ngFor="let cliente of clientes" [value]="cliente.id_cliente">
+                {{ cliente.NombreCompleto }}
               </option>
             </select>
           </div>
