@@ -91,7 +91,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
     } else {
       // Reset price when not Solar
       this.registroForm.get('precio')?.setValue(0);
-      this.registroForm.get('area_total')?.setValue('');
+      this.registroForm.get('area_total')?.setValue(0);
     }
   }
 
@@ -106,7 +106,6 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       modulo_local: '',
       plaza_local: '',
       nivel_apt: 0,
-      uso_espacio: '',
       metros_ancho: 0,
       metros_largo: 0,
       area_total: 0,
@@ -125,7 +124,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
     console.log('Precio por Metro:', precioMetros);
   
     // Validar que ambos tengan valor antes de calcular
-    if (areaTotal != null && areaTotal !== '' && precioMetros != null && precioMetros !== '') {
+    if (areaTotal != null && areaTotal !== 0 && precioMetros != null && precioMetros !== 0) {
       this.areaTotal = areaTotal;
       this.precioMetros = precioMetros;
   
