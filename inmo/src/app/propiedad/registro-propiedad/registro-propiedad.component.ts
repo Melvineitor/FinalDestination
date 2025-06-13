@@ -61,22 +61,13 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       codigo_referencia: ['', Validators.required],
       precioMetros: [''],
     });
+  }
 
+  ngOnInit() {
     this.inmoService.getPersonas().subscribe((personas: any[]) => {
       this.propietarios = personas.filter(p => p.rol_persona && p.rol_persona.toLowerCase() === 'propietario');
       console.log(this.propietarios);
     });
-  }
-
-  ngOnInit() {
-    this.inmoService.getPersonas().subscribe(
-      (data: any) => {
-        this.propietarios = data;
-      },
-      (error: Error) => {
-        console.error('Error al cargar propietarios:', error);
-      }
-    );
   }
 
   onTipoInmuebleChange(event: any) {
