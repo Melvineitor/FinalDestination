@@ -13,13 +13,8 @@ namespace inmobilariaApi.Models
     public double monto_comision { get; set; }
     public DateOnly fecha_comision { get; set; }
     public string estado_comision { get; set; } = "";
-    public int id_transaccion { get; set; }
-
-    [ForeignKey("id_transaccion")]
-    public Transaccion transaccion { get; set; } = null!;
+    public int transaccion { get; set; }
     public string tipo_transaccion { get; set; } = "";
-
-    [ForeignKey("id_inmueble")]
-    public Inmueble inmueble { get; set; } = null!;
+    public int id_inmueble { get; set; }
 }
 }
