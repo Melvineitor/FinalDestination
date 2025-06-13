@@ -8,18 +8,18 @@ namespace inmobilariaApi.Models
    public class Comision
 {
     [Key]
-    public int Id_Comision { get; set; }
+    public int id_comision { get; set; }
+    public double porcentaje_comision { get; set; }
+    public double monto_comision { get; set; }
+    public DateOnly fecha_comision { get; set; }
+    public string estado_comision { get; set; } = "";
+    public int id_transaccion { get; set; }
 
-    [Required]
-    public int Id_Transaccion { get; set; }
+    [ForeignKey("id_transaccion")]
+    public Transaccion transaccion { get; set; } = null!;
+    public string tipo_transaccion { get; set; } = "";
 
-    [Required]
-    public double Porcentaje_Comision { get; set; }
-
-    [Required]
-    public double Monto_Comision { get; set; }
-
-    [ForeignKey("Id_Transaccion")]
-    public Transaccion Transaccion { get; set; } = null!;
+    [ForeignKey("id_inmueble")]
+    public Inmueble inmueble { get; set; } = null!;
 }
 }
