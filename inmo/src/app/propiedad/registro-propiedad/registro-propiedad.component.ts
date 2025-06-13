@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   registroForm: FormGroup;
-  propietarios: Persona[] = [];
+  propietarios?: Persona[];
   selectedTipoInmueble: string = '';
   areaTotalSubscription: Subscription | undefined;
   precioMetros: number = 0;
@@ -34,7 +34,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
     this.registroForm = this.fb.group({
-      propietario: [0, Validators.required],
+      propietario_inmueble: 0,
       tipo_inmueble: ['', Validators.required],
       cant_niveles: [0],
       cant_habitaciones: [0],
@@ -64,9 +64,16 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.inmoService.getPersonas().subscribe((personas: any[]) => {
-      this.propietarios = personas.filter(p => p.rol_persona && p.rol_persona.toLowerCase() === 'propietario');
-      console.log(this.propietarios);
+    this.inmoService.getPersonas().subscribe((persona: Persona[]) => {
+      this.propietarios = persona
+        .filter(p => p.rol_persona.toLowerCase() === 'propietario')
+        .map(p => ({
+          ...p,
+          propietario: Number(p.id_persona)
+        }));
+     console.log("klk: ");
+      console.log("klk: ",this.propietarios);
+      console.log(this.propietarios[0].id_persona);
     });
   }
 
@@ -174,7 +181,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       const direccionId = direccionResp.id_direccion;
       
       // 2. Preparar datos de inmueble
-      const formData = { ...this.registroForm.getRawValue() };
+      const formData = { ...this.registroForm.value };
       formData.direccion_inmueble = direccionId;
       
       // Elimina los campos de dirección del objeto a enviar

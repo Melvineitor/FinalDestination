@@ -53,7 +53,7 @@ export class PropiedadComponent implements OnInit {
     if (this.searchTerm && this.searchTerm.trim() !== '') {
       const term = this.searchTerm.trim().toLowerCase();
       filtradas = filtradas.filter(p =>
-        (p.propietario_inmueble && (p.propietario_inmueble.nombre_persona + ' ' + p.propietario_inmueble.apellido_persona).toLowerCase().includes(term)) ||
+        (p.propietario_inmueble && p.propietario_inmueble.toString().toLowerCase().includes(term)) ||
         (p.direccion && p.direccion.toString().toLowerCase().includes(term)) ||
         (p.tipo_inmueble && p.tipo_inmueble.toLowerCase().includes(term)) ||
         (p.estado_inmueble && p.estado_inmueble.toLowerCase().includes(term)) ||

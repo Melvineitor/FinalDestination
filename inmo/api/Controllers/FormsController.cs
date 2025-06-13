@@ -36,6 +36,7 @@ namespace inmo.api.Controllers
         [HttpPost("CrearPropiedad")]
         public IActionResult CrearPropiedad([FromBody] Inmueble nuevoInmueble)
         {
+            Console.WriteLine("Datos del inmueble: " + nuevoInmueble.ToString());
             if (nuevoInmueble == null)
             {
                 return BadRequest("Datos incompletos");

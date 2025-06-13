@@ -3,28 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Inquilino, VentaCrear, Cita } from './inmobilaria.models';
 import { environment } from '../environments/environment';
+import { Persona } from './inmobilaria.models';
 
 interface LoginRequest {
   nombre_usuario: string;
   contrasena: string;
 }
 
-export interface Persona {
-  id_persona: number;
-  nombre_persona: string;
-  apellido_persona: string;
-  rol_persona: string;
-  edad: number;
-  telefono: string;
-  correo_persona: string;
-  cedula_pasaporte: string;
-  sexo_persona: string;
-  estado_civil_persona: string;
-  domicilio: string;
-  estado_persona: string;
-  pais_origen: string;
-  comentario?: string;
-}
+
 
 export interface Empleado {
   id_empleado?: number;
@@ -65,8 +51,8 @@ export class InmoService {
   getBarras(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiURL}/Inmobilaria/PagosMes`);
   }
-  getPersonas(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiURL}/Inmobilaria/MostrarPersonas`);
+  getPersonas(): Observable<Persona[]> {
+    return this.http.get<Persona[]>(`${environment.apiURL}/Inmobilaria/MostrarPersonas`);
   }
   getPropiedades(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiURL}/Inmobilaria/MostrarPropiedades`);

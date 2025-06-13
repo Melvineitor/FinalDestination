@@ -137,7 +137,7 @@ export interface Admin {
 
 export interface Inmueble {
   id_inmueble: number;
-  propietario: number;
+  propietario_inmueble: number;
   tipo_inmueble: string;
   cant_niveles?: number | null;
   cant_habitaciones?: number | null;
@@ -157,11 +157,6 @@ export interface Inmueble {
   estado_inmueble: string;
   descripcion_detallada: string | null;
   codigo_referencia: string;
-  propietario_inmueble?: {
-    id_persona: number;
-    nombre_persona: string;
-    apellido_persona: string;
-  } | null;
 }
 
 

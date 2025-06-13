@@ -26,9 +26,9 @@
       <div class="form-grid">
         <div class="form-group">
           <label for="propietario">Propietario</label>
-          <select id="propietario" formControlName="propietario" class="input">
-            <option value="" disabled selected>Seleccione un propietario</option>
-            <option *ngFor="let p of propietarios" [value]="p.id_persona">
+          <select id="propietario" formControlName="propietario_inmueble" class="input">
+            <!-- <option value="" disabled selected>Seleccione un propietario</option> -->
+            <option *ngFor="let p of propietarios" [ngValue]="p.id_persona">
               {{ p.nombre_persona }} {{ p.apellido_persona }}
             </option>
           </select>

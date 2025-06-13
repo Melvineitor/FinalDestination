@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { InmoService, Persona, Empleado, Notario, Fiador } from '../../inmo.service';
+import { InmoService, Empleado, Notario, Fiador } from '../../inmo.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Persona } from '../../inmobilaria.models';
 
 @Component({
   selector: 'app-registro-persona',

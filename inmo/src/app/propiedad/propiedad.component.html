@@ -150,8 +150,8 @@
               <tbody>
                 <tr *ngFor="let inmueble of inmueblesFiltrados">
                   <td *ngIf="mostrarColumna('id_inmueble')">{{ inmueble.id_inmueble || '-' }}</td>
-                  <td *ngIf="mostrarColumna('propietario')">
-                    {{ inmueble.propietario || 'Sin propietario' }}
+                  <td *ngIf="mostrarColumna('propietario_inmueble')">
+                    {{ inmueble.propietario_inmueble || 'Sin propietario' }}
                   </td>
                   <td *ngIf="mostrarColumna('tipo_inmueble')">{{ inmueble.tipo_inmueble || '-' }}</td>
                   <td *ngIf="mostrarColumna('cant_niveles')">{{ inmueble.cant_niveles === null || inmueble.cant_niveles === undefined ? '-' : inmueble.cant_niveles }}</td>
