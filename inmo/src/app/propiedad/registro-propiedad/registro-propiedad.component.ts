@@ -117,14 +117,24 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
 
   calcularPrecio(): void {
     const areaTotal = this.registroForm.get('area_total')?.value;
-    console.log('Area Total:', areaTotal);
-    this.areaTotal = areaTotal;
     const precioMetros = this.registroForm.get('precioMetros')?.value;
+  
+    console.log('Area Total:', areaTotal);
     console.log('Precio por Metro:', precioMetros);
-    this.precioMetros = precioMetros;
-    const precio = areaTotal * precioMetros;
-    this.registroForm.get('precio')?.setValue(precio, { emitEvent: false });
+  
+    // Validar que ambos tengan valor antes de calcular
+    if (areaTotal != null && areaTotal !== '' && precioMetros != null && precioMetros !== '') {
+      this.areaTotal = areaTotal;
+      this.precioMetros = precioMetros;
+  
+      const precio = areaTotal * precioMetros;
+      this.registroForm.get('precio')?.setValue(precio, { emitEvent: false });
+    } else {
+      // Opcional: borrar el precio si los datos no están completos
+      this.registroForm.get('precio')?.setValue(null, { emitEvent: false });
+    }
   }
+  
 
   async onSubmit() {
     if (this.registroForm.invalid) {
