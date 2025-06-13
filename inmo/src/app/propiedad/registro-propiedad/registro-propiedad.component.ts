@@ -19,6 +19,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   selectedTipoInmueble: string = '';
   areaTotalSubscription: Subscription | undefined;
   precioMetros: number = 0;
+  areaTotal: number = 0;
   precioMetrosSubscription: Subscription | undefined;
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
@@ -117,8 +118,10 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   calcularPrecio(): void {
     const areaTotal = this.registroForm.get('area_total')?.value;
     console.log('Area Total:', areaTotal);
+    this.areaTotal = areaTotal;
     const precioMetros = this.registroForm.get('precioMetros')?.value;
     console.log('Precio por Metro:', precioMetros);
+    this.precioMetros = precioMetros;
     const precio = areaTotal * precioMetros;
     this.registroForm.get('precio')?.setValue(precio, { emitEvent: false });
   }
