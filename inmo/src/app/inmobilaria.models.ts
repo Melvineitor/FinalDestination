@@ -150,6 +150,7 @@ export interface Inmueble {
   negociable: boolean | null;
   metros_ancho: number | null;
   metros_largo: number | null;
+  area_total: number | null;
   direccion: string;
   estado_inmueble: string;
   descripcion_detallada: string | null;

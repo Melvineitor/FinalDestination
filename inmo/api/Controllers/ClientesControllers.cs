@@ -140,7 +140,7 @@ namespace inmobilariaApi.Controllers
                 var result = await _context.Database.SqlQueryRaw<Inmueble>(
                     "SELECT id_inmueble, propietario_inmueble, tipo_inmueble, cant_niveles, cant_habitaciones, " +
                     "cant_banos, cant_parqueos, cuarto_servicio, modulo_local, plaza_local, nivel_apt, " +
-                    "uso_espacio, objetivo, precio, negociable,metros_ancho, metros_largo, direccion_inmueble, " +
+                    "uso_espacio, objetivo, precio, negociable,metros_ancho, metros_largo, area_total, direccion_inmueble, " +
                     "estado_inmueble, descripcion_detallada, codigo_referencia FROM inmueble"
                 ).ToListAsync();
 
@@ -169,6 +169,7 @@ namespace inmobilariaApi.Controllers
                     negociable = i.negociable ?? "-",
                     metros_ancho = i.metros_ancho ?? 0,
                     metros_largo = i.metros_largo ?? 0,
+                    area_total = i.area_total ?? 0,
                     direccion = direcciones.FirstOrDefault(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()) != null
                         ? $"{direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).sector} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).zona} - {direcciones.First(d => d.id_direccion.ToString() == i.direccion_inmueble.ToString()).calle}"
                         : "",

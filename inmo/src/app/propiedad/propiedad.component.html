@@ -140,6 +140,7 @@
                   <th *ngIf="mostrarColumna('negociable')">Negociable</th>
                   <th *ngIf="mostrarColumna('metros_ancho')">Ancho</th>
                   <th *ngIf="mostrarColumna('metros_largo')">Largo</th>
+                  <th *ngIf="mostrarColumna('area_total')">Area Total</th>
                   <th *ngIf="mostrarColumna('direccion_inmueble')">
                     Dirección
                   </th>
@@ -168,6 +169,7 @@
                   <td *ngIf="mostrarColumna('negociable')">{{ inmueble.negociable === null || inmueble.negociable === undefined ? '-' : (inmueble.negociable ? 'Sí' : 'No') }}</td>
                   <td *ngIf="mostrarColumna('metros_ancho')">{{ inmueble.metros_ancho === null || inmueble.metros_ancho === undefined ? '-' : inmueble.metros_ancho }}</td>
                   <td *ngIf="mostrarColumna('metros_largo')">{{ inmueble.metros_largo === null || inmueble.metros_largo === undefined ? '-' : inmueble.metros_largo }}</td>
+                  <td *ngIf="mostrarColumna('area_total')">{{ inmueble.area_total === null || inmueble.area_total === undefined ? '-' : inmueble.area_total }}</td>
                   <td *ngIf="mostrarColumna('direccion')">{{ inmueble.direccion || '-' }}</td>
                   <td *ngIf="mostrarColumna('estado_inmueble')">{{ inmueble.estado_inmueble || '-' }}</td>
                   <td *ngIf="mostrarColumna('codigo_referencia')">{{ inmueble.codigo_referencia || '-' }}</td>

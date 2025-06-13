@@ -17,9 +17,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   registroForm: FormGroup;
   propietarios: Persona[] = [];
   selectedTipoInmueble: string = '';
-  anchoSubscription: Subscription | undefined;
-  largoSubscription: Subscription | undefined;
-  areaTotal: number = 0;
+  areaTotalSubscription: Subscription | undefined;
   precioMetros: number = 0;
   precioMetrosSubscription: Subscription | undefined;
   menuItems = [
@@ -50,6 +48,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       precio: [null],
       metros_ancho: [null],
       metros_largo: [null],
+      area_total: [null],
       estado_inmueble: ['Disponible', Validators.required],
       descripcion_detallada: [''],
       ciudad_direccion: ['', Validators.required],
@@ -81,21 +80,15 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
     this.resetCamposEspecificos();
     
     // Remove existing subscriptions if they exist
-    if (this.anchoSubscription) {
-      this.anchoSubscription.unsubscribe();
-    }
-    if (this.largoSubscription) {
-      this.largoSubscription.unsubscribe();
-    }
 
     // Only set up price calculation for Solar type
     if (this.selectedTipoInmueble === 'Solar') {
-      this.anchoSubscription = this.registroForm.get('metros_ancho')?.valueChanges.subscribe(() => this.calcularPrecio());
-      this.largoSubscription = this.registroForm.get('metros_largo')?.valueChanges.subscribe(() => this.calcularPrecio());
+      this.areaTotalSubscription = this.registroForm.get('area_total')?.valueChanges.subscribe(() => this.calcularPrecio());
       this.precioMetrosSubscription = this.registroForm.get('precioMetros')?.valueChanges.subscribe(() => this.calcularPrecio());
     } else {
       // Reset price when not Solar
       this.registroForm.get('precio')?.setValue(null);
+      this.registroForm.get('area_total')?.setValue(null);
     }
   }
 
@@ -113,6 +106,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       uso_espacio: null,
       metros_ancho: null,
       metros_largo: null,
+      area_total: null,
     });
   }
 
@@ -121,11 +115,11 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   }
 
   calcularPrecio(): void {
-    const ancho = parseFloat(this.registroForm.get('metros_ancho')?.value) || 0;
-    const largo = parseFloat(this.registroForm.get('metros_largo')?.value) || 0;
-    const metrosCuadrados = ancho * largo;
-    this.areaTotal = metrosCuadrados;
-    const precio = metrosCuadrados * this.precioMetros;
+    const areaTotal = this.registroForm.get('area_total')?.value;
+    console.log('Area Total:', areaTotal);
+    const precioMetros = this.registroForm.get('precioMetros')?.value;
+    console.log('Precio por Metro:', precioMetros);
+    const precio = areaTotal * precioMetros;
     this.registroForm.get('precio')?.setValue(precio, { emitEvent: false });
   }
 
@@ -183,11 +177,8 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.anchoSubscription) {
-      this.anchoSubscription.unsubscribe();
-    }
-    if (this.largoSubscription) {
-      this.largoSubscription.unsubscribe();
+    if (this.areaTotalSubscription) {
+      this.areaTotalSubscription.unsubscribe();
     }
     if (this.precioMetrosSubscription) {
       this.precioMetrosSubscription.unsubscribe();

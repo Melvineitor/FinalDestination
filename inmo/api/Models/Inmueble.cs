@@ -29,6 +29,7 @@ namespace inmobilariaApi.Models
         public string negociable { get; set; } = ""; // "Si", "No"
         public int? metros_ancho { get; set; }// "100 m²", "200 m²", etc.
         public int? metros_largo { get; set; } // "100 m²", "200 m²", etc.
+        public int? area_total { get; set; } // "100 m²", "200 m²", etc.
         [ForeignKey("Direccion")]
         public int direccion_inmueble { get; set; }
         public string estado_inmueble { get; set; } = ""; // "Disponible", "Alquilado", "Vendido", etc.
