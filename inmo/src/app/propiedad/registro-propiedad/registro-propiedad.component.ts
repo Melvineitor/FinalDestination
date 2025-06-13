@@ -62,8 +62,9 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       precioMetros: [''],
     });
 
-    this.inmoService.getPersonas().subscribe((personas: Persona[]) => {
+    this.inmoService.getPersonas().subscribe((personas: any[]) => {
       this.propietarios = personas.filter(p => p.rol_persona && p.rol_persona.toLowerCase() === 'propietario');
+      console.log(this.propietarios);
     });
   }
 
@@ -167,6 +168,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       ciudad_direccion: this.registroForm.get('ciudad_direccion')?.value,
       zona: this.registroForm.get('zona')?.value,
       calle: this.registroForm.get('calle')?.value,
+      sector: this.registroForm.get('sector')?.value,
       especificaciones_direccion: this.registroForm.get('especificaciones_direccion')?.value,
       provincia: this.registroForm.get('provincia')?.value,
     };
@@ -188,6 +190,7 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       delete formData.ciudad_direccion;
       delete formData.zona;
       delete formData.calle;
+      delete formData.sector;
       delete formData.especificaciones_direccion;
       delete formData.provincia;
       
