@@ -4,16 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { InmoService } from '../../inmo.service';
 import { Router } from '@angular/router';
-
-interface Tarjeta {
-  id_tarjeta: number;
-  num_tarjeta: string;
-  tipo_tarjeta: string;
-  titular_tarjeta: string;
-  fecha_venc: string;
-  cvv: string;
-  compania_tarjeta: string;
-}
+import { AlquilerService } from '../../alquiler/registro-alquiler/alquiler.service';
+import { Inmueble, Inquilino } from '../../inmobilaria.models';
 
 @Component({
   selector: 'app-registrar-pago',
@@ -26,8 +18,7 @@ export class RegistrarPagoComponent implements OnInit {
   searchTarjetaControl = new FormControl('');
   mostrarCamposTarjeta = false;
   mostrarFormularioNuevaTarjeta = false;
-  tarjetasEncontradas: Tarjeta[] = [];
-  tarjetaSeleccionada: Tarjeta | null = null;
+  selectedTipoTransaccion: string = '';
 
   menuItems = [
     { name: 'Inicio', icon: '🏠', active: false, link: '/dashboard' },
@@ -40,47 +31,68 @@ export class RegistrarPagoComponent implements OnInit {
     { name: 'Perfil', icon: '👤', active: false, link: '/perfil' },
   ];
 propiedades: any;
-
-  constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router) {
+inquilinos: any;
+propiedadesActivas: any;
+  constructor(private fb: FormBuilder, private inmoService: InmoService, private router: Router, private alquilerService: AlquilerService) {
     this.registroForm = this.fb.group({
-      id_inmueble: ['', Validators.required],
+      id_inmueble: [''],
       tipo_transaccion: ['', Validators.required],
       fecha_transaccion: ['', Validators.required],
       monto_transaccion: ['', Validators.required],
-      id_inquilino: ['', Validators.required],
-      nombre_agente: ['', Validators.required],
+      id_inquilino: [''],
+      nombre_agente: [''],
+      motivo_pago: [''],
     });
   }
 
-  ngOnInit() {
-    this.inmoService.getPropiedades().subscribe((data) => {
-      this.propiedades = data;
+  ngOnInit(): void {
+    this.inmoService.getPropiedades().subscribe((propiedad: Inmueble[]) => {
+      this.propiedades = propiedad
+      
+      .map(p => ({
+        ...p,
+        id_inmueble: Number(p.id_inmueble)
+      }));
+      this.propiedadesActivas = this.propiedades.filter((p: { estado_inmueble: string; objetivo: string; }) => p.estado_inmueble == 'Activo' || p.estado_inmueble == 'Disponible' && p.objetivo == 'Alquiler' || p.objetivo == 'Venta');
+      console.log(this.propiedades);
+    });
+    this.alquilerService.getClientes().subscribe((cliente: Inquilino[]) => {
+      this.inquilinos = cliente
+      .map(c => ({
+        ...c,
+        id_cliente: Number(c.id_cliente)
+      }));
     });
   }
 
-
-  buscarTarjeta() {
-    const searchTerm = this.searchTarjetaControl.value;
-    if (!searchTerm) {
-      alert('Por favor ingrese un término de búsqueda');
-      return;
-    }
-
-    this.inmoService.buscarTarjetas(searchTerm).subscribe({
-      next: (tarjetas: Tarjeta[]) => {
-        this.tarjetasEncontradas = tarjetas;
-        if (tarjetas.length === 0) {
-          alert('No se encontraron tarjetas con ese criterio');
-        }
-      },
-      error: (error) => {
-        console.error('Error al buscar tarjetas:', error);
-        alert('Error al buscar tarjetas');
+  onPropiedadChange(event: any) {
+    const selectedPropertyId = event.target.value;
+    
+    if (selectedPropertyId) {
+      // Buscar la propiedad seleccionada
+      const propiedadSeleccionada = this.propiedades.find(
+        (        propiedad: { id_inmueble: any; }) => propiedad.id_inmueble == selectedPropertyId
+      );
+      
+      if (propiedadSeleccionada) {
+        // Actualizar el campo de monto con el precio de la propiedad
+        this.registroForm.patchValue({
+          monto_transaccion: propiedadSeleccionada.precio
+        });
       }
-    });
+    } else {
+      // Si no hay selección, limpiar el monto
+      this.registroForm.patchValue({
+        monto_transaccion: ''
+      });
+    }
   }
-
- 
+  onTipoTransaccionChange(event: any) {
+    this.selectedTipoTransaccion = event.target.value;
+  }
+  mostrarCampos(tipo: string): boolean {
+    return this.selectedTipoTransaccion === tipo;
+  }
 
   async onSubmit() {
     if (this.registroForm.invalid) {
@@ -97,6 +109,7 @@ propiedades: any;
         id_inquilino: this.registroForm.get('id_inquilino')?.value,
         id_inmueble: this.registroForm.get('id_inmueble')?.value,
         nombre_agente: this.registroForm.get('nombre_agente')?.value,
+        motivo_pago: this.registroForm.get('motivo_pago')?.value,
       };
 
       await this.inmoService.crearPago(pagoData).toPromise();

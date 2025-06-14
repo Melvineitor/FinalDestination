@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Pago, Comision, Transaccion, Propiedad } from '../inmobilaria.models';
+import { Pago, Comision, Transaccion, Propiedad, Inmueble } from '../inmobilaria.models';
 import { InmoService } from '../inmo.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -29,7 +29,7 @@ export class PagoComponent implements OnInit {
   agentes: string[] = [];
   personas: string[] = [];
   transaccionesFiltrados: Transaccion[] = [];
-  propiedades: Propiedad[] = [];
+  propiedades: Inmueble[] = [];
   constructor(private inmoService: InmoService){}
   ngOnInit(): void {
     this.inmoService.getTransacciones().subscribe((data: Transaccion[]) => {
@@ -47,8 +47,11 @@ export class PagoComponent implements OnInit {
       this.filtrarComisiones();
       console.log(this.comisiones);
     });
-    this.inmoService.getPropiedades().subscribe((data: Propiedad[]) => {
-      this.propiedades = data;
+    this.inmoService.getPropiedades().subscribe((data: Inmueble[]) => {
+      this.propiedades = data.map(p => ({
+        ...p,
+        id_inmueble: Number(p.id_inmueble)
+      }));
     });
   }
 

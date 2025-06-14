@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Inquilino, VentaCrear, Cita } from './inmobilaria.models';
+import { Inquilino, VentaCrear, Cita, Inmueble } from './inmobilaria.models';
 import { environment } from '../environments/environment';
 import { Persona } from './inmobilaria.models';
 
@@ -54,8 +54,8 @@ export class InmoService {
   getPersonas(): Observable<Persona[]> {
     return this.http.get<Persona[]>(`${environment.apiURL}/Inmobilaria/MostrarPersonas`);
   }
-  getPropiedades(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiURL}/Inmobilaria/MostrarPropiedades`);
+  getPropiedades(): Observable<Inmueble[]> {
+    return this.http.get<Inmueble[]>(`${environment.apiURL}/Inmobilaria/MostrarPropiedades`);
   }
   getAlquileres(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiURL}/Inmobilaria/MostrarAlquileres`);
@@ -86,7 +86,7 @@ export class InmoService {
   }
   crearPago(data: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${environment.apiURL}/forms/CrearPago`, data, { headers });
+    return this.http.post<any>(`${environment.apiURL}/forms/CrearTransaccion`, data, { headers });
   }
   crearAlquiler(data: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

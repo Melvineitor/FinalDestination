@@ -73,15 +73,16 @@
           <select
             id="propiedad"
             formControlName="propiedad_alquiler"
+            type="number"
             (change)="onSelectPropiedad($event)"
             class="form-control"
           >
-            <option value="">Seleccione una propiedad</option>
+            <option disabled selected>Seleccione una propiedad</option>
             <option
-              *ngFor="let propiedad of propiedadesActivas"
-              [value]="propiedad.id_inmueble"
+              *ngFor="let propiedades of propiedadesActivas"
+              [value]="propiedades.id_inmueble"
             >
-              {{ propiedad.codigo_referencia }}
+              {{ propiedades.codigo_referencia }}
             </option>
           </select>
         </div>
@@ -92,8 +93,8 @@
             formControlName="empleado_alquiler"
             class="form-control"
           >
-            <option value="">Seleccione un agente</option>
-            <option *ngFor="let e of empleados" [value]="e.id_empleado">
+            <option disabled selected>Seleccione un agente</option>
+            <option *ngFor="let e of empleados" [ngValue]="e.id_empleado">
               {{ e.NombreCompleto }}
             </option>
           </select>
@@ -103,10 +104,11 @@
           <select
             id="cliente"
             formControlName="inquilino_alquiler"
+            type="number"
             class="form-control"
           >
-            <option value="">Seleccione un cliente</option>
-            <option *ngFor="let c of clientes" [value]="c.id_cliente">
+            <option disabled selected>Seleccione un cliente</option>
+            <option *ngFor="let c of clientes" [ngValue]="c.id_cliente">
               {{ c.NombreCompleto }}
             </option>
           </select>
@@ -116,10 +118,11 @@
           <select
             id="fiador"
             formControlName="fiador_alquiler"
+            type="number"
             class="form-control"
           >
-            <option value="">Seleccione un fiador</option>
-            <option *ngFor="let f of fiadores" [value]="f.id_fiador_solidario">
+            <option disabled selected>Seleccione un fiador</option>
+            <option *ngFor="let f of fiadores" [ngValue]="f.id_fiador_solidario">
               {{ f.NombreCompleto }}
             </option>
           </select>
@@ -129,10 +132,11 @@
           <select
             id="notario"
             formControlName="notario_alquiler"
+            type="number"
             class="form-control"
           >
-            <option value="">Seleccione un notario</option>
-            <option *ngFor="let n of notarios" [value]="n.id_notario">
+            <option disabled selected>Seleccione un notario</option>
+            <option *ngFor="let n of notarios" [ngValue]="n.id_notario">
               {{ n.NombreCompleto }}
             </option>
           </select>

@@ -39,11 +39,13 @@
           <select
             id="tipo_transaccion"
             formControlName="tipo_transaccion"
+            (change)="onTipoTransaccionChange($event)"
             class="input"
           >
             <option value="" disabled selected>Seleccione tipo de transaccion</option>
             <option value="Alquiler">Alquiler</option>
             <option value="Venta">Venta</option>
+            <option value="Otros">Otros</option>
           </select>
         </div>
         <div class="form-group">
@@ -52,46 +54,39 @@
             id="id_inmueble"
             formControlName="id_inmueble"
             class="input"
+            (change)="onPropiedadChange($event)"
           >
             <option value="" disabled selected>Seleccione un inmueble</option>
-            <option *ngFor="let propiedad of propiedades" [value]="propiedad.id_inmueble">
+            <option *ngFor="let propiedad of propiedadesActivas" [value]="propiedad.id_inmueble">
               {{ propiedad.codigo_referencia }}
             </option>
           </select>
         </div>
+        
         <div class="form-group">
           <label for="id_inquilino">ID Inquilino</label>
-          <input
+       <select
             id="id_inquilino"
             formControlName="id_inquilino"
-            type="number"
-            placeholder="ID Inquilino"
             class="input"
-          />
+          >
+            <option value="" disabled selected>Seleccione un inquilino</option>
+            <option *ngFor="let inquilino of inquilinos" [value]="inquilino.id_cliente">
+              {{ inquilino.NombreCompleto }}
+            </option>
+          </select>
         </div>
-
+        
         <div class="form-group">
-          <label for="monto_transaccion">Monto Transaccion</label>
+          <label for="monto_transaccion">Monto Transacción</label>
           <input
             id="monto_transaccion"
             formControlName="monto_transaccion"
             type="number"
-            placeholder="Monto pagado"
+            placeholder="Monto de la transacción"
             class="input"
+            readonly
           />
-        </div>
-        <div class="form-group">
-          <label for="estado_transaccion">Estado de la Transaccion</label>
-          <select
-            id="estado_transaccion"
-            formControlName="estado_transaccion"
-            class="input"
-          >
-            <option value="" disabled selected>Seleccione estado</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Completo">Completo</option>
-            <option value="Cancelado">Cancelado</option>
-          </select>
         </div>
         <div class="form-group">
           <label for="nombre_agente">Nombre del Agente</label>
@@ -103,7 +98,13 @@
             class="input"
           />
         </div>
-     
+
+     <ng-container *ngIf="mostrarCampos('Otros')">
+      <div class="form-group">
+        <label for="motivo_pago">Motivo Pago</label>
+        <input id="motivo_pago" formControlName="motivo_pago" type="text" placeholder="Motivo del pago" class="input" />
+      </div>
+     </ng-container>
       </div>
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
         Guardar Pago

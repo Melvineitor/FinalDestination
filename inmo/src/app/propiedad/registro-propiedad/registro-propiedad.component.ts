@@ -71,9 +71,6 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
           ...p,
           propietario: Number(p.id_persona)
         }));
-     console.log("klk: ");
-      console.log("klk: ",this.propietarios);
-      console.log(this.propietarios[0].id_persona);
     });
   }
 
@@ -133,10 +130,6 @@ export class RegistroPropiedadComponent implements OnInit, OnDestroy {
       // Opcional: borrar el precio si los datos no están completos
       this.registroForm.get('precio')?.setValue(0, { emitEvent: false });
     }
-  }
-  onButtonClick() {
-    console.log('¡BOTÓN CLICKEADO!');
-    alert('¡Botón clickeado!');
   }
   
 

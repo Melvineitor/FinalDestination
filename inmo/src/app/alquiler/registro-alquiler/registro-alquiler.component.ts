@@ -27,16 +27,16 @@ pagoAlquiler: any[] = [];
     this.registroForm = this.fb.group({
       fecha_alquiler: ['', Validators.required],
       fecha_fin_alquiler: ['', Validators.required],
-      pago_alquiler: ['', Validators.required],
+      pago_alquiler: [0, Validators.required],
       plazo_pago: ['', [Validators.required]],
-      propiedad_alquiler: ['', Validators.required],
-      empleado_alquiler: ['', Validators.required],
-      inquilino_alquiler: ['', Validators.required],
-      fiador_alquiler: ['', Validators.required],
-      notario_alquiler: ['', Validators.required],
-      contrato_alquiler: ['', Validators.required],
+      propiedad_alquiler: [0, Validators.required],
+      empleado_alquiler: [0, Validators.required],
+      inquilino_alquiler: [0, Validators.required],
+      fiador_alquiler: [0, Validators.required],
+      notario_alquiler: [0, Validators.required],
+      contrato_alquiler: [0, Validators.required],
       estado_alquiler: ['Completado', Validators.required],
-      id_inmueble: ['', Validators.required],
+      id_inmueble: [0, Validators.required],
     },
     {
       validators: [this.validarFechas]
@@ -80,15 +80,28 @@ pagoAlquiler: any[] = [];
     });
   }
 cargarDatosRelacionados(): void {
-  this.alquilerService.getEmpleados().subscribe(data => this.empleados = data);
-  this.alquilerService.getClientes().subscribe(data => this.clientes = data);
-    this.alquilerService.getFiadores().subscribe(data => this.fiadores = data);
-  this.alquilerService.getNotarios().subscribe(data => this.notarios = data);
+  this.alquilerService.getEmpleados().subscribe(data => this.empleados = data.map(e => ({
+    ...e,
+    id_empleado: Number(e.id_empleado)
+  })));
+  this.alquilerService.getClientes().subscribe(data => this.clientes = data.map(c => ({
+    ...c,
+    id_cliente: Number(c.id_cliente)
+  })));
+  this.alquilerService.getFiadores().subscribe(data => this.fiadores = data.map(f => ({
+    ...f,
+    id_fiador_solidario: Number(f.id_fiador_solidario)
+  })));
+  this.alquilerService.getNotarios().subscribe(data => this.notarios = data.map(n => ({
+    ...n,
+    id_notario: Number(n.id_notario)
+  })));
   this.inmoService.getPropiedades().subscribe(data => {
-    this.propiedades = data;
-    console.log(this.propiedades);
-    this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble == 'Activo' || p.estado_inmueble == 'Disponible' && p.objetivo == 'Alquiler');
-    console.log(this.propiedadesActivas);
+    this.propiedades = data.map(p => ({
+      ...p,
+      id_inmueble: Number(p.id_inmueble)
+    }));
+    this.propiedadesActivas = this.propiedades.filter(p => p.estado_inmueble == 'Activo' || p.estado_inmueble == 'Disponible' && p.objetivo == 'Alquiler' || p.objetivo == 'Venta');
   }); 
 }
 
@@ -123,6 +136,7 @@ cargarDatosRelacionados(): void {
       this.pagoAlquiler = propiedadSeleccionada.precio;
       this.propietarioInmueble = propiedadSeleccionada.propietario_inmueble;
       console.log(this.pagoAlquiler);
+      console.log(this.registroForm.value.id_inmueble);
     }
   }
   
